@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout.html}">
+
+<head>
+    <link rel="stylesheet" href="/css/product/list.css" type="text/css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<div layout:fragment="contents">
+<!--    <div class="list__tabs">-->
+<!--        <div class="sv-tabs-wrapper">-->
+<!--            <nav class="sv-tabs-tab-list">-->
+<!--                <a class="sv-tabs-tab active" href="#tab1">상품 등록</a>-->
+<!--                <a class="sv-tabs-tab" href="#tab2">상품 관리</a>-->
+<!--                <a class="sv-tabs-tab" href="#tab3">구매 내역</a>-->
+<!--            </nav>-->
+<!--            <div class="sv-tabs-panel-list">-->
+
+                <!-- tab1 contents -->
+                <div class="sv-tabs-panel active" id="tab1">
+                    <div class="list-search-bar__search">
+                        <input type="text" id="searchWord" name="searchWord" placeholder="상품명 입력" maxlength="40"/>
+                        <img src="/img/search.png" onclick="getMyProductList()"/>
+                    </div>
+
+                    <div>
+                        <table class="list-table">
+                            <tr>
+                                <th scope="col">사진</th>
+                                <th scope="col">판매상태</th>
+                                <th scope="col">상품명</th>
+                                <th scope="col">가격</th>
+                                <th scope="col">안전결제 환영</th>
+                                <th scope="col">찜</th>
+                                <th scope="col">최근수정일</th>
+                                <th scope="col">기능</th>
+                            </tr>
+
+                            <!-- row -->
+                            <tr>
+                                <td>
+                                    <img src=""/>
+                                </td>
+                                <td>
+                                    <select>
+                                        <option value="">abc</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    클리오 섀도우
+                                </td>
+                                <td class="list-table__price">
+                                    15,000
+                                </td>
+                                <td>
+                                    안전결제 환영
+                                </td>
+                                <td>
+                                    찜
+                                </td>
+                                <td>
+                                    최근수정일
+                                </td>
+<!--                                <td>-->
+<!--                                    <div class="list-table__features">-->
+<!--                                        <button>UP</button>-->
+<!--                                        <button>수정</button>-->
+<!--                                        <button>상품 숨김</button>-->
+<!--                                    </div>-->
+<!--                                </td>-->
+                            </tr>
+                            <!-- row end -->
+
+                            <!-- row -->
+                            <tr>
+                                <td>
+                                    <img src=""/>
+                                </td>
+                                <td>
+                                    <select>
+                                        <option value="">abc</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    클리오 섀도우
+                                </td>
+                                <td class="list-table__price">
+                                    15,000
+                                </td>
+                                <td>
+                                    안전결제 환영
+                                </td>
+                                <td>
+                                    찜
+                                </td>
+                                <td>
+                                    최근수정일
+                                </td>
+                                <td>
+                                    <div class="list-table__features">
+                                        <button>UP</button>
+                                        <button>수정</button>
+                                        <button>상품 숨김</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- row end -->
+
+                        </table>
+                    </div>
+
+                    <!--화면 페이징 처리-->
+                    <div class="pagination-container">
+                        <div>
+                            <!-- <span th:if="${startPage > 10}">-->
+<!--                            <span class="pagination__button&#45;&#45;prev">-->
+<!--                                <a th:if="${currentPageNumber > 1}" th:href="|javascript:getProductList(${currentPageNumber-1})|">◀</a>-->
+<!--                                <span th:unless="${currentPageNumber > 1}"><a>◀</a></span>-->
+<!--                            </span>-->
+                            1
+<!--                                <span th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
+<!--                                <span class="pagination__button">-->
+<!--                                    <a th:if="${page != currentPageNumber}" th:href="|javascript:getProductList(${page})|"-->
+<!--                                       th:text="${page}"></a>-->
+<!--                                </span>-->
+<!--                                <span class="pagination__button active">-->
+<!--                                    <a th:if="${page == currentPageNumber}" th:text="${page}"></a>-->
+<!--                                </span>-->
+<!--                            </span>-->
+<!--                                <span class="pagination__button&#45;&#45;next">-->
+<!--                                <a th:if="${currentPageNumber < allPageCnt}"-->
+<!--                                   th:href="|javascript:getProductList(${currentPageNumber+1})|">▶</a>-->
+<!--                                <span th:unless="${currentPageNumber < allPageCnt}"><a>▶</a></span>-->
+<!--                            </span>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- tab1-contents end -->
+
+                <!-- tab2-contents -->
+                <div class="sv-tabs-panel" id="tab2">
+                    상품 관리
+                </div>
+                <!-- tab2-contents end -->
+
+                <!-- tab3-contents -->
+                <div class="sv-tabs-panel" id="tab3">
+                    구매 내역
+                </div>
+                <!-- tab3-contents end -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tabs = {
+            tabSet: null,
+            tabs: null,
+            create() {
+                this.tabSet = document.querySelector('.list__tabs > .sv-tabs-wrapper');
+                this.tabs = new SV.Tabs(this.tabSet, {useAnchors: true, equalHeight: true});
+            },
+            showFirstTab() {
+                this.tabs.showTab('tab1');
+            },
+            init() {
+                this.create();
+                this.showFirstTab();
+            },
+        };
+
+        tabs.init();
+    </script>
+</div>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>usedallea layout</title>
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.6.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/lib/tab/sv-tabs.js"></script>
+
+    <!-- post code -->
+    <script th:src="@{http://dmaps.daum.net/map_js_init/postcode.v2.js}"></script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/common/global.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/layout.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/header.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/footer.css" type="text/css">
+    <link rel="stylesheet" href="/lib/tab/sv-tabs.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/lib-tabs-overwrite.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/slide.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/pagination.css" type="text/css">
+</head>
+
+<body>
+    <div class="base-layout">
+
+        <section th:replace="~{common/header::toolBar}" ></section>
+
+        <section th:replace="~{common/header::searchBar}"></section>
+
+        <section class="body">
+            <div layout:fragment="contents"></div>
+        </section>
+
+        <section th:replace="~{common/footer::contents}"></section>
+    </div>
+
+    <script src="/css/common/slide.js"></script>
+</body>
+
+</html>

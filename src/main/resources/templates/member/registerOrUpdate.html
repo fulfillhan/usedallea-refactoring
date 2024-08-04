@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/Defaultlayout.html}">
+<head>
+    <link rel="stylesheet" href="/css/member/register.css" type="text/css">
+</head>
+
+<div class="member-register-container" layout:fragment="contents">
+
+    <div class="member-register-info" >
+        <a href="/usedallea/main">
+        <img src="/img/logo.png" class="site-logo" alt="사이트 로고"/>
+        </a>
+        <div class="member-register-info--title" th:unless="${session?.userId}">
+            <h1>회원 가입</h1>
+        </div>
+        <div class="member-register-info--title" th:if="${session?.userId}">
+            <h1>회원 수정</h1>
+        </div>
+    </div>
+
+    <form
+            th:action="@{/member/registerOrUpdate}"
+            method="post"
+            th:onsubmit="return checkFirmValidation(${session.userId})"
+    >
+
+        <div class="member-register__form--input">
+            <div>
+                <label for="userId" >아이디*</label>
+
+<!--                <input th:unless="${session?.userId}" type="text" id="userId" name="userId"  class="input-userId" placeholder="아이디 입력(6~20자이내/특수문자 제외)" ><br/>-->
+                <input type="text" id="userId" name="userId" class="input-userId" placeholder="아이디 입력(6~20자이내/특수문자 제외)"
+                       th:value="${session?.userId}" th:readonly="${session?.userId}"
+                       required
+                ><br/>
+                <span th:if="${session?.userId}" id="isvalidMsg" class="member-register__form--validation-message" ></span>
+            </div>
+
+            <div th:unless="${session?.userId}">
+                <label for="password">패스워드*</label>
+                <input type="password" id="password" name="password"  placeholder="패스워드 입력(문자,숫자,특수문자 포함6~20자)" required>
+            </div>
+
+            <div th:unless="${session?.userId}">
+                <label for="confirmPassword">패스워드 재확인*</label>
+                <input type="password" id="confirmPassword" placeholder="패스워드 재입력">
+                <span id="isvalidPasswordMsg" class="member-register__form--validation-message"></span>
+            </div>
+
+            <div>
+                <label for="nickname">닉네임*</label>
+                <input type="text" id="nickname" name="nickname" th:value="${memberDTO?.nickname}" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
+            </div>
+
+            <div>
+                <label for="name">이름*</label>
+                <input type="text" id="name" name="name" th:value="${memberDTO?.name}" placeholder="이름을 입력해주세요" required>
+            </div>
+
+            <div>
+                <label for="phoneNumber">전화번호*</label>
+                <input type="text" id="phoneNumber" name="phoneNumber"  th:value="${memberDTO?.phoneNumber}" placeholder="'-'없이 숫자만 입력" required>
+
+                <div class="member-register__form--agree">
+                    <input type="checkbox" id="smsstsYn" name="smsstsYn" class="sms-checkbox"
+                           th:checked="${memberDTO?.smsstsYn == 'y'}" value="y">
+                    <label for="smsstsYn">SMS 마케팅 수신 동의여부*</label>
+                </div>
+            </div>
+
+            <div>
+                <label for="email">이메일*</label>
+                <input type="text" id="email" name="email" th:value="${memberDTO?.email}" placeholder="you@example.com">
+                <!--이메일 형식 검증 작성하기 11web_dom29참고-->
+                <div class="member-register__form--agree">
+                    <input type="checkbox"  id="emailstsYn" name="emailstsYn" class="email-checkbox"
+                           th:checked="${memberDTO?.emailstsYn=='y'}" value="y">
+                    <label for="emailstsYn">이메일 마케팅 수신 동의여부*</label>
+                </div>
+            </div>
+
+            <div>
+                <label for="zipCode">주소*</label>
+
+                <div class="member-register__form-address">
+                    <div>
+                        <div class="member-register__form-address--search">
+                            <input type="text" placeholder="우편번호" id="zipCode" name="zipCode" th:value="${memberDTO?.zipCode}" required class="input">
+                            <input type="button" th:onclick="|javascript:execDaumPostcode()|" value="검색" class="search"/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="text" name="roadAddress" id="roadAddress" th:value="${memberDTO?.roadAddress}" placeholder="도로명 주소">
+                    </div>
+
+                    <div>
+                        <input type="text" name="jibunAddress" id="jibunAddress"  th:value="${memberDTO?.jibunAddress}" placeholder="지번 주소">
+                    </div>
+
+                    <div>
+                        <input type="text" name="namujiAddress" id="namujiAddress" th:value="${memberDTO?.namujiAddress}" placeholder="나머지 주소">
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-register__form-personal-agree">
+                <div th:unless="${session?.userId}">
+                    <input type="checkbox" name="personalInfoYn" id="personalInfoYn" value="y">
+                    <label for="personalInfoYn">개인 정보 수집 및 이용 동의(필수)</label>
+                </div>
+                <p th:unless="${session?.userId}">
+                    개인정보보호법에 따라  '중고올래'  회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
+                </p>
+            </div>
+
+            <div class="member-register__form-submit-wrap" th:unless="${session?.userId}">
+                <input type="submit" value="회원가입하기" class="ok">
+            </div>
+            <div class="member-register__form-submit-wrap" th:if="${session?.userId}">
+                <input type="submit" value="회원수정하기" class="ok">
+            </div>
+        </div>
+    </form>
+    <script>
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                    var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraRoadAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경 우 추가한다.
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if (extraRoadAddr !== '') {
+                        extraRoadAddr = ' (' + extraRoadAddr + ')';
+                    }
+                    // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                    if (fullRoadAddr !== '') {
+                        fullRoadAddr += extraRoadAddr;
+                    }
+
+                    document.getElementById('zipCode').value = data.zonecode;
+                    document.getElementById('roadAddress').value = fullRoadAddr;
+                    document.getElementById('jibunAddress').value = data.jibunAddress;
+
+                }
+            }).open();
+        }
+    </script>
+    <script>
+
+        var formCheckUserId = false;
+        var formCheckPasswd = false;
+
+
+        $(function () {
+            $("#userId").blur(function () {
+                var userId = $(this).val();
+                if (userId == '') {
+                    $("#isvalidMsg").html("<span style='color:red;'>아이디를 입력하세요!</span>");
+                    formCheckUserId = false;
+                    return;
+                }
+                // AJAX전송(단일데이터)
+                $.ajax({
+                    type: "post",
+                    url: "/member/dupleCheckId",
+                    data: {"userId": userId},
+                    success: function (validateLogin) {
+
+                            if (validateLogin == "y") {
+                                $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
+                                formCheckUserId = true;
+                            } else {
+                                $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
+                                formCheckUserId = false;
+                            }
+                           /* //userId가 있으면
+                            if(userId){
+
+                                $("#userId").prop("readonly",true);
+                                $("#isvalidMsg").hide();
+                            }*/
+
+                    }
+                });
+            });
+
+            $("#confirmPassword").blur(function () {
+                // 패스워드 글자수 조정하기 11web-dom37번 참고
+                var password = $("#password").val();
+                var confirmPassword = $("#confirmPassword").val();
+
+                if (password == confirmPassword) {
+                    $("#isvalidPasswordMsg").html("<span style='color:green;'>패스워드가 일치합니다.</span>");
+                    formCheckPasswd = true;
+                } else {
+                    $("#isvalidPasswordMsg").html("<span style='color:red;'>패스워드가 일치하지 않습니다.</span>");
+                    formCheckPasswd = false;
+                }
+
+            });
+        });
+
+        function checkFirmValidation(userId) {
+            if(userId == null){
+                if (!formCheckUserId) {
+                    alert("아이디 중복 확인을 해주세요!");
+                    $("#userId").focus();
+                    return false;
+                }
+                if (!formCheckPasswd) {
+                    alert("패스워드 재확인 해주세요!");
+                    $("#password").focus();
+                    return false;
+                }
+            }
+        }
+
+    </script>
+</div>
+</html>

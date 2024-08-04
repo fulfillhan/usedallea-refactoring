@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout.html}">
+    <div layout:fragment="contents">
+
+            <div class="container-fluid px-4">
+                <h1 align="center" class="mt-4">회원 관리</h1>
+                <div class="card mb-4"></div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        전체 회원 수 :
+                        <span th:text="|${allUserCnt} 명|"></span>
+                    </div>
+                    <div class="card-body">
+                        <table>
+                            <colgroup>
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="5%">
+                            </colgroup>
+                            <thead>
+                            <tr align="center">
+                                <th>번호</th>
+                                <th>회원 ID</th>
+                                <th>닉네임</th>
+                                <th>이메일</th>
+                                <th>핸드폰 번호</th>
+                                <th>등록상품<br>(전체개수)</th>
+                                <th>가입일</th>
+                                <th>탈퇴일</th>
+                                <th>계정상태</th>
+                                <th>삭제</th>
+                            </tr>
+                            </thead>
+                            <tbody id="memberList" th:each="memberDTO : ${memberList}" >
+                            <tr align="center">
+                                <td th:text="${startViewIdx + memberDTOStat.count}"></td>
+                                <td th:text="${memberDTO.userId}"></td>
+                                <td th:text="${memberDTO.nickname}"></td>
+                                <td th:text="${memberDTO.email}"></td>
+                                <td th:text="${memberDTO.phoneNumber}"></td>
+                                <td th:text="|${memberDTO.productCnt} 개|"></td>
+                                <td th:text="${#temporals.format(memberDTO.createdAt,'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:text="${#temporals.format(memberDTO.updatedAt,'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:text="${memberDTO.activeYn}"></td>
+                                <td>
+                                <button class="deleteBtn" th:attr="data-member=${memberDTO.userId}">계정 삭제</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <div style="display: table; margin-left: auto; margin-right: auto">
+            <ul th:align="center">
+                 <span th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                     <a th:if="${page != currentPageNumber}" th:href="|javascript:getMyPage(${page})|"
+                        th:text="${page }" ></a>
+                       <strong th:if="${page == currentPageNumber}" th:text="${page}"></strong>
+                 </span>
+            </ul>
+        </div>
+
+        <script>
+            function  getMyPage(currentPageNumber){
+                let url = "/admin/userList"
+                url += "?onePageViewCnt="+$("#onePageViewCnt").val();
+                if(currentPageNumber != null){
+                    url += "&currentPageNumber="+currentPageNumber;
+                }
+                location.href = url;
+            }
+        </script>
+            <script th:inline="javascript">
+               /*<![CDATA[*/
+
+               $(function (){
+                   $(".deleteBtn").click(function(){
+                       //추가해야할 내용
+                       var userId = $(this).data("member");
+                       var row = $(this).closest('tr');
+                       if(confirm("해당 사용자의 계정을 삭제하시겠습니까?")){
+
+                           $.ajax({
+                               type : "POST",
+                               url : "/admin/removeUser",
+                               data : {
+                                  userId
+                               },
+                               success: function(response){
+
+                                   if(response == 'success'){
+                                       row.remove();
+                                       alert("사용자의 계정이 삭제되었습니다.");
+                                   }
+                               }
+                           });
+                       }
+                   });
+
+               });
+
+               /*]]>*/
+
+            </script>
+    </div>
+</html>

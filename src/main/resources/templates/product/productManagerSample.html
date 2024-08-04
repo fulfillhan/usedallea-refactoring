@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout.html}">
+<head>
+    <link rel="stylesheet" href="/css/common/main.css" type="text/css">
+</head>
+<body>
+<div align="center" style="padding-top: 100px" layout:fragment="contents">
+    <!--seller의 정보를 전달해야됨-->
+    <input type="hidden" id="sellerId" name="sellerId" th:value="${session.userId}">
+    <h2><a th:href="@{/usedallea/main}">내 상점 관리</a></h2>
+    <table border="1">
+        <colgroup>
+            <col width="10%">
+            <col width="40%">
+            <col width="50%">
+            <col width="20%">
+            <col width="50%">
+        </colgroup>
+        <tr>
+            <div align="center">
+                <input type="text" id="searchWord" name="searchWord" placeholder="상품명을 입력하세요" maxlength="40">
+                <input type="button" value="검색" onclick="getMyProductList()">
+            </div>
+            <div align="right">
+                <select id="onePageProductCnt" onchange="getMyProductList()">
+                    <option value="5">5개씩</option>
+                    <option value="7">7개씩</option>
+                    <option value="10">10개씩</option>
+                </select>
+            </div>
+            <br>
+        </tr>
+        <thead>
+        <tr align="center">
+            <th>사진</th>
+            <th>판매상태</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>조회수</th>
+            <th>찜</th>
+            <th>최근수정일</th>
+            <th>기능</th>
+        </tr>
+        </thead>
+        <tbody id="productList" th:each="productDTO : ${productListBySeller}">
+        <tr align="center">
+            <td>
+                <a th:href="@{/product/detail(productId=${productDTO.productId})}">
+                    <img th:src="@{/img/setThumbnail(imgName=${productDTO.firstImgUUID})}" alt="이미지" width="100%"
+                         height="100%"/>
+                </a>
+            </td>
+            <td>
+                <select th:id="'status-'+${productDTOStat.index}"
+                        th:productId="${productDTO.productId}"
+                        th:onchange="updateProductStatus(this.getAttribute('id'), this.getAttribute('productId'))">
+                    <option th:selected="${productDTO.status} == '판매중'" th:value="판매중">판매중</option>
+                    <option th:selected="${productDTO.status} == '판매완료'" th:value="판매완료">판매완료</option>
+                    <option th:selected="${productDTO.status} == '삭제'" th:value="삭제">삭제</option>
+                </select>
+            </td>
+            <td th:text="${productDTO.title}"></a></td>
+            <td th:text="|${productDTO.price} 원|"></td>
+            <td th:text="${productDTO.readCount}"></td>
+            <td th:text="${productDTO.zzimCount}"></td>
+            <td th:text="${#temporals.format(productDTO.updatedAt,'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <button><a th:href="@{/product/update(productId=${productDTO.productId})}">수정</a></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="display: table; margin-left: auto; margin-right: auto">
+        <ul th:align="center">
+            <span th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != currentPageNumber}" th:href="|javascript:getMyProductList(${page})|"
+                   th:text="${page }"></a>&nbsp;
+                <strong th:if="${page == currentPageNumber}" th:text="${page}"></strong>
+            </span>
+        </ul>
+    </div>
+    <script>
+        $(function () {
+
+            $("#onePageProductCnt").val("[[${onePageProductCnt}]]");
+
+        });
+
+        // ajax 페이징하기
+        function getMyProductList(currentPageNumber) {
+            let url = "/product/productManager"
+            url += "?sellerId=" + $("#sellerId").val();
+            url += "&onePageProductCnt=" + $("#onePageProductCnt").val();
+            if (currentPageNumber != null) {
+                url += "&currentPageNumber=" + currentPageNumber;
+            }
+            if ($("#searchWord").val() != '') {
+                url += "&searchWord=" + $("#searchWord").val();
+            }
+            location.href = url;
+        }
+
+        function updateProductStatus(id, productId) {
+            const productStatus = $("#" + id).val();// 변경된 판매 상태 가져오기
+
+            $.ajax({
+                type: "post",
+                url: "/product/updateProductStatus",
+                data: {
+                    productId,
+                    productStatus,
+                },
+                success: function (response) {
+                    if(response.deleted){
+                        //삭제된 경우 해당 요소 삭제
+                        if(confirm("정말 해당 상품을 삭제하시겠습니까?")){
+                            $("#"+ id).closest("tr").remove();
+                            alert(response.script);
+                        }
+
+                    }else{
+                        //select 요소의 값 변경
+                        alert(response.script);
+                        $("#"+ id+"option:selected").text(response.status);
+                    }
+                }
+            });
+        }
+
+        $("#searchWord").keypress(function (event) {
+            if (event.keyCode == 13) {
+                getMyProductList();
+            }
+        });
+
+    </script>
+</div>
+</body>
+</html>

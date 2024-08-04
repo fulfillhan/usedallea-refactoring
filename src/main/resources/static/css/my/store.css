@@ -1,0 +1,11 @@
+.my-store-container {
+    position: relative;
+}
+
+.my-store__button a {
+    color: rgb(50, 50, 50);
+}
+
+.my-store__tabs {
+    margin-top: 30px;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/Defaultlayout.html}">
+<head>
+    <link rel="stylesheet" href="/css/member/login.css" type="text/css">
+</head>
+
+<div class="login-container" layout:fragment="contents">
+
+    <div class="login-info">
+        <a th:href="@{/usedallea/main}">
+        <img src="/img/logo.png" class="site-logo" />
+        </a>
+        <div class="login-info--title">
+            <h1>로그인</h1>
+        </div>
+    </div>
+
+    <form>
+        <div>
+            <input type="text" id="userId" placeholder="아이디를 입력하세요." required>
+        </div>
+
+        <div>
+            <input type="password" id="password" placeholder="패스워드를 입력하세요." required>
+        </div>
+
+        <div>
+            <label id="loginFaileMsg" class="validation-message"></label>
+        </div>
+
+        <div>
+            <input type="button" id="loginBtn" value="로그인" class="ok">
+        </div>
+    </form>
+
+    <script>
+        var previousPage = document.referrer;  //  이전 페이지 저장.
+
+        $(function () {
+            $("#loginBtn").click(function () {
+                var loginData = {
+                    "userId": $("#userId").val(),
+                    "password": $("#password").val()
+                }
+                $.ajax({
+                    url: "/member/login",
+                    type: "post",
+                    contentType: "application/json",
+                    data: JSON.stringify(loginData),
+                    success: function (validateLogin) {
+                        if (validateLogin == "y") {
+                            location.href = previousPage;  // 이전 페이지로 이동
+                        } else if (validateLogin == "n") {
+                            $("#loginFaileMsg").html("<span style='color:red;'>아이디와 패스워드가 일치하지 않습니다.<br>입력한 내용을 다시 한번 확인해주세요.</span>");
+                        }
+                    }
+                });
+            });
+        });
+
+        $("#userId").focus(function () {   // 아이디 입력란에 포커스를 받으면 메시지 지움
+            $("#loginFaileMsg").html("");
+        });
+
+        $("#password").focus(function () { // 패스워드 입력란에 포커스를 받으면 메시지 지움
+            $("#loginFaileMsg").html("");
+        });
+    </script>
+</div>
+</html>

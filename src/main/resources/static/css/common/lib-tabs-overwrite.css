@@ -1,0 +1,25 @@
+.sv-tabs-tab-list {
+    height: 50px;
+    border-bottom: 1px solid var(--color-dark);
+    border-left: 1px solid var(--color-layout-line);
+}
+
+.sv-tabs-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 210px;
+    font-size: 14px;
+    margin: 0;
+    border-radius: 0;
+    border: 1px solid var(--color-layout-line);
+    border-bottom: 1px solid var(--color-dark);
+    border-left: 0;
+    background-color: rgb(250, 250, 250);
+}
+
+.sv-tabs-tab.active {
+    height: 50px;
+    border: 1px solid var(--color-dark);
+    border-bottom: 0;
+}

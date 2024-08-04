@@ -1,0 +1,9 @@
+.base-layout {
+    min-width: 1045px;
+}
+
+.base-layout .body {
+    margin: auto;
+    align-items: center;
+    width: 1045px;
+}

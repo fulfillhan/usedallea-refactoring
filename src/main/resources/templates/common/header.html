@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section  th:if="${session.adminId == null}" class="header-tool-bar" th:fragment="toolBar">
+    <div class="header-tool-bar__wrap">
+        <!-- TODO 로그아웃 상태일 때 -->
+        <div th:if="${session.userId == null}">
+            <button><a th:href="@{/member/login}">로그인</a></button>
+	        <button><a th:href="@{/member/registerOrUpdate}">회원가입</a></button>
+	        <button><a th:href="@{/admin/login}">관리자페이지</a></button>
+         </div>
+            <!--TODO 로그인 상태일 때 -->
+         <div th:if="${session.userId != null}">
+	        <span th:text="|♥${session.userId} 님, 환영합니다♥|"></span>
+            <button th:if="${session.userId != 'admin'}"><a th:href="@{/member/registerOrUpdate}">회원수정</a></button>
+            <button  th:unless="${session.userId != 'admin'}"><a th:href="@{/usedallea/main}">관리자페이지</a></button>
+            <button><a th:href="@{/member/logout}">로그아웃</a></button>
+         </div>
+    </div>
+</section>
+<section th:if="${session.adminId == null}" class="header-search-bar" th:fragment="searchBar">
+    <input type="hidden" id="userId" th:value="${session.userId}">
+    <div class="header-search-bar__wrap">
+        <div class="header-search-bar__top">
+            <a th:href="@{/usedallea/main}"><img src="/img/logo.png" class="site-logo" /></a>
+            <div class="header-search-bar__search">
+                <input type="text" id="searchWord" name="searchWord" placeholder="상품명 입력" maxlength="40"/>
+                <img src="/img/search.png" onclick="getMyProductList()" />
+            </div>
+
+            <div class="header-search-bar__menu">
+                <a th:href="@{/product/create}">
+                    <img src="/img/sell.png" />
+                    <button>판매하기</button>
+                </a>
+                <a th:href="@{/product/productManager(sellerId=${session.userId})}">
+                    <img src="/img/store.png" />
+	                
+                    <button>내상점</button>
+                </a>
+                <a >
+                    <img src="/img/chat.png" />
+                    <button>올래톡</button>
+                </a>
+            </div>
+        </div>
+        <div class="header-search-bar__bottom">
+        </div>
+    </div>
+</section>
+</html>

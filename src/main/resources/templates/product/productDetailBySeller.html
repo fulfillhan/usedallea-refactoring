@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout.html}">
+<head>
+    <link rel="stylesheet" href="/css/product/detail.css" type="text/css">
+</head>
+<div class="product-detail-container" layout:fragment="contents">
+    <input type="hidden" id = "productId" name="productId" th:value="${productDTO.productId}"/>
+    <input type="hidden" id = "userId" name="userId" th:value="${userId}"/>
+    <div class="product-detail__category"></div>
+
+
+    <div class="product-detail__info-wrap">
+        <div class="product-detail__img-wrap" >
+            <div th:each="imgUUID :${imgUUIDList}">
+                <img th:src="@{/img/setThumbnail(imgName=${imgUUID})}" alt="이미지">
+            </div>
+        </div>
+
+        <div class="product-detail__info">
+            <div class="product-detail__info-main">
+                <div>
+                    <div class="title" th:text="${productDTO.title}">
+                       <span th:text="${productDTO.title}"></span>
+                    </div>
+                    <div class="price">
+                        <span th:text="${productDTO.price}"></span>
+                        <span>원</span>
+                    </div>
+                </div>
+
+                <div class="product-detail__info--sell-status">
+                    <div class="product-detail__info--sell-status--value"
+                         th:classappend="${productDTO.status} == '판매중' ? '' : 'close'">
+                        <span th:text="${productDTO.status}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-detail__status">
+                <div class="product-detail__view">
+                    <div class="product-detail__statistics">
+                        <span>
+                            <img src="/img/zzim.png">
+                            <div id="zzimCount" >
+                                <span id="zzimCountValue" th:text="${zzimCount}"></span>
+                            </div>
+                        </span>
+                        <span>
+                            <img src="/img/views.png"/>
+                            <span th:text="${productDTO.readCount}"></span>
+                        </span>
+                        <span>
+                            <img src="/img/time.png" />
+                            <span th:if="${productDTO.hoursAgo < 24}">[[${productDTO.hoursAgo+'시간 전'}]]</span>
+                             <span th:if="${productDTO.hoursAgo >= 24 && productDTO.daysAgo < 7}">[[${productDTO.daysAgo+'일 전'}]]</span>
+                            <span name="daysAgo" th:if="${productDTO.daysAgo >= 7}">[[${productDTO.daysAgo+'주일 이상'}]]</span>
+                        </span>
+                    </div>
+                    <div>
+                        <a th:if="${userId == null or userId != null and !userId.equals(productDTO.sellerId)}">
+                            <img src="/img/report.png" />
+                            <span>신고하기</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="product-detail__status-row">
+                    <div class="product-detail__status--name">
+                        상품상태
+                    </div>&emsp;
+                    <div class="product-detail__status--value">
+                        <span th:text="${productDTO.qualityCondition}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${session.adminId == null}" class="product-detail__action-wrap">
+                <div th:if="${productDTO.status == '판매중'}">
+                <!--userId 로그인 한 아이디가 없거나, 로그인을 해도 userId 와 sellerId가 같지 않아야 한다.-->
+                <button  id="zzimBtn" class="product-detail__button--zzim"
+                    th:if="${userId == null or userId != null and !userId.equals(productDTO.sellerId)}">
+                    찜
+                </button>
+                <button class="product-detail__button--chat"
+                    th:if="${userId == null or userId != null and !userId.equals(productDTO.sellerId)}" >
+                    올래톡
+                </button>
+                <!--userId가 있어야 하고, sellerid가 있는 경우 그리고 해당 sellerId가 올린 물건만-->
+                <button class="product-detail__button--buy"
+                    th:if="${userId != null and productDTO.sellerId != null and userId.equals(productDTO.sellerId)}"
+                th:onclick="|location.href='@{/product/productManager(sellerId=${productDTO.sellerId})}'|">
+                    내 상점 관리
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-detail__line"></div>
+
+    <div class="product-detail__introduce">
+        <div class="product-detail__introduce--title">
+            상품 정보
+        </div>
+
+        <div class="product-detail__description">
+            <pre>
+			 <span th:text="${productDTO.description}"></span>
+            </pre>
+        </div>
+    </div>
+
+    <div class="product-detail__etc">
+        <div>
+            <div class="product-detail__etc--category">카테고리</div>
+            <div><a th:text="${productDTO.category}"></a></div>
+        </div>
+    </div>
+    <script>
+
+        $().ready(function () {
+            $("#zzimBtn").click(function () {
+                var productId = $("#productId").val();
+                var userId = $("#userId").val();
+
+                if (!userId) {
+                    alert("로그인 후 이용 가능합니다!")
+                    location.href = "/member/login";
+                } else {
+                    $.ajax({
+                           type: "post",
+                        url: "/zzim/check",
+                        data: {"productId": productId},
+                        success: function (response) {
+                            if (response.status == "y") {
+                                alert("♥찜이 추가되었습니다!");
+                                // 찜 개수도 변경
+                                $("#zzimCountValue").text(response.zzimCount);
+                                //-> 버튼 색 바꾸기
+                            } else {
+                                alert("♥찜이 삭제되었습니다!");
+                                $("#zzimCountValue").text(response.zzimCount);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</div>
+</html>

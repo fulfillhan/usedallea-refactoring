@@ -1,0 +1,60 @@
+
+.sv-tabs-wrapper {
+	--spacing: 1rem;
+	--border: 1px solid #ccc;
+	--tab-bg-on: #fff;
+	--tab-bg-off: #eee;
+	--tab-bg-hover: #ddd;
+	--tab-text-on: #000;
+	--tab-text-off: #777;
+
+	margin-bottom: var(--spacing);
+}
+
+.sv-tabs-tab-list {
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: var(--border);
+}
+
+.sv-tabs-tab {
+	min-width: 100px;
+	margin: 0 0 -1px 0.5rem;
+	padding: 0.25rem 1rem;
+	border: var(--border);
+	border-radius: 8px 8px 0 0;
+	background-color: var(--tab-bg-off);
+	color: var(--tab-text-off);
+	text-align: center;
+	text-decoration: none;
+}
+.sv-tabs-tab:hover, .sv-tabs-tab:active, .sv-tabs-tab:focus {
+	background-color: var(--tab-bg-hover);
+}
+.sv-tabs-tab.active {
+	background-color: var(--tab-bg-on);
+	border-bottom-color: var(--tab-bg-on);
+	color: var(--tab-text-on);
+}
+
+.sv-tabs-panel {
+	display: none;
+	padding: var(--spacing) 0;
+}
+.sv-tabs-panel.active {
+	display: block;
+}
+.sv-tabs-panel:target {
+	background-color: transparent;
+}
+
+.sv-tabs-grow > .sv-tabs-tab {
+	flex-grow: 1;
+}
+
+@media (max-width: 899px) {
+	.sv-tabs-tab {
+		flex: 1 1 0;
+		min-width: auto;
+	}
+}

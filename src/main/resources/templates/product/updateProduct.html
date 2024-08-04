@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout.html}">
+
+<body>
+<div layout:fragment="contents">
+	<form th:action="@{/product/update}"  method="post" th:object="${productDTO}" enctype="multipart/form-data">
+		<input type="hidden" th:field="*{productId}">
+		<input type="hidden" th:field="*{sellerId}">
+		<div align="center">
+	<h4>기본 정보<span style="color:red;">*필수 항목</span></h4><!-- * 이 표시는 빨간색으로 -->
+	<!-- 다중 파일 수정하기-->
+<!--    <div>상품이미지 (0/5)	<span>*</span></div>-->
+<!--	<input type="file" name ="uploadImg" id="uploadImg" multiple="multiple" required><br>-->
+<!--	<br><br>-->
+	<div>상품명<span>*</span>
+	<input type="text" maxlength="40" th:field="*{title}" required>
+	</div>
+	<br><br>
+	<div>카테고리<span>*</span>
+	<select th:field="*{category}">
+		<option th:value="cloth"  selected>의류</option>
+		<option th:value="cosmetic" >화장품</option>
+		<option th:value="furniture" >가구/인테리어</option>
+		<option th:value="digital">가전제품</option>
+	</select>
+	</div>
+	<br>
+	<div>
+	<p>상품 상태<span>*</span><br>
+		<input type="radio" th:field="*{qualityCondition}" value="새상품(미사용)"> 새상품(미사용)<br>
+		<input type="radio" th:field="*{qualityCondition}" value="사용감약간"> 사용감 약간 있음(사용은 했지만 흔적은 없음)<br>
+		<input type="radio" th:field="*{qualityCondition}" value="사용감많음"> 사용감 많음(눈에 띄는 흔적 있음)<br>
+		<input type="radio" th:field="*{qualityCondition}" value="수리/수선필요"> 고장/파손 상품(수리/수선 필요)<br>
+		</p>
+	</div>
+	<br>
+	<div>가격설정<span>*</span></div>
+	<input type="text" th:field="*{price}" required>
+			<span>원</span>
+	<br><br>
+	
+	<div>설명<span>*</span></div>
+			<label>
+				<textarea rows="10" cols="30" th:field="*{description}" placeholder="서로가 믿고 구매할 수 있도록 해당 제품에 대한 설명을 자세하게 적어주세요(제품의 상태, 구매시기,브랜드명 등)"></textarea>
+			</label>
+			<br><br>
+	<input type="submit" value="등록하기" />
+	<input type="reset" value="다시작성" />
+		</div>
+	</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+.login-container {
+    padding-top: 270px;
+    margin: auto;
+    width: 500px;
+}
+
+.login-info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.login-container .site-logo {
+    width: 320px;
+    height: 80px;
+    margin-bottom: 30px;
+}
+
+.login-info--title {
+    width: 100%;
+    color: var(--color-font-dark);
+    text-align: right;
+}
+
+.login-container form > div {
+    margin-bottom: 20px;
+}
+
+.login-container form input[type='button'] {
+    margin-top: 20px;
+}

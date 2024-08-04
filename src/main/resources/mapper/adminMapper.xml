@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.application.usedallea.admin.dao.AdminDAO">
+
+    <select id="getLoginData" parameterType="AdminDTO" resultType="AdminDTO">
+        SELECT
+              ADMIN_ID,
+              PASSWORD
+        FROM ADMIN
+        WHERE
+            ADMIN_ID = #{adminId}
+        AND PASSWORD = #{password}
+    </select>
+
+
+</mapper>

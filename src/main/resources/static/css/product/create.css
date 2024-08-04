@@ -1,0 +1,65 @@
+.product-create__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.product-create__form-action {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.product-create__form input[type='submit'] {
+    width: 35% !important;
+}
+
+.product-create__form input[type='reset'] {
+    width: 35% !important;
+}
+
+.product-create__form--title {
+    display: flex;
+    border-bottom: 2px solid #000;
+    width: 100%;
+}
+
+.product-create__form--title h1 {
+    font-weight: 400 !important;
+}
+
+.product-create__form--input {
+    width: 100%;
+}
+
+.product-create__form--input > div {
+    display: flex;
+    width: 100%;
+    padding: 30px 0 30px 10px;
+    border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.product-create__form--input > div > label {
+    min-width: 150px;
+    font-size: 18px;
+}
+
+.product-create__form-price--unit {
+    position: relative;
+    right: 20px;
+    top: 3px;
+    color: rgb(150, 150, 150);
+}
+
+.product-create__form-price--unit {
+    position: relative;
+    right: 20px;
+    top: 3px;
+    color: var(--color-font-light);
+}
+
+.product-create__form-status--radio-group > input {
+    margin-bottom: 8px;
+}
