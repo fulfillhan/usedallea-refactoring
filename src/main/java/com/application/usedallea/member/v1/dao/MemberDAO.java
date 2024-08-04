@@ -1,8 +1,8 @@
-package com.application.usedallea.member.dao;
+package com.application.usedallea.member.v1.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.application.usedallea.member.dto.MemberDTO;
+import com.application.usedallea.member.v1.dto.MemberDTO;
 
 import java.util.List;
 import java.util.Map;

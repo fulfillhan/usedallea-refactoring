@@ -1,12 +1,13 @@
-package com.application.usedallea.member.service;
+package com.application.usedallea.member.v1.service;
 
-import com.application.usedallea.member.dao.MemberDAO;
-import com.application.usedallea.member.dto.MemberDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.application.usedallea.member.v1.dao.MemberDAO;
+import com.application.usedallea.member.v1.dto.MemberDTO;
 
 import java.util.List;
 import java.util.Map;
