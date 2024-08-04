@@ -2,8 +2,8 @@ package com.application.usedallea.admin.controller;
 
 import com.application.usedallea.admin.dto.AdminDTO;
 import com.application.usedallea.admin.service.AdminService;
-import com.application.usedallea.member.dto.MemberDTO;
-import com.application.usedallea.member.service.MemberService;
+import com.application.usedallea.member.v1.dto.MemberDTO;
+import com.application.usedallea.member.v1.service.MemberService;
 import com.application.usedallea.product.dto.ProductDTO;
 import com.application.usedallea.product.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
