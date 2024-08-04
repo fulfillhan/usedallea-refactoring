@@ -1,7 +1,7 @@
 package com.application.usedallea.main.controller;
 
 
-import com.application.usedallea.member.service.MemberService;
+import com.application.usedallea.member.v1.service.MemberService;
 import com.application.usedallea.product.dto.ProductDTO;
 import com.application.usedallea.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

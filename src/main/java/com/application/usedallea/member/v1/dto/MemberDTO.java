@@ -1,4 +1,4 @@
-package com.application.usedallea.member.dto;
+package com.application.usedallea.member.v1.dto;
 
 import java.time.LocalDateTime;
 

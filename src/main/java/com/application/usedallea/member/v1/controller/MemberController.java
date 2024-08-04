@@ -1,7 +1,5 @@
-package com.application.usedallea.member.controller;
+package com.application.usedallea.member.v1.controller;
 
-import com.application.usedallea.member.dto.MemberDTO;
-import com.application.usedallea.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.application.usedallea.member.v1.dto.MemberDTO;
+import com.application.usedallea.member.v1.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
