@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean loginUser(UserRegisterDto userDto) {
+    public boolean validateUser(UserRegisterDto userDto) {
         String userId = userDto.getUserId();
         User foundUser = userRepository.findById(userId);
 
