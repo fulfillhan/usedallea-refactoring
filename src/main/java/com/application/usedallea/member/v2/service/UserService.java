@@ -11,7 +11,7 @@ public interface UserService{
 
     void deactivateUser(String userId);
 
-    boolean loginUser(UserRegisterDto userRegisterDto);
+    boolean validateUser(UserRegisterDto userRegisterDto);
 
     boolean checkDuplicatedUser(String userId);
 }
