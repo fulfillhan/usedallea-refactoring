@@ -44,14 +44,14 @@
                     "password": $("#password").val()
                 }
                 $.ajax({
-                    url: "/member/login",
+                    url: "/login",
                     type: "post",
                     contentType: "application/json",
                     data: JSON.stringify(loginData),
                     success: function (validateLogin) {
-                        if (validateLogin == "y") {
+                        if (validateLogin === "y") {
                             location.href = previousPage;  // 이전 페이지로 이동
-                        } else if (validateLogin == "n") {
+                        } else if (validateLogin === "n") {
                             $("#loginFaileMsg").html("<span style='color:red;'>아이디와 패스워드가 일치하지 않습니다.<br>입력한 내용을 다시 한번 확인해주세요.</span>");
                         }
                     }

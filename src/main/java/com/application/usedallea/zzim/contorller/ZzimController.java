@@ -1,7 +1,5 @@
 package com.application.usedallea.zzim.contorller;
 
-import com.application.usedallea.product.dto.ProductDTO;
-import com.application.usedallea.zzim.dao.ZzimDAO;
 import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import jakarta.servlet.http.HttpServletRequest;
