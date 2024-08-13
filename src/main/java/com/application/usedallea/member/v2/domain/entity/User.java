@@ -2,11 +2,9 @@ package com.application.usedallea.member.v2.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
+
 @Getter
-@Setter
 @Builder(toBuilder = true)
 public class User {
     private String userId;
@@ -40,4 +38,5 @@ public class User {
     private String zipCode;
 
     private String personalInfYn;
+
 }
