@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserFactory userFactory;
-   private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void registerUser(UserRegisterDto userDto) {
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
         User updateUser = user.toBuilder()
                 .activeYn("n")
-                .updatedAt(user.getUpdatedAt())
+                //.updatedAt(user.getUpdatedAt())
                 .build();
         userRepository.update(updateUser);
     }
@@ -67,10 +67,25 @@ public class UserServiceImpl implements UserService {
         return equalsPassword && activatedUser;
     }
 
-@Override
-public boolean checkDuplicatedUser(String userId) {
-    // 중복 여부
-    return userRepository.isExistById(userId);
-
+    @Override
+    public String checkDuplicatedUser(String userId) {
+        String validateId = "y";
+        //todo db 수정 필요
+        User user = userRepository.findById(userId);
+        if(user != null){
+            validateId = "n";
+        }
+        return validateId;
     }
+
+ /*   @Override
+    public boolean checkDuplicatedUser(String userId) {
+        // userId가 존재하면 true
+        boolean isDuplicate = false;
+        User user = userRepository.findById(userId);
+        if(user != null && user.getUserId() != null){
+            isDuplicate = true;
+        }
+        return isDuplicate;
+    }*/
 }

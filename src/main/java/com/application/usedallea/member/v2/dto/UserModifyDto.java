@@ -13,8 +13,6 @@ public class UserModifyDto {
 
     private String nickname;
 
-    private String activeYn;
-
     private String email;
 
     private String emailStsYn;
@@ -24,8 +22,6 @@ public class UserModifyDto {
     private String smsStsYn;
 
     private LocalDateTime updatedAt;
-
-    private LocalDateTime createdAt;
 
     private String roadAddress;
 

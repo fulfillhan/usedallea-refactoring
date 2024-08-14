@@ -18,7 +18,6 @@ public class UserFactory {
                 .nickname(userDto.getNickname())
                 .password(password)
                 .name(userDto.getName())
-                .activeYn(userDto.getActiveYn())
                 .email(userDto.getEmail())
                 .emailStsYn(Optional.ofNullable(userDto.getEmailStsYn()).orElse("n"))
                 .phoneNumber(userDto.getPhoneNumber())

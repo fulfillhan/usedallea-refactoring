@@ -13,8 +13,6 @@ public class UserRegisterDto {
 
     private String name;
 
-    private String activeYn;
-
     private String email;
 
     private String emailStsYn;
@@ -32,7 +30,4 @@ public class UserRegisterDto {
     private String zipCode;
 
     private String personalInfYn;
-
-
-
 }

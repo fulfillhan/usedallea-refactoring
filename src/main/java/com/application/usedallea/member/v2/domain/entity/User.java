@@ -2,7 +2,6 @@ package com.application.usedallea.member.v2.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
-import java.time.LocalDateTime;
 
 @Getter
 @Builder(toBuilder = true)
@@ -11,7 +10,7 @@ public class User {
 
     private String nickname;
 
-    private String password;  // int 로 바꾸야함
+    private String password;
 
     private String name;
 
@@ -25,10 +24,6 @@ public class User {
 
     private String smsStsYn;
 
-    private LocalDateTime updatedAt;
-
-    private LocalDateTime createdAt;
-
     private String roadAddress;
 
     private String jibunAddress;
@@ -38,5 +33,6 @@ public class User {
     private String zipCode;
 
     private String personalInfYn;
+
 
 }

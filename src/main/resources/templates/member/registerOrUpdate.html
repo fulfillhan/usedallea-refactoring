@@ -20,7 +20,7 @@
     </div>
 
     <form
-            th:action="@{/member/registerOrUpdate}"
+            th:action="@{/users}"
             method="post"
             th:onsubmit="return checkFirmValidation(${session.userId})"
     >
@@ -177,24 +177,26 @@
                 // AJAX전송(단일데이터)
                 $.ajax({
                     type: "post",
-                    url: "/member/dupleCheckId",
+                    url: "/users/check-duplicate-id",
                     data: {"userId": userId},
+                 /*   success: function (isDuplicate) {
+                        if (isDuplicate) {
+                            $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
+                            formCheckUserId = false;
+                        } else {
+                            $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
+                            formCheckUserId = true;
+                        }
+
+                    }*/
                     success: function (validateLogin) {
-
-                            if (validateLogin == "y") {
-                                $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
-                                formCheckUserId = true;
-                            } else {
-                                $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
-                                formCheckUserId = false;
-                            }
-                           /* //userId가 있으면
-                            if(userId){
-
-                                $("#userId").prop("readonly",true);
-                                $("#isvalidMsg").hide();
-                            }*/
-
+                        if (validateLogin == "y") {
+                            $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
+                            formCheckUserId = true;
+                        } else {
+                            $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
+                            formCheckUserId = false;
+                        }
                     }
                 });
             });

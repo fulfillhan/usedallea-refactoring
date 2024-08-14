@@ -27,11 +27,17 @@ public class UserController {
         return "redirect:/usedallea/main";
     }
 
+/*    @PostMapping("/check-duplicate-id")
+    @ResponseBody
+    public boolean checkDuplicateId(@RequestParam String userId){
+        return userService.checkDuplicatedUser(userId);
+    }*/
     @PostMapping("/check-duplicate-id")
-    public ResponseEntity<Boolean> checkDuplicateId(@RequestParam String userId){
-        boolean isDuplicate = userService.checkDuplicatedUser(userId);
-        return ResponseEntity.ok(isDuplicate);
+    @ResponseBody
+    public String checkDuplicateId(@RequestParam("userId") String userId){
+        return userService.checkDuplicatedUser(userId);
     }
+
 
 
     @PutMapping
