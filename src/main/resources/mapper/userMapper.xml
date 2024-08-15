@@ -31,7 +31,7 @@
 			#{roadAddress},
 			#{jibunAddress},
 			#{namujiAddress},
-			#{personalInfoYn}
+			#{personalinfoYn}
 		)
 	</insert>
 
@@ -52,8 +52,6 @@
 				USER_ID,
 				NICKNAME,
 				PASSWORD,
-				NAME,
-				NICKNAME,
 				NAME,
 				ACTIVE_YN,
 				EMAIL,
