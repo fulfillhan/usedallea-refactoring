@@ -13,19 +13,15 @@ public class UserModifyDto {
 
     private String nickname;
 
-    private String activeYn;
-
     private String email;
 
-    private String emailStsYn;
+    private String emailstsYn;
 
     private String phoneNumber;
 
-    private String smsStsYn;
+    private String smsstsYn;
 
     private LocalDateTime updatedAt;
-
-    private LocalDateTime createdAt;
 
     private String roadAddress;
 

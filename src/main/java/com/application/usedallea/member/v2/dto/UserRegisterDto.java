@@ -13,15 +13,13 @@ public class UserRegisterDto {
 
     private String name;
 
-    private String activeYn;
-
     private String email;
 
-    private String emailStsYn;
+    private String emailstsYn;
 
     private String phoneNumber;
 
-    private String smsStsYn;
+    private String smsstsYn;
 
     private String roadAddress;
 
@@ -31,8 +29,5 @@ public class UserRegisterDto {
 
     private String zipCode;
 
-    private String personalInfYn;
-
-
-
+    private String personalinfoYn;
 }

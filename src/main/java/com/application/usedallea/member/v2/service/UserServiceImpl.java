@@ -10,57 +10,31 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserFactory userFactory;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void registerUser(UserRegisterDto userDto) {
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-        User newUser = User.builder()
-                .userId(userDto.getUserId())
-                .name(userDto.getName())
-                .nickname(userDto.getNickname())
-                .password(encodedPassword)
-                .activeYn(userDto.getActiveYn())
-                .email(userDto.getEmail())
-                .emailStsYn(Optional.ofNullable(userDto.getEmailStsYn()).orElse("n"))
-                .phoneNumber(userDto.getPhoneNumber())
-                .smsStsYn(Optional.ofNullable(userDto.getSmsStsYn()).orElse("n"))
-                .roadAddress(userDto.getRoadAddress())
-                .jibunAddress(userDto.getJibunAddress())
-                .namujiAddress(userDto.getNamujiAddress())
-                .zipCode(userDto.getZipCode())
-                .personalInfYn(Optional.ofNullable(userDto.getPersonalInfYn()).orElse("n"))
-                .build();
-
+        User newUser = userFactory.createUser(userDto, encodedPassword);
         userRepository.register(newUser);
     }
+
 
     @Override
     public void updateUser(UserModifyDto userDto) {
         User user = userRepository.findById(userDto.getUserId());
 
         if (user == null) {
-            throw new UsernameNotFoundException(userDto.getUserId()+"is not found");
+            throw new UsernameNotFoundException(userDto.getUserId() + "is not found");
         }
-
-        User newUser = user.toBuilder()
-                .nickname(userDto.getNickname())
-                .smsStsYn(Optional.ofNullable(userDto.getSmsStsYn()).orElse("n"))
-                .phoneNumber(userDto.getPhoneNumber())
-                .email(userDto.getEmail())
-                .emailStsYn(Optional.ofNullable(userDto.getEmailStsYn()).orElse("n"))
-                .zipCode(userDto.getZipCode())
-                .roadAddress(userDto.getRoadAddress())
-                .jibunAddress(userDto.getJibunAddress())
-                .namujiAddress(userDto.getNamujiAddress())
-                .build();
+        User newUser = userFactory.udpateUser(user, userDto);
         userRepository.update(newUser);
     }
 
@@ -74,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
         User updateUser = user.toBuilder()
                 .activeYn("n")
-                .updatedAt(user.getUpdatedAt())
+                //.updatedAt(user.getUpdatedAt())
                 .build();
         userRepository.update(updateUser);
     }
@@ -93,10 +67,25 @@ public class UserServiceImpl implements UserService {
         return equalsPassword && activatedUser;
     }
 
-@Override
-public boolean checkDuplicatedUser(String userId) {
-    // 중복 여부
-    return userRepository.isExistById(userId);
-
+    @Override
+    public String checkDuplicatedUser(String userId) {
+        String validateId = "y";
+        //todo db 수정 필요
+        User user = userRepository.findById(userId);
+        if(user != null){
+            validateId = "n";
+        }
+        return validateId;
     }
+
+ /*   @Override
+    public boolean checkDuplicatedUser(String userId) {
+        // userId가 존재하면 true
+        boolean isDuplicate = false;
+        User user = userRepository.findById(userId);
+        if(user != null && user.getUserId() != null){
+            isDuplicate = true;
+        }
+        return isDuplicate;
+    }*/
 }

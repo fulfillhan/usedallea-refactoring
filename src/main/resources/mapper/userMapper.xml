@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.application.usedallea.member.v1.domain.repository.UserRepository">
+<mapper namespace="com.application.usedallea.member.v2.domain.repository.UserRepository">
 
 	<insert id="register" parameterType="User" >
 		INSERT INTO USER(
@@ -12,7 +12,6 @@
 			SMSSTS_YN,
 			EMAIL,
 			EMAILSTS_YN,
-		    CREATED_AT,
 			ZIP_CODE,
 			ROAD_ADDRESS,
 			JIBUN_ADDRESS,
@@ -28,16 +27,15 @@
 			#{smsstsYn},
 			#{email},
 			#{emailstsYn},
-		    #{createdAt},
 			#{zipCode},
 			#{roadAddress},
 			#{jibunAddress},
 			#{namujiAddress},
-			#{personalInfoYn}
+			#{personalinfoYn}
 		)
 	</insert>
 
-	<select id="isExistById" parameterType="String" resultType="boolean">
+<!--	<select id="isExistById" parameterType="String" resultType="boolean">
 		SELECT
 				CASE
 				    WHEN COUNT(*) > 0 THEN 1
@@ -47,25 +45,24 @@
 				USER
 		WHERE
 				USER_ID = #{userId}
-	</select>
+	</select>-->
 
 	<select id="findById" parameterType="String" resultType="User">
 		SELECT
-			USER_ID,
-			PASSWORD,
-			NICKNAME,
-			NAME,
-			PHONE_NUMBER,
-			SMSSTS_YN,
-			EMAIL,
-			EMAILSTS_YN,
-			CREATED_AT,
-			UPDATED_AT,
-			ACTIVE_YN,
-			ZIP_CODE,
-			ROAD_ADDRESS,
-			JIBUN_ADDRESS,
-			NAMUJI_ADDRESS,
+				USER_ID,
+				NICKNAME,
+				PASSWORD,
+				NAME,
+				ACTIVE_YN,
+				EMAIL,
+				EMAILSTS_YN,
+				PHONE_NUMBER,
+				SMSSTS_YN,
+				ROAD_ADDRESS,
+				JIBUN_ADDRESS,
+				NAMUJI_ADDRESS,
+				ZIP_CODE,
+				PERSONALINFO_YN
 		FROM
 		    	USER
 		WHERE

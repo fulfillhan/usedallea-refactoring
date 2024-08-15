@@ -13,5 +13,6 @@ public interface UserService{
 
     boolean validateUser(UserRegisterDto userRegisterDto);
 
-    boolean checkDuplicatedUser(String userId);
+    //boolean checkDuplicatedUser(String userId);
+    String checkDuplicatedUser(String userId);
 }
