@@ -11,7 +11,7 @@
         <a href="/usedallea/main">
         <img src="/img/logo.png" class="site-logo" alt="사이트 로고"/>
         </a>
-        <div class="member-register-info--title" th:unless="${session?.userId}">
+        <div class="member-register-info--title">
             <h1>회원 가입</h1>
         </div>
         <div class="member-register-info--title" th:if="${session?.userId}">
@@ -20,10 +20,9 @@
     </div>
 
     <form
-            th:action="@{/users}"
+            th:action="@{/users/register}"
             method="post"
-            th:onsubmit="return checkFirmValidation(${session.userId})"
-    >
+            th:onsubmit="return checkFirmValidation(${session?.userId})">
 
         <div class="member-register__form--input">
             <div>
@@ -107,7 +106,7 @@
 
             <div class="member-register__form-personal-agree">
                 <div th:unless="${session?.userId}">
-                    <input type="checkbox" name="personalinfoYn" id="personalInfoYn" value="y">
+                    <input type="checkbox" name="personalinfoYn" id="personalinfoYn" value="y">
                     <label for="personalInfoYn">개인 정보 수집 및 이용 동의(필수)</label>
                 </div>
                 <p th:unless="${session?.userId}">
@@ -115,11 +114,8 @@
                 </p>
             </div>
 
-            <div class="member-register__form-submit-wrap" th:unless="${session?.userId}">
-                <input type="submit" value="회원가입하기" class="ok">
-            </div>
-            <div class="member-register__form-submit-wrap" th:if="${session?.userId}">
-                <input type="submit" value="회원수정하기" class="ok">
+            <div class="member-register__form-submit-wrap">
+                <input type="submit"  th:value="${session?.userId != null} ? '회원수정하기' : '회원가입하기'" class="ok">
             </div>
         </div>
     </form>
@@ -179,7 +175,7 @@
                     type: "post",
                     url: "/users/check-duplicate-id",
                     data: {"userId": userId},
-                 /*   success: function (isDuplicate) {
+                    success: function (isDuplicate) {
                         if (isDuplicate) {
                             $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
                             formCheckUserId = false;
@@ -188,16 +184,8 @@
                             formCheckUserId = true;
                         }
 
-                    }*/
-                    success: function (validateLogin) {
-                        if (validateLogin == "y") {
-                            $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
-                            formCheckUserId = true;
-                        } else {
-                            $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
-                            formCheckUserId = false;
-                        }
                     }
+
                 });
             });
 
@@ -230,6 +218,7 @@
                     return false;
                 }
             }
+            return true;
         }
 
     </script>

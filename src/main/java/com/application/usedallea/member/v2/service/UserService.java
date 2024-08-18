@@ -1,18 +1,18 @@
 package com.application.usedallea.member.v2.service;
 
-import com.application.usedallea.member.v2.dto.UserModifyDto;
-import com.application.usedallea.member.v2.dto.UserRegisterDto;
+import com.application.usedallea.member.v2.dto.UserModifyDTO;
+import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 
 public interface UserService{
 
-    void registerUser(UserRegisterDto userRegisterDto);
+    void registerUser(UserRegisterDTO userRegisterDto);
 
-    void updateUser(UserModifyDto userModifyDto);
+    void updateUser(UserModifyDTO userModifyDto);
 
     void deactivateUser(String userId);
 
-    boolean validateUser(UserRegisterDto userRegisterDto);
+    boolean validateUser(UserRegisterDTO userRegisterDto);
 
     //boolean checkDuplicatedUser(String userId);
-    String checkDuplicatedUser(String userId);
+    boolean checkDuplicatedUser(String userId);
 }

@@ -1,11 +1,10 @@
 package com.application.usedallea.member.v2.controller;
 
-import com.application.usedallea.member.v2.dto.UserModifyDto;
-import com.application.usedallea.member.v2.dto.UserRegisterDto;
+import com.application.usedallea.member.v2.dto.UserModifyDTO;
+import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 import com.application.usedallea.member.v2.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,27 +20,20 @@ public class UserController {
         return "member/registerOrUpdate";
     }
 
-    @PostMapping
-    public String register(@ModelAttribute UserRegisterDto userDto) {
-        userService.registerUser(userDto);
+    @PostMapping("/register")
+    public String register(@ModelAttribute UserRegisterDTO userDTO) {
+        userService.registerUser(userDTO);
         return "redirect:/usedallea/main";
     }
-
-/*    @PostMapping("/check-duplicate-id")
+// TODO HTML 확인필요
+    @PostMapping("/check-duplicate-id")
     @ResponseBody
     public boolean checkDuplicateId(@RequestParam String userId){
         return userService.checkDuplicatedUser(userId);
-    }*/
-    @PostMapping("/check-duplicate-id")
-    @ResponseBody
-    public String checkDuplicateId(@RequestParam("userId") String userId){
-        return userService.checkDuplicatedUser(userId);
     }
 
-
-
     @PutMapping
-    public String update(@ModelAttribute UserModifyDto userDto, HttpSession session) {
+    public String update(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
         String userId= (String) session.getAttribute("userId");
         userDto.setUserId(userId);
         userService.updateUser(userDto);
@@ -55,6 +47,5 @@ public class UserController {
         session.invalidate();
         return "redirect:/usedallea/main";
     }
-
 
 }
