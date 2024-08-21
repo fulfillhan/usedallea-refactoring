@@ -33,7 +33,7 @@
                        th:value="${session?.userId}" th:readonly="${session?.userId}"
                        required
                 ><br/>
-                <span th:if="${session?.userId}" id="isvalidMsg" class="member-register__form--validation-message" ></span>
+                <span id="isvalidMsg" class="member-register__form--validation-message" ></span>
             </div>
 
             <div th:unless="${session?.userId}">
@@ -206,7 +206,7 @@
         });
 
         function checkFirmValidation(userId) {
-            if(userId == null){
+            if(userId == null) {
                 if (!formCheckUserId) {
                     alert("아이디 중복 확인을 해주세요!");
                     $("#userId").focus();
@@ -217,8 +217,8 @@
                     $("#password").focus();
                     return false;
                 }
+                return true;
             }
-            return true;
         }
 
     </script>

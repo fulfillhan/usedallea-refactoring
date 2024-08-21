@@ -4,7 +4,9 @@ import com.application.usedallea.member.v2.dto.UserModifyDTO;
 import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 import com.application.usedallea.member.v2.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +25,19 @@ public class UserController {
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO userDTO) {
         userService.registerUser(userDTO);
-        return "redirect:/usedallea/main";
+        // 홈페이지 만들기 전까지 로그인 페이지로 이동
+        return "redirect:/login-form";
     }
-// TODO HTML 확인필요
+
     @PostMapping("/check-duplicate-id")
-    @ResponseBody
-    public boolean checkDuplicateId(@RequestParam String userId){
-        return userService.checkDuplicatedUser(userId);
+    public ResponseEntity<Boolean> checkDuplicateId(@RequestParam String userId){
+        boolean isDuplicate = userService.checkDuplicatedUser(userId);
+        return ResponseEntity.ok(isDuplicate);
+    }
+    @GetMapping("/edit")
+    public String edit(HttpSession session){
+        Object userId = (String) session.getAttribute("userId");
+        return "member/registerOrUpdate/"+ userId;
     }
 
     @PutMapping
