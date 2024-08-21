@@ -4,7 +4,6 @@ import com.application.usedallea.member.v2.dto.UserModifyDTO;
 import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 import com.application.usedallea.member.v2.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,19 +35,19 @@ public class UserController {
     }
     @GetMapping("/edit")
     public String edit(HttpSession session){
-        Object userId = (String) session.getAttribute("userId");
+        String userId = (String) session.getAttribute("userId");
         return "member/registerOrUpdate/"+ userId;
     }
 
-    @PutMapping
-    public String update(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
         String userId= (String) session.getAttribute("userId");
         userDto.setUserId(userId);
         userService.updateUser(userDto);
-        return "redirect:/usedallea/main";
+        return "redirect:/edit";
     }
 
-    @DeleteMapping
+    @PostMapping
     public String deactivate(HttpSession session) {
         String userId = (String) session.getAttribute("userId");
         userService.deactivateUser(userId);
