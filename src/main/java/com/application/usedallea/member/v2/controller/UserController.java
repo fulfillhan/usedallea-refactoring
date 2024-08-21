@@ -5,6 +5,7 @@ import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 import com.application.usedallea.member.v2.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,24 +24,30 @@ public class UserController {
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO userDTO) {
         userService.registerUser(userDTO);
-        return "redirect:/usedallea/main";
-    }
-// TODO HTML 확인필요
-    @PostMapping("/check-duplicate-id")
-    @ResponseBody
-    public boolean checkDuplicateId(@RequestParam String userId){
-        return userService.checkDuplicatedUser(userId);
+        // 홈페이지 만들기 전까지 로그인 페이지로 이동
+        return "redirect:/login-form";
     }
 
-    @PutMapping
-    public String update(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
+    @PostMapping("/check-duplicate-id")
+    public ResponseEntity<Boolean> checkDuplicateId(@RequestParam String userId){
+        boolean isDuplicate = userService.checkDuplicatedUser(userId);
+        return ResponseEntity.ok(isDuplicate);
+    }
+    @GetMapping("/edit")
+    public String edit(HttpSession session){
+        String userId = (String) session.getAttribute("userId");
+        return "member/registerOrUpdate/"+ userId;
+    }
+
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
         String userId= (String) session.getAttribute("userId");
         userDto.setUserId(userId);
         userService.updateUser(userDto);
-        return "redirect:/usedallea/main";
+        return "redirect:/edit";
     }
 
-    @DeleteMapping
+    @PostMapping
     public String deactivate(HttpSession session) {
         String userId = (String) session.getAttribute("userId");
         userService.deactivateUser(userId);
