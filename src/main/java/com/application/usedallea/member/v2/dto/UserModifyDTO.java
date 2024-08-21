@@ -1,17 +1,17 @@
 package com.application.usedallea.member.v2.dto;
 
 import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
-public class UserRegisterDto {
+@Setter
+public class UserModifyDTO {
 
     private String userId;
 
     private String nickname;
-
-    private String password;  // int 로 바꾸야함
-
-    private String name;
 
     private String email;
 
@@ -21,6 +21,8 @@ public class UserRegisterDto {
 
     private String smsstsYn;
 
+    private LocalDateTime updatedAt;
+
     private String roadAddress;
 
     private String jibunAddress;
@@ -28,6 +30,4 @@ public class UserRegisterDto {
     private String namujiAddress;
 
     private String zipCode;
-
-    private String personalinfoYn;
 }

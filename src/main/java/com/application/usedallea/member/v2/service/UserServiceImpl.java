@@ -2,13 +2,15 @@ package com.application.usedallea.member.v2.service;
 
 import com.application.usedallea.member.v2.domain.entity.User;
 import com.application.usedallea.member.v2.domain.repository.UserRepository;
-import com.application.usedallea.member.v2.dto.UserModifyDto;
-import com.application.usedallea.member.v2.dto.UserRegisterDto;
+import com.application.usedallea.member.v2.dto.UserModifyDTO;
+import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -16,25 +18,52 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserFactory userFactory;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void registerUser(UserRegisterDto userDto) {
-        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-        User newUser = userFactory.createUser(userDto, encodedPassword);
+    public void registerUser(UserRegisterDTO userDTO) {
+        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+
+         User newUser = User.builder()
+                .userId(userDTO.getUserId())
+                .nickname(userDTO.getNickname())
+                .password(encodedPassword)
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .emailstsYn(Optional.ofNullable(userDTO.getEmailstsYn()).orElse("n"))
+                .phoneNumber(userDTO.getPhoneNumber())
+                .smsstsYn(Optional.ofNullable(userDTO.getSmsstsYn()).orElse("n"))
+                .roadAddress(userDTO.getRoadAddress())
+                .jibunAddress(userDTO.getJibunAddress())
+                .namujiAddress(userDTO.getNamujiAddress())
+                .zipCode(userDTO.getZipCode())
+                .personalinfoYn(Optional.ofNullable(userDTO.getPersonalinfoYn()).orElse("n"))
+                .build();
+
         userRepository.register(newUser);
     }
 
 
     @Override
-    public void updateUser(UserModifyDto userDto) {
-        User user = userRepository.findById(userDto.getUserId());
+    public void updateUser(UserModifyDTO userDTO) {
+        User user = userRepository.findById(userDTO.getUserId());
 
         if (user == null) {
-            throw new UsernameNotFoundException(userDto.getUserId() + "is not found");
+            throw new UsernameNotFoundException(userDTO.getUserId() + "is not found");
         }
-        User newUser = userFactory.udpateUser(user, userDto);
+
+        User newUser = user.toBuilder()
+                .nickname(userDTO.getNickname())
+                .smsstsYn(Optional.ofNullable(userDTO.getSmsstsYn()).orElse("n"))
+                .phoneNumber(userDTO.getPhoneNumber())
+                .email(userDTO.getEmail())
+                .emailstsYn(Optional.ofNullable(userDTO.getEmailstsYn()).orElse("n"))
+                .zipCode(userDTO.getZipCode())
+                .roadAddress(userDTO.getRoadAddress())
+                .jibunAddress(userDTO.getJibunAddress())
+                .namujiAddress(userDTO.getNamujiAddress())
+                .build();
+
         userRepository.update(newUser);
     }
 
@@ -54,7 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean validateUser(UserRegisterDto userDto) {
+    public boolean validateUser(UserRegisterDTO userDto) {
         String userId = userDto.getUserId();
         User foundUser = userRepository.findById(userId);
 
@@ -68,17 +97,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String checkDuplicatedUser(String userId) {
-        String validateId = "y";
-        //todo db 수정 필요
-        User user = userRepository.findById(userId);
-        if(user != null){
-            validateId = "n";
-        }
-        return validateId;
-    }
-
- /*   @Override
     public boolean checkDuplicatedUser(String userId) {
         // userId가 존재하면 true
         boolean isDuplicate = false;
@@ -87,5 +105,5 @@ public class UserServiceImpl implements UserService {
             isDuplicate = true;
         }
         return isDuplicate;
-    }*/
+    }
 }
