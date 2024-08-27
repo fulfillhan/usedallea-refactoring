@@ -75,9 +75,9 @@
 		SET
 		    	NICKNAME = #{nickname},
 				PHONE_NUMBER = #{phoneNumber},
-				SMSSTS_YN = #{smsStsYn},
+				SMSSTS_YN = #{smsstsYn},
 				EMAIL = #{email},
-				EMAILSTS_YN = #{emailStsYn},
+				EMAILSTS_YN = #{emailstsYn},
 				ZIP_CODE = #{zipCode},
 				ROAD_ADDRESS = #{roadAddress},
 				JIBUN_ADDRESS = #{jibunAddress},

@@ -8,7 +8,7 @@
 <div class="member-register-container" layout:fragment="contents">
 
     <div class="member-register-info" >
-        <a href="/usedallea/main">
+        <a href="">
         <img src="/img/logo.png" class="site-logo" alt="사이트 로고"/>
         </a>
         <div class="member-register-info--title">
@@ -19,16 +19,10 @@
         </div>
     </div>
 
-    <form
-            th:action="@{/users/register}"
-            method="post"
-            th:onsubmit="return checkFirmValidation(${session?.userId})">
-
-        <div class="member-register__form--input">
+    <form id="memberForm">
+        <div id="userDetails" class="member-register__form--input">
             <div>
                 <label for="userId" >아이디*</label>
-
-<!--                <input th:unless="${session?.userId}" type="text" id="userId" name="userId"  class="input-userId" placeholder="아이디 입력(6~20자이내/특수문자 제외)" ><br/>-->
                 <input type="text" id="userId" name="userId" class="input-userId" placeholder="아이디 입력(6~20자이내/특수문자 제외)"
                        th:value="${session?.userId}" th:readonly="${session?.userId}"
                        required
@@ -49,17 +43,17 @@
 
             <div>
                 <label for="nickname">닉네임*</label>
-                <input type="text" id="nickname" name="nickname" th:value="${memberDTO?.nickname}" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
+                <input type="text" id="nickname" name="nickname" th:value="${nickname}" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
             </div>
 
             <div>
                 <label for="name">이름*</label>
-                <input type="text" id="name" name="name" th:value="${memberDTO?.name}" placeholder="이름을 입력해주세요" required>
+                <input type="text" id="name" name="name" th:value="${name}" placeholder="이름을 입력해주세요" required>
             </div>
 
             <div>
                 <label for="phoneNumber">전화번호*</label>
-                <input type="text" id="phoneNumber" name="phoneNumber"  th:value="${memberDTO?.phoneNumber}" placeholder="'-'없이 숫자만 입력" required>
+                <input type="text" id="phoneNumber" name="phoneNumber"  th:value="${phoneNumber}" placeholder="'-'없이 숫자만 입력" required>
 
                 <div class="member-register__form--agree">
                     <input type="checkbox" id="smsstsYn" name="smsstsYn" class="sms-checkbox"
@@ -115,7 +109,7 @@
             </div>
 
             <div class="member-register__form-submit-wrap">
-                <input type="submit"  th:value="${session?.userId != null} ? '회원수정하기' : '회원가입하기'" class="ok">
+                <input type="submit" id="submitBtn" th:value="${session?.userId != null} ? '회원수정하기' : '회원가입하기'" class="ok">
             </div>
         </div>
     </form>
@@ -163,6 +157,20 @@
 
 
         $(function () {
+            const userId = "${session?.userId}";
+
+            //회원 수정보여주기
+            if (userId){
+                $.ajax({
+                    type : "GET",
+                    url : "/users/details/"+userId,
+                    success:function (response){
+
+                    }
+
+                });
+            }
+
             $("#userId").blur(function () {
                 var userId = $(this).val();
                 if (userId == '') {
@@ -189,8 +197,27 @@
                 });
             });
 
+            $("#memberForm").submit(function (){
+                const isUpdate = !!userId;
+                const method = isUpdate ? "PATCH" : "POST";
+                const url = isUpdate ? "/users/"+userId : "/users";
+                const formData = formData(isUpdate);
+
+                $.ajax({
+                    type: method,
+                    url : url,
+                    contentType: "application/json",
+                    data:JSON.stringify(formData),
+                    success: function (response){
+                        alert(response);
+                        location.href="/common/main"
+                    }
+
+                });
+
+            });
+
             $("#confirmPassword").blur(function () {
-                // 패스워드 글자수 조정하기 11web-dom37번 참고
                 var password = $("#password").val();
                 var confirmPassword = $("#confirmPassword").val();
 
@@ -219,6 +246,35 @@
                 }
                 return true;
             }
+        }
+
+        function formData(isUpdate) {
+            return isUpdate ? {
+                userId: $("#userId").val(),
+                nickname: $("#nickname").val(),
+                email: $("#email").val(),
+                emailstsYn: $("#emailstsYn").is(":checked") ? "y" : "n",
+                phoneNumber: $("#phoneNumber").val(),
+                smsstsYn: $("#smsstsYn").is(":checked") ? "y" : "n",
+                roadAddress: $("#roadAddress").val(),
+                jibunAddress: $("#jibunAddress").val(),
+                namujiAddress: $("#namujiAddress").val(),
+                zipCode: $("#zipCode").val()
+            }:{
+                userId : $("#userId").val(),
+                nickname: $("#nickname").val(),
+                password: $("#password").val(),
+                name: $("#name").val(),
+                email: $("#email").val(),
+                emailstsYn: $("#emailstsYn").is(":checked") ? "y" : "n",
+                phoneNumber: $("#phoneNumber").val(),
+                smsstsYn: $("#smsstsYn").is(":checked") ? "y" : "n",
+                roadAddress: $("#roadAddress").val(),
+                jibunAddress: $("#jibunAddress").val(),
+                namujiAddress: $("#namujiAddress").val(),
+                zipCode: $("#zipCode").val(),
+                personalinfoYn: $("#personalinfoYn").is(":checked") ? "y" : "n"
+            };
         }
 
     </script>

@@ -21,11 +21,19 @@ public class UserController {
         return "member/registerOrUpdate";
     }
 
-    @PostMapping("/register")
+  /*  @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO userDTO) {
         userService.registerUser(userDTO);
         // 홈페이지 만들기 전까지 로그인 페이지로 이동
-        return "redirect:/login-form";
+        return "redirect:/users/update";
+    }*/
+
+    //ajax 적용
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody UserRegisterDTO userDTO) {
+        userService.registerUser(userDTO);
+
+        return ResponseEntity.ok("회원 가입 성공");
     }
 
     @PostMapping("/check-duplicate-id")
@@ -33,21 +41,36 @@ public class UserController {
         boolean isDuplicate = userService.checkDuplicatedUser(userId);
         return ResponseEntity.ok(isDuplicate);
     }
-    @GetMapping("/edit")
-    public String edit(HttpSession session){
+/*    @GetMapping("/details/{userId}")
+    public String update(HttpSession session){
         String userId = (String) session.getAttribute("userId");
+        if(userId != null){
+            UserModifyDTO userDTO = userService.getDetailUser(userId);
+        }
         return "member/registerOrUpdate/"+ userId;
+    }*/
+
+    @GetMapping("/details/{userId}")
+    public ResponseEntity<UserModifyDTO> update(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        if (userId == null) {
+            ResponseEntity.notFound().build();
+        }
+
+        UserModifyDTO userDTO = userService.getDetailUser(userId);
+
+        return ResponseEntity.ok(userDTO);
     }
 
-    @PostMapping("/edit")
-    public String edit(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
+    @PatchMapping("/update")
+    public String update(@ModelAttribute UserModifyDTO userDto, HttpSession session) {
         String userId= (String) session.getAttribute("userId");
         userDto.setUserId(userId);
         userService.updateUser(userDto);
         return "redirect:/edit";
     }
 
-    @PostMapping
+    @PostMapping("/updateActivate")
     public String deactivate(HttpSession session) {
         String userId = (String) session.getAttribute("userId");
         userService.deactivateUser(userId);
