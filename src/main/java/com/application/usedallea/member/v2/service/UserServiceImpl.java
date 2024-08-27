@@ -106,4 +106,9 @@ public class UserServiceImpl implements UserService {
         }
         return isDuplicate;
     }
+
+    @Override
+    public UserModifyDTO getDetailUser(String userId) {
+        return null;
+    }
 }

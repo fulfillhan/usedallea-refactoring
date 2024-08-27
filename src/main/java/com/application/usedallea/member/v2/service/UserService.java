@@ -15,4 +15,8 @@ public interface UserService{
 
     //boolean checkDuplicatedUser(String userId);
     boolean checkDuplicatedUser(String userId);
+
+    UserModifyDTO getDetailUser(String userId);
+
+
 }
