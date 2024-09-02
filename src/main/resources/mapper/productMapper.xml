@@ -44,4 +44,22 @@
             PRODUCT_ID = #{productId}
     </select>
 
+    <select id="getTotalProductCount" parameterType="hashmap" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            PRODUCT
+        <where>
+            <if test="searchWord != ''">
+                CATEGORY LIKE CONCAT('%', #{searchWord}, '%') OR
+                TITLE LIKE CONCAT('%', #{searchWord}, '%') OR
+                DESCRIPTION LIKE CONCAT('%', #{searchWord}, '%')
+                AND VALIDATED_YN = 'y'
+            </if>
+            <if test="searchWord == ''">
+                VALIDATED_YN = 'y'
+            </if>
+        </where>
+    </select>
+
 </mapper>

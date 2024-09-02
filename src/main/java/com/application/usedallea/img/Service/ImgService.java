@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ImgService {
     long saveImg(List<MultipartFile> uploadImg, ImgRegisterDto productImgDto) throws IOException;
+
+    List<String> findImgByUUID(long imgId);
 }
