@@ -11,4 +11,6 @@ public interface ImgRepository {
     Img findMaxImgId();
 
     void save(Img productImg);
+
+    String findImgUUIDById(long imgId);
 }

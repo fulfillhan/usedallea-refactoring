@@ -28,6 +28,14 @@
 		WHERE IMG_ID = (SELECT COALESCE(MAX(IMG_ID),0)+1 AS IMG_ID
 		                FROM IMG)
 	</select>
+	<select id="findImgUUIDById" parameterType="long" resultType="String">
+			SELECT
+			    IMG_UUID
+			FROM
+			    IMG
+			WHERE
+			    IMG_ID = #{imgId}
+	</select>
 
 
 </mapper>

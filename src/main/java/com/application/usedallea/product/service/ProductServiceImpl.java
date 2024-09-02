@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,7 +30,8 @@ public class ProductServiceImpl implements ProductService {
         long imgId = productImgService.saveImg(uploadImg, productImgDto);
         Product newProduct = Product.createProduct(imgId, productDto);
         productRepository.save(newProduct);
-        return newProduct.getProductId();
+        long productId = newProduct.getProductId();
+        return productId;
     }
 
     @Override
@@ -37,6 +41,40 @@ public class ProductServiceImpl implements ProductService {
         if (isCheckReadCnt) {
             product.increaseReadCount();
         }
-        return ProductRegisterDto.setProduct(product);
+        ProductRegisterDto productDTO = ProductRegisterDto.setProduct(product);
+        return productDTO;
+    }
+
+    // todo 수정 필요  : BindingException: Invalid bound statement (not found)
+    //com.application.usedallea.product.domain.repository.ProductRepository.getTotalProductCount
+    @Override
+    public int getTotalProductCount(Map<String, String> searchCountMap) {
+        int totalProductCount = productRepository.getTotalProductCount(searchCountMap);
+        return totalProductCount;
+    }
+
+    @Override
+    public List<ProductRegisterDto> getProductList(Map<String, Object> searchInfoMap) {
+        //searchInfo 검색 조건으로 productList 가져오기
+        String searchWord = (String) searchInfoMap.get("searchWord");
+        int startProductIdx = (int) searchInfoMap.get("startProductIdx");
+        int onePageProductCount = (int) searchInfoMap.get("onePageProductCount");
+
+        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo();
+
+        List<ProductRegisterDto> productDTOList = new ArrayList<>();
+        for (Product product : productListBySearchInfo) {
+            ProductRegisterDto productDTO = ProductRegisterDto.setProudctBySearchInfo(product);
+            productDTOList.add(productDTO);
+        }
+        return productDTOList;
+    }
+
+    @Override
+    public List<String> getImgUUIDList(long productId) {
+        Product product = productRepository.findByProductId(productId);
+        long imgId = product.getImgId();
+        List<String> imgListByUUID = productImgService.findImgByUUID(imgId);
+        return imgListByUUID;
     }
 }

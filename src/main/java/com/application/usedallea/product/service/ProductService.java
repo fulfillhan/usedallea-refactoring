@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
 
@@ -16,4 +17,10 @@ public interface ProductService {
 
 
     ProductRegisterDto findByProductId(long productId, boolean isCheckReadCnt);
+
+    int getTotalProductCount(Map<String, String> searchCountMap);
+
+    List<ProductRegisterDto> getProductList(Map<String, Object> searchInfoMap);
+
+    List<String> getImgUUIDList(long productId);
 }
