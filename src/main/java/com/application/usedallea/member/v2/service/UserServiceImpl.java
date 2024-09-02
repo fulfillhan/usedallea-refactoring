@@ -85,20 +85,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean validateUser(UserRegisterDTO userDto) {
         String userId = userDto.getUserId();
-        User foundUser = userRepository.findById(userId);
+        User user = userRepository.findById(userId);
 
-        if (foundUser == null) {
+        if (user == null) {
             return false;
         }
 
-        boolean equalsPassword = passwordEncoder.matches(userDto.getPassword(), foundUser.getPassword());
-        boolean activatedUser = foundUser.getActiveYn().equals("y");
+        boolean equalsPassword = passwordEncoder.matches(userDto.getPassword(), user.getPassword());
+        boolean activatedUser = user.getActiveYn().equals("y");
         return equalsPassword && activatedUser;
     }
 
     @Override
     public boolean checkDuplicatedUser(String userId) {
-        // userId가 존재하면 true
         boolean isDuplicate = false;
         User user = userRepository.findById(userId);
         if(user != null && user.getUserId() != null){
@@ -109,6 +108,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModifyDTO getDetailUser(String userId) {
-        return null;
+        User user = userRepository.findById(userId);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(userId + "is not found");
+        }
+
+        return UserModifyDTO.toDTO(user);
     }
 }

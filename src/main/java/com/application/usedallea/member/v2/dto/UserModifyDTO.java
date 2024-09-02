@@ -1,5 +1,6 @@
 package com.application.usedallea.member.v2.dto;
 
+import com.application.usedallea.member.v2.domain.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,4 +31,19 @@ public class UserModifyDTO {
     private String namujiAddress;
 
     private String zipCode;
+
+    public static UserModifyDTO toDTO(User user){
+        UserModifyDTO userDTO = new UserModifyDTO();
+        userDTO.setUserId(user.getUserId());
+        userDTO.setNickname(user.getNickname());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setEmailstsYn(user.getEmailstsYn());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setSmsstsYn(user.getSmsstsYn());
+        userDTO.setRoadAddress(user.getRoadAddress());
+        userDTO.setJibunAddress(user.getJibunAddress());
+        userDTO.setNamujiAddress(user.getNamujiAddress());
+        userDTO.setZipCode(user.getZipCode());
+        return userDTO;
+    }
 }
