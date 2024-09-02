@@ -8,26 +8,33 @@
 <div class="member-register-container" layout:fragment="contents">
 
     <div class="member-register-info" >
-        <a href="">
+        <a href="/usedallea/main">
         <img src="/img/logo.png" class="site-logo" alt="사이트 로고"/>
         </a>
-        <div class="member-register-info--title">
+<!--        <div class="member-register-info&#45;&#45;title" th:unless="${session?.userId}">-->
+        <div class="member-register-info--title" th:unless="${userId}">
             <h1>회원 가입</h1>
         </div>
-        <div class="member-register-info--title" th:if="${session?.userId}">
+<!--        <div class="member-register-info&#45;&#45;title" th:if="${session?.userId}">-->
+        <div class="member-register-info--title" th:if="${userId}">
             <h1>회원 수정</h1>
         </div>
     </div>
 
-    <form id="memberForm">
-        <div id="userDetails" class="member-register__form--input">
+    <form
+            th:action="@{/users/register}"
+            method="post"
+            th:onsubmit="return checkFirmValidation(${session.userId})"
+    >
+        <div class="member-register__form--input">
             <div>
                 <label for="userId" >아이디*</label>
+
                 <input type="text" id="userId" name="userId" class="input-userId" placeholder="아이디 입력(6~20자이내/특수문자 제외)"
                        th:value="${session?.userId}" th:readonly="${session?.userId}"
                        required
                 ><br/>
-                <span id="isvalidMsg" class="member-register__form--validation-message" ></span>
+                <span th:unless="${session?.userId}" id="isvalidMsg" class="member-register__form--validation-message" ></span>
             </div>
 
             <div th:unless="${session?.userId}">
@@ -43,17 +50,17 @@
 
             <div>
                 <label for="nickname">닉네임*</label>
-                <input type="text" id="nickname" name="nickname" th:value="${nickname}" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
+                <input type="text" id="nickname" name="nickname" th:value="${memberDTO?.nickname}" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
             </div>
 
             <div>
                 <label for="name">이름*</label>
-                <input type="text" id="name" name="name" th:value="${name}" placeholder="이름을 입력해주세요" required>
+                <input type="text" id="name" name="name" th:value="${memberDTO?.name}" placeholder="이름을 입력해주세요" required>
             </div>
 
             <div>
                 <label for="phoneNumber">전화번호*</label>
-                <input type="text" id="phoneNumber" name="phoneNumber"  th:value="${phoneNumber}" placeholder="'-'없이 숫자만 입력" required>
+                <input type="text" id="phoneNumber" name="phoneNumber"  th:value="${memberDTO?.phoneNumber}" placeholder="'-'없이 숫자만 입력" required>
 
                 <div class="member-register__form--agree">
                     <input type="checkbox" id="smsstsYn" name="smsstsYn" class="sms-checkbox"
@@ -65,7 +72,6 @@
             <div>
                 <label for="email">이메일*</label>
                 <input type="text" id="email" name="email" th:value="${memberDTO?.email}" placeholder="you@example.com">
-                <!--이메일 형식 검증 작성하기 11web_dom29참고-->
                 <div class="member-register__form--agree">
                     <input type="checkbox"  id="emailstsYn" name="emailstsYn" class="email-checkbox"
                            th:checked="${memberDTO?.emailstsYn=='y'}" value="y">
@@ -100,7 +106,7 @@
 
             <div class="member-register__form-personal-agree">
                 <div th:unless="${session?.userId}">
-                    <input type="checkbox" name="personalinfoYn" id="personalinfoYn" value="y">
+                    <input type="checkbox" name="personalInfoYn" id="personalInfoYn" value="y" required>
                     <label for="personalInfoYn">개인 정보 수집 및 이용 동의(필수)</label>
                 </div>
                 <p th:unless="${session?.userId}">
@@ -108,8 +114,11 @@
                 </p>
             </div>
 
-            <div class="member-register__form-submit-wrap">
-                <input type="submit" id="submitBtn" th:value="${session?.userId != null} ? '회원수정하기' : '회원가입하기'" class="ok">
+            <div class="member-register__form-submit-wrap" th:unless="${session?.userId}">
+                <input type="submit" value="회원가입하기" class="ok">
+            </div>
+            <div class="member-register__form-submit-wrap" th:if="${session?.userId}">
+                <input type="submit" value="회원수정하기" class="ok">
             </div>
         </div>
     </form>
@@ -157,22 +166,8 @@
 
 
         $(function () {
-            const userId = "${session?.userId}";
-
-            //회원 수정보여주기
-            if (userId){
-                $.ajax({
-                    type : "GET",
-                    url : "/users/details/"+userId,
-                    success:function (response){
-
-                    }
-
-                });
-            }
-
             $("#userId").blur(function () {
-                var userId = $(this).val();
+                var userId = $("#userId").val();
                 if (userId == '') {
                     $("#isvalidMsg").html("<span style='color:red;'>아이디를 입력하세요!</span>");
                     formCheckUserId = false;
@@ -184,40 +179,20 @@
                     url: "/users/check-duplicate-id",
                     data: {"userId": userId},
                     success: function (isDuplicate) {
-                        if (isDuplicate) {
-                            $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
-                            formCheckUserId = false;
-                        } else {
-                            $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
-                            formCheckUserId = true;
-                        }
 
+                            if (isDuplicate) {
+                                $("#isvalidMsg").html("<span style='color:red;'>이미 사용중인 아이디입니다.</span>");
+                                formCheckUserId = false;
+                            } else {
+                                $("#isvalidMsg").html("<span style='color:green;'>사용 가능한 아이디입니다.</span>");
+                                formCheckUserId = true;
+                            }
                     }
-
                 });
-            });
-
-            $("#memberForm").submit(function (){
-                const isUpdate = !!userId;
-                const method = isUpdate ? "PATCH" : "POST";
-                const url = isUpdate ? "/users/"+userId : "/users";
-                const formData = formData(isUpdate);
-
-                $.ajax({
-                    type: method,
-                    url : url,
-                    contentType: "application/json",
-                    data:JSON.stringify(formData),
-                    success: function (response){
-                        alert(response);
-                        location.href="/common/main"
-                    }
-
-                });
-
             });
 
             $("#confirmPassword").blur(function () {
+                // 패스워드 글자수 조정하기 11web-dom37번 참고
                 var password = $("#password").val();
                 var confirmPassword = $("#confirmPassword").val();
 
@@ -233,7 +208,7 @@
         });
 
         function checkFirmValidation(userId) {
-            if(userId == null) {
+            if(userId == null){
                 if (!formCheckUserId) {
                     alert("아이디 중복 확인을 해주세요!");
                     $("#userId").focus();
@@ -244,39 +219,8 @@
                     $("#password").focus();
                     return false;
                 }
-                return true;
             }
         }
-
-        function formData(isUpdate) {
-            return isUpdate ? {
-                userId: $("#userId").val(),
-                nickname: $("#nickname").val(),
-                email: $("#email").val(),
-                emailstsYn: $("#emailstsYn").is(":checked") ? "y" : "n",
-                phoneNumber: $("#phoneNumber").val(),
-                smsstsYn: $("#smsstsYn").is(":checked") ? "y" : "n",
-                roadAddress: $("#roadAddress").val(),
-                jibunAddress: $("#jibunAddress").val(),
-                namujiAddress: $("#namujiAddress").val(),
-                zipCode: $("#zipCode").val()
-            }:{
-                userId : $("#userId").val(),
-                nickname: $("#nickname").val(),
-                password: $("#password").val(),
-                name: $("#name").val(),
-                email: $("#email").val(),
-                emailstsYn: $("#emailstsYn").is(":checked") ? "y" : "n",
-                phoneNumber: $("#phoneNumber").val(),
-                smsstsYn: $("#smsstsYn").is(":checked") ? "y" : "n",
-                roadAddress: $("#roadAddress").val(),
-                jibunAddress: $("#jibunAddress").val(),
-                namujiAddress: $("#namujiAddress").val(),
-                zipCode: $("#zipCode").val(),
-                personalinfoYn: $("#personalinfoYn").is(":checked") ? "y" : "n"
-            };
-        }
-
     </script>
 </div>
 </html>
