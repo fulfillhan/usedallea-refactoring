@@ -22,11 +22,8 @@ public class ProductRegisterDto {
     private int readCount;
     private String validatedYn;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private long minutesAgo;
     private long daysAgo;
     private long hoursAgo;
-    private long weeksAgo;
     private String FirstImgUUID;
 
    public static ProductRegisterDto setProduct(Product product){
@@ -43,22 +40,6 @@ public class ProductRegisterDto {
             dto.setDaysAgo(product.calculateDaysFromNow());
             dto.setHoursAgo(product.calculateHoursFromNow());
             return dto;
-   }
-
-   public static ProductRegisterDto setProudctBySearchInfo(Product product){
-       ProductRegisterDto dto = new ProductRegisterDto();
-       dto.setProductId(product.getProductId());
-       dto.setSellerId(product.getSellerId());
-       dto.setPrice(product.getPrice());
-       dto.setDescription(product.getDescription());
-       dto.setQualityCondition(product.getQualityCondition());
-       dto.setCreatedAt(product.getCreatedAt());
-       dto.setUpdatedAt(product.getUpdatedAt());
-       dto.setReadCount(product.getReadCount());
-       dto.setStatus(product.getStatus());
-       dto.setTitle(product.getTitle());
-       dto.setImgId(product.getImgId());
-       return dto;
    }
 
 }

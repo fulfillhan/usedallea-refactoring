@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.application.usedallea.product.domain.repository">
+<mapper namespace="com.application.usedallea.product.domain.repository.ProductRepository">
     <insert id="save" parameterType="Product">
         INSERT INTO PRODUCT(
             SELLER_ID,
@@ -61,5 +61,61 @@
             </if>
         </where>
     </select>
+
+    <select id="findProductsBySearchInfo" parameterType="hashMap" resultType="Product">
+        <choose>
+            <when test="searchWord == ''">
+             SELECT
+                PRODUCT_ID,
+                SELLER_ID,
+                PRICE,
+                DESCRIPTION,
+                QUALITY_CONDITION,
+                CREATED_AT,
+                UPDATED_AT,
+                READ_COUNT,
+                STATUS,
+                TITLE,
+                IMG_ID
+             FROM
+                PRODUCT
+             WHERE
+                VALIDATED_YN = 'y'
+             ORDER BY
+                 CREATED_AT DESC
+             LIMIT
+                #{startProductIdx},#{onePageProductCnt}
+            </when>
+             <otherwise>
+                 PRODUCT_ID,
+                 SELLER_ID,
+                 PRICE,
+                 DESCRIPTION,
+                 QUALITY_CONDITION,
+                 CREATED_AT,
+                 UPDATED_AT,
+                 READ_COUNT,
+                 STATUS,
+                 TITLE,
+                 IMG_ID
+             FROM
+                 PRODUCT
+             <where>
+                <if test="searchWord != ''">
+                    CATEGORY LIKE CONCAT('%', #{searchWord}, '%') OR
+                    TITLE LIKE CONCAT('%', #{searchWord}, '%') OR
+                    DESCRIPTION LIKE CONCAT('%', #{searchWord}, '%')
+                    AND VALIDATED_YN = 'y'
+                </if>
+                 AND VALIDATED_YN = 'y'
+             </where>
+                 ORDER BY
+                 CREATED_AT DESC
+                 LIMIT
+                 #{startProductIdx}, #{onePageProductCnt}
+             </otherwise>
+        </choose>
+    </select>
+
 
 </mapper>

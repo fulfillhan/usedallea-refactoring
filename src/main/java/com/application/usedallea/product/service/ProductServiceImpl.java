@@ -4,6 +4,7 @@ import com.application.usedallea.img.Service.ImgService;
 import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.domain.entity.Product;
 import com.application.usedallea.product.domain.repository.ProductRepository;
+import com.application.usedallea.product.dto.HomePageProductDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,7 @@ public class ProductServiceImpl implements ProductService {
         long imgId = productImgService.saveImg(uploadImg, productImgDto);
         Product newProduct = Product.createProduct(imgId, productDto);
         productRepository.save(newProduct);
-        long productId = newProduct.getProductId();
-        return productId;
+        return newProduct.getProductId();
     }
 
     @Override
@@ -41,30 +41,42 @@ public class ProductServiceImpl implements ProductService {
         if (isCheckReadCnt) {
             product.increaseReadCount();
         }
-        ProductRegisterDto productDTO = ProductRegisterDto.setProduct(product);
-        return productDTO;
+        return ProductRegisterDto.setProduct(product);
     }
 
-    // todo 수정 필요  : BindingException: Invalid bound statement (not found)
-    //com.application.usedallea.product.domain.repository.ProductRepository.getTotalProductCount
     @Override
     public int getTotalProductCount(Map<String, String> searchCountMap) {
-        int totalProductCount = productRepository.getTotalProductCount(searchCountMap);
-        return totalProductCount;
+        return productRepository.getTotalProductCount(searchCountMap);
     }
 
-    @Override
+/*    @Override
     public List<ProductRegisterDto> getProductList(Map<String, Object> searchInfoMap) {
         //searchInfo 검색 조건으로 productList 가져오기
         String searchWord = (String) searchInfoMap.get("searchWord");
         int startProductIdx = (int) searchInfoMap.get("startProductIdx");
         int onePageProductCount = (int) searchInfoMap.get("onePageProductCount");
 
-        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo();
+        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
 
         List<ProductRegisterDto> productDTOList = new ArrayList<>();
         for (Product product : productListBySearchInfo) {
             ProductRegisterDto productDTO = ProductRegisterDto.setProudctBySearchInfo(product);
+            productDTOList.add(productDTO);
+        }
+        return productDTOList;
+    }*/
+    @Override
+    public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
+        //searchInfo 검색 조건으로 productList 가져오기
+        /*String searchWord = (String) searchInfoMap.get("searchWord");
+        int startProductIdx = (int) searchInfoMap.get("startProductIdx");
+        int onePageProductCnt = (int) searchInfoMap.get("onePageProductCnt");*/
+
+        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
+
+        List<HomePageProductDTO> productDTOList = new ArrayList<>();
+        for (Product product : productListBySearchInfo) {
+            HomePageProductDTO productDTO = HomePageProductDTO.from(product);
             productDTOList.add(productDTO);
         }
         return productDTOList;
@@ -74,7 +86,6 @@ public class ProductServiceImpl implements ProductService {
     public List<String> getImgUUIDList(long productId) {
         Product product = productRepository.findByProductId(productId);
         long imgId = product.getImgId();
-        List<String> imgListByUUID = productImgService.findImgByUUID(imgId);
-        return imgListByUUID;
+        return productImgService.findImgByUUID(imgId);
     }
 }

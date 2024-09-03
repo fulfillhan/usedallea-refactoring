@@ -12,5 +12,5 @@ public interface ProductRepository {
     Product findByProductId(long productId);
     int getTotalProductCount(Map<String, String> searchCountMap);
 
-    List<Product> findProductsBySearchInfo();
+    List<Product> findProductsBySearchInfo(Map<String, Object> searchInfoMap);
 }
