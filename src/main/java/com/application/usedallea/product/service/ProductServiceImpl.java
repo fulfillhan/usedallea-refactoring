@@ -49,28 +49,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getTotalProductCount(searchCountMap);
     }
 
-/*    @Override
-    public List<ProductRegisterDto> getProductList(Map<String, Object> searchInfoMap) {
-        //searchInfo 검색 조건으로 productList 가져오기
-        String searchWord = (String) searchInfoMap.get("searchWord");
-        int startProductIdx = (int) searchInfoMap.get("startProductIdx");
-        int onePageProductCount = (int) searchInfoMap.get("onePageProductCount");
-
-        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
-
-        List<ProductRegisterDto> productDTOList = new ArrayList<>();
-        for (Product product : productListBySearchInfo) {
-            ProductRegisterDto productDTO = ProductRegisterDto.setProudctBySearchInfo(product);
-            productDTOList.add(productDTO);
-        }
-        return productDTOList;
-    }*/
     @Override
     public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
-        //searchInfo 검색 조건으로 productList 가져오기
-        /*String searchWord = (String) searchInfoMap.get("searchWord");
-        int startProductIdx = (int) searchInfoMap.get("startProductIdx");
-        int onePageProductCnt = (int) searchInfoMap.get("onePageProductCnt");*/
 
         List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
 
