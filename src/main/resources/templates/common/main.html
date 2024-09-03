@@ -100,13 +100,13 @@
                 if (!userId) {
                     event.preventDefault(); //기존 이벤트 동작 막기
                     alert("로그인 후 이용가능합니다!");
-                    location.href = "/member/login";
+                    location.href = "/users/login";
                 }
             });
 
         });
     function getProductList(currentPageNumber) {
-    let url = "/usedallea/main"
+    let url = "/usedallea/home"
     url += "?searchWord=" + $("#searchWord").val();
     if (currentPageNumber != null) {
                 url += "&currentPageNumber=" + currentPageNumber;

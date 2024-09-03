@@ -23,7 +23,7 @@ use smms;
         SELLER_ID          VARCHAR(50)   NOT NULL,
         IMG_ID             BIGINT        NOT NULL,
         TITLE              VARCHAR(100)   NOT NULL,
-		PRICE              BIGINT        NOT NULL,
+		PRICE              VARCHAR(10)    NOT NULL,
 		DESCRIPTION        VARCHAR(1000) NOT NULL,
 		QUALITY_CONDITION  VARCHAR(200)  NOT NULL,
 		CATEGORY           VARCHAR(100)  NOT NULL,

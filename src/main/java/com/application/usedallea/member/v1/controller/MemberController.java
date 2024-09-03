@@ -42,7 +42,7 @@ public class MemberController {
 			}
 			model.addAttribute("memberDTO", memberDetail);
 		}
-		return "registerOrUpdateTest";
+		return "member/registerOrUpdate";
 	}
 
 

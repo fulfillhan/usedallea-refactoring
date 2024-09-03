@@ -50,4 +50,12 @@ public class Product {
     public long calculateHoursFromNow(){
         return Duration.between(createdAt, LocalDateTime.now()).toHours();
     }
+    public long calculateMinutesFromNow(){
+        return Duration.between(createdAt,LocalDateTime.now()).toMinutes();
+    }
+
+    public long calculateWeeksFromNow(){
+        return Duration.between(createdAt,LocalDateTime.now()).toDays() / 7;
+    }
+
 }
