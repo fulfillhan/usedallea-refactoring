@@ -7,7 +7,9 @@ import com.application.usedallea.product.domain.repository.ProductRepository;
 import com.application.usedallea.product.dto.HomePageProductDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,14 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ImgService productImgService;
     private final ProductRepository productRepository;
-
+    private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     @Override
     public long saveProduct(List<MultipartFile> uploadImg,
                             ProductRegisterDto productDto,
@@ -52,8 +54,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
 
-        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
-
+        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);  //오류발생
+        logger.info(productListBySearchInfo.toString());
         List<HomePageProductDTO> productDTOList = new ArrayList<>();
         for (Product product : productListBySearchInfo) {
             HomePageProductDTO productDTO = HomePageProductDTO.from(product);
