@@ -31,10 +31,20 @@ public class AuthenticationController {
         return ResponseEntity.ok(validateLogin);
     }
 
-    @PostMapping("/logout")
+  /*  @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/usedallea/main";
+        return "redirect:/login-form";
     }
-
+*/
+    //todo 로그아웃 오류 확인 필요
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        if(userId == null){
+            return ResponseEntity.notFound().build();
+        }
+        session.invalidate();
+        return ResponseEntity.ok("로그아웃 되었습니다!");
+    }
 }

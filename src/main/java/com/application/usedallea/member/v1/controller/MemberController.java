@@ -85,13 +85,13 @@ public class MemberController {
 		return validateLogin;
 	}
 
-	@GetMapping("/logout")
+	/*@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
 
 		return "redirect:/usedallea/main";
-	}
+	}*/
 
 
 	@PostMapping("/delete")

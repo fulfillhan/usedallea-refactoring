@@ -12,11 +12,11 @@
         <img src="/img/logo.png" class="site-logo" alt="사이트 로고"/>
         </a>
 <!--        <div class="member-register-info&#45;&#45;title" th:unless="${session?.userId}">-->
-        <div class="member-register-info--title" th:unless="${userId}">
+        <div class="member-register-info--title" th:unless="${session?.userId}">
             <h1>회원 가입</h1>
         </div>
 <!--        <div class="member-register-info&#45;&#45;title" th:if="${session?.userId}">-->
-        <div class="member-register-info--title" th:if="${userId}">
+        <div class="member-register-info--title" th:if="${session?.userId}">
             <h1>회원 수정</h1>
         </div>
     </div>
