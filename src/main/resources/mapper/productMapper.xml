@@ -86,7 +86,8 @@
              LIMIT
                 #{startProductIdx},#{onePageProductCnt}
             </when>
-             <otherwise>
+            <otherwise>
+             SELECT
                  PRODUCT_ID,
                  SELLER_ID,
                  PRICE,
@@ -110,7 +111,7 @@
                  AND VALIDATED_YN = 'y'
              </where>
                  ORDER BY
-                 CREATED_AT DESC
+                    CREATED_AT DESC
                  LIMIT
                  #{startProductIdx}, #{onePageProductCnt}
              </otherwise>
