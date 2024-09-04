@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+    <!-- Ensure jQuery is included -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
 <section  th:if="${session.adminId == null}" class="header-tool-bar" th:fragment="toolBar">
     <div class="header-tool-bar__wrap">
         <!-- TODO 로그아웃 상태일 때 -->
@@ -14,7 +19,10 @@
 	        <span th:text="|♥${session.userId} 님, 환영합니다♥|"></span>
             <button th:if="${session.userId != 'admin'}"><a th:href="@{/users/update}">회원수정</a></button>
             <button  th:unless="${session.userId != 'admin'}"><a th:href="@{/usedallea/main}">관리자페이지</a></button>
-            <button><a th:href="@{/users/logout}">로그아웃</a></button>
+            <button><a th:href="@{/logout}">로그아웃</a></button>
+          <!--   <form th:action="@{/logout}" method="post">
+                 <button type="submit">로그아웃</button>-->
+            <!-- <button id="logoutBtn">로그아웃</button>-->
          </div>
     </div>
 </section>
@@ -48,4 +56,15 @@
         </div>
     </div>
 </section>
+<script>
+    $("#logoutBtn").click(function (){
+        $.ajax({
+            url : "/logout",
+            type : "post",
+            success : function (response){
+                location.href = "/usedallea/header"
+            }
+        });
+    });
+</script>
 </html>
