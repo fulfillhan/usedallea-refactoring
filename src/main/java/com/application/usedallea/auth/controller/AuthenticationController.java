@@ -38,6 +38,6 @@ public class AuthenticationController {
             return ResponseEntity.notFound().build();
         }
         session.invalidate();
-        return ResponseEntity.ok("로그아웃 되었습니다!");
+        return ResponseEntity.ok().build();
     }
 }
