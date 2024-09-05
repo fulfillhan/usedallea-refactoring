@@ -57,8 +57,11 @@
         $.ajax({
             url : "/usedallea/logout",
             type : "post",
-            success : function (response){
+            success : function (){
                 location.href = "/usedallea/header"
+            },
+            error : function (){
+                alert("로그아웃이 실패되었습니다.")
             }
         });
     });
