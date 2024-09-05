@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping
+@RequestMapping("/usedallea")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -31,17 +31,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(validateLogin);
     }
 
-  /*  @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login-form";
-    }
-*/
-    //todo 로그아웃 오류 확인 필요
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         String userId = (String) session.getAttribute("userId");
-        if(userId == null){
+        if (userId == null) {
             return ResponseEntity.notFound().build();
         }
         session.invalidate();
