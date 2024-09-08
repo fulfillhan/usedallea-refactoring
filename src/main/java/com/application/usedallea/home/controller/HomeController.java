@@ -5,7 +5,6 @@ import com.application.usedallea.product.dto.HomePageProductDTO;
 import com.application.usedallea.product.service.ProductService;
 import com.application.usedallea.utils.Pagination;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

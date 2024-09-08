@@ -10,7 +10,7 @@
         <!-- TODO 로그아웃 상태일 때 -->
         <div th:if="${session.userId == null}">
             <button><a th:href="@{/usedallea/login-form}">로그인</a></button>
-	        <button><a th:href="@{/users/register}">회원가입</a></button>
+	        <button><a th:href="@{/users/register-page}">회원가입</a></button>
 	        <button><a th:href="@{/admin/login}">관리자페이지</a></button>
          </div>
             <!--TODO 로그인 상태일 때 -->
@@ -66,4 +66,5 @@
         });
     });
 </script>
+
 </html>

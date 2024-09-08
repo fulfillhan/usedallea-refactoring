@@ -14,6 +14,8 @@ public class UserModifyDTO {
 
     private String nickname;
 
+    private String name;
+
     private String email;
 
     private String emailstsYn;
@@ -32,10 +34,12 @@ public class UserModifyDTO {
 
     private String zipCode;
 
+
     public static UserModifyDTO toDTO(User user){
         UserModifyDTO userDTO = new UserModifyDTO();
         userDTO.setUserId(user.getUserId());
         userDTO.setNickname(user.getNickname());
+        userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
         userDTO.setEmailstsYn(user.getEmailstsYn());
         userDTO.setPhoneNumber(user.getPhoneNumber());
@@ -46,4 +50,5 @@ public class UserModifyDTO {
         userDTO.setZipCode(user.getZipCode());
         return userDTO;
     }
+
 }
