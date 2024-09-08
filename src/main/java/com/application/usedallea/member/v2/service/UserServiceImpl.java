@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserModifyDTO userDTO) {
         User user = userRepository.findById(userDTO.getUserId());
 
+
         if (user == null) {
             throw new UsernameNotFoundException(userDTO.getUserId() + "is not found");
         }
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
                 .activeYn("n")
                 //.updatedAt(user.getUpdatedAt())
                 .build();
-        userRepository.update(updateUser);
+        userRepository.updateDeactivate(updateUser);
     }
 
     @Override
@@ -113,7 +114,6 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException(userId + "is not found");
         }
-
         return UserModifyDTO.toDTO(user);
     }
 }

@@ -3,6 +3,8 @@ package com.application.usedallea.member.v2.domain.entity;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder(toBuilder = true)
 public class User {
@@ -34,6 +36,7 @@ public class User {
 
     private String personalinfoYn;
 
+    //private LocalDateTime updatedAt;
 
 
 }

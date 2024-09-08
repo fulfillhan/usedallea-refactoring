@@ -14,11 +14,7 @@ public interface UserRepository {
 
     void remove(User user);
 
-    void deactivate(User user);
-
-    List<User> findAll();
-
     User findById(String userId);
 
-    boolean isExistById(String userId);
+    void updateDeactivate(User user);
 }

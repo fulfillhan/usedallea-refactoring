@@ -44,8 +44,8 @@
                     "password": $("#password").val()
                 }
                 $.ajax({
-                    url: "/usedallea/login",
                     type: "post",
+                    url: "/login",
                     contentType: "application/json",
                     data: JSON.stringify(loginData),
                     success: function (validateLogin) {
