@@ -74,6 +74,7 @@
 		    	USER
 		SET
 		    	NICKNAME = #{nickname},
+		    	NAME = #{name},
 				PHONE_NUMBER = #{phoneNumber},
 				SMSSTS_YN = #{smsstsYn},
 				EMAIL = #{email},
