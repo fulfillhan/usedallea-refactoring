@@ -44,7 +44,7 @@
 
             <div th:unless="${session?.userId}">
                 <label for="confirmPassword">패스워드 재확인*</label>
-                <input type="password" id="confirmPassword" placeholder="패스워드 재입력">
+                <input type="password" id="confirmPassword" placeholder="패스워드 재입력" required>
                 <span id="isvalidPasswordMsg" class="member-register__form--validation-message"></span>
             </div>
 
@@ -196,17 +196,25 @@
                 var password = $("#password").val();
                 var confirmPassword = $("#confirmPassword").val();
 
-                if (password == confirmPassword) {
+                if(password == '' && confirmPassword == ''){
+                    $("#isvalidPasswordMsg").html("<span style='color:red;'>패스워드를 입력해주세요!</span>");
+                    formCheckPasswd = false;
+                }
+              /*  else if(confirmPassword == ''){
+                    $("#isvalidPasswordMsg").html("<span style='color:red;'>패스워드를 재확인 해주세요!</span>");
+                    formCheckPasswd = false;
+                }*/
+                else if (password == confirmPassword ) {
                     $("#isvalidPasswordMsg").html("<span style='color:green;'>패스워드가 일치합니다.</span>");
                     formCheckPasswd = true;
-                } else {
-                    $("#isvalidPasswordMsg").html("<span style='color:red;'>패스워드가 일치하지 않습니다.</span>");
+                }
+                else {
+                    $("#isvalidPasswordMsg").html("<span style='color:red;'>패스워드를 확인해주세요!.</span>");
                     formCheckPasswd = false;
                 }
 
             });
         });
-
         function checkFirmValidation(userId) {
             if(userId == null){
                 if (!formCheckUserId) {

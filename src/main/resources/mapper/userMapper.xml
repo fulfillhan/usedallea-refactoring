@@ -16,7 +16,7 @@
 			ROAD_ADDRESS,
 			JIBUN_ADDRESS,
 			NAMUJI_ADDRESS,
-			PERSONALINFO_YN,
+			PERSONALINFO_YN
 		)
 		VALUES(
 			#{userId},
@@ -74,6 +74,7 @@
 		    	USER
 		SET
 		    	NICKNAME = #{nickname},
+		    	NAME = #{name},
 				PHONE_NUMBER = #{phoneNumber},
 				SMSSTS_YN = #{smsstsYn},
 				EMAIL = #{email},
