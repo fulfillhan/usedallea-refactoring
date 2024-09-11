@@ -29,20 +29,23 @@ public class ImgServiceImpl implements ImgService {
         if(uploadImg.isEmpty()){
             throw new RuntimeException("file is empty");
         }
-        Img img = imgRepository.findMaxImgId();
         long imgSeq =1;
         for(MultipartFile imgFile : uploadImg) {
             saveSingleImgFile(imgFile,imgSeq,imgDto);
             imgSeq++;
         }
+        //todo .Img.getImgId()" because "img" is null  발생
+        Img img = imgRepository.findMaxImgId();
         return img.getImgId();
     }
 
     @Override
     public List<String> findImgByUUID(long imgId) {
         List<String> imgUUIDlList = new ArrayList<>();
-        String imgUUIDById = imgRepository.findImgUUIDById(imgId);
-        imgUUIDlList.add(imgUUIDById);
+        //String imgUUIDById = imgRepository.findImgUUIDById(imgId);
+         Img img = imgRepository.findById(imgId);
+        String imgUUID = img.getImgUUID();
+        imgUUIDlList.add(imgUUID);
         return imgUUIDlList;
     }
 
@@ -54,7 +57,7 @@ public class ImgServiceImpl implements ImgService {
         String imgUUID = createUUID(originalImgName);
         Img img = Img.buildImg(imgDto.getImgId(), imgSeq, originalImgName, imgUUID);
         imgFile.transferTo(new File(imgRepositoryPath + imgUUID));
-        imgRepository.save(img);
+         imgRepository.save(img);
     }
 
     public String createUUID(String originalImgName){

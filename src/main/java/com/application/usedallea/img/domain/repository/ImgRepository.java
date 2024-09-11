@@ -13,4 +13,6 @@ public interface ImgRepository {
     void save(Img productImg);
 
     String findImgUUIDById(long imgId);
+
+    Img findById(long imgId);
 }
