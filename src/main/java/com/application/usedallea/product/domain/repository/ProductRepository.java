@@ -13,4 +13,6 @@ public interface ProductRepository {
     int getTotalProductCount(Map<String, String> searchCountMap);
 
     List<Product> findProductsBySearchInfo(Map<String, Object> searchInfoMap);
+
+    List<String> findImgUUIDListById(long productId);
 }

@@ -1,6 +1,7 @@
 package com.application.usedallea.product.controller;
 
 import com.application.usedallea.img.dto.ImgRegisterDto;
+import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
 import jakarta.servlet.http.HttpSession;
@@ -46,11 +47,12 @@ public class ProductController {
             return "redirect:/login-form";
         }
 
-        ProductRegisterDto productDto = productService.findByProductId(productId, true);
+        ProductDetailDTO productDto = productService.findByProductId(productId, true);
+        List<String> imgList = productService.findImgListById(productId);
         //todo 저장한 이미지 여러장 가져오기
 
         // 뷰로 전달
-        model.addAttribute("userId", userId);
+        //model.addAttribute("userId", userId);
         model.addAttribute("productDTO", productDto);
 
         return "product/productDetailBySeller";

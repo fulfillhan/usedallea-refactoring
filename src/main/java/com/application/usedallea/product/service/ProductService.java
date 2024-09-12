@@ -3,6 +3,7 @@ package com.application.usedallea.product.service;
 
 import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.dto.HomePageProductDTO;
+import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +18,13 @@ public interface ProductService {
                      ImgRegisterDto productImgDto) throws IOException;
 
 
-    ProductRegisterDto findByProductId(long productId, boolean isCheckReadCnt);
+    ProductDetailDTO findByProductId(long productId, boolean isCheckReadCnt);
 
     int getTotalProductCount(Map<String, String> searchCountMap);
 
     List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap);
 
     List<String> getImgUUIDList(long productId);
+
+    List<String> findImgListById(long productId);
 }
