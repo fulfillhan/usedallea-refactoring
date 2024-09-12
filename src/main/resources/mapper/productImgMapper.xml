@@ -17,18 +17,6 @@
 			  )
 	</insert>
 
-	<select id="findMaxImgId" resultType="Img">
-		SELECT
-		    IMG_ID,
-		    IMG_SEQ,
-		    IMG_UUID,
-			ORIGINAL_NAME
-		FROM
-		    IMG
-		WHERE IMG_ID = (SELECT COALESCE(MAX(IMG_ID),0)+1 AS IMG_ID
-		                FROM IMG)
-	</select>
-
 	<select id="findById" parameterType="long" resultType="Img">
 			SELECT
 				IMG_ID,
@@ -39,6 +27,20 @@
 			    IMG
 			WHERE
 			    IMG_ID = #{imgId}
+	</select>
+
+	<select id="findTopByOrderByID"  resultType="Img">
+		SELECT
+			IMG_ID,
+			IMG_SEQ,
+			IMG_UUID,
+			ORIGINAL_NAME
+		FROM
+			IMG
+		ORDER BY
+		    IMG_ID DESC,
+		    IMG_SEQ DESC
+		LIMIT 1
 	</select>
 
 </mapper>

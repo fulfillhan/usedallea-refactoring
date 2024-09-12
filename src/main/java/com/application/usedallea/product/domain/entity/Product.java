@@ -27,7 +27,7 @@ public class Product {
     private LocalDateTime updatedAt;
 
 
-    public static Product createProduct(long imgId, ProductRegisterDto productDto){
+    public static Product from(long imgId, ProductRegisterDto productDto){
         return  Product.builder()
                 .imgId(imgId)
                 .sellerId(productDto.getSellerId())

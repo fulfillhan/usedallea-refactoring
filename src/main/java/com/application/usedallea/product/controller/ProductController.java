@@ -26,17 +26,16 @@ public class ProductController {
 
     //todo 확인 필요
     @PostMapping("/create")
-    public String create(HttpSession session,
+    public String create(@SessionAttribute(name = "userId", required = false) String sellerId,
                          @RequestParam List<MultipartFile> uploadImg,
                          @ModelAttribute ProductRegisterDto productDto,
                          @ModelAttribute ImgRegisterDto productImgDto) throws Exception {
-        String sellerId = (String) session.getAttribute("userId");
         if (sellerId == null) {
             return "redirect:/login-form";
         }
         productDto.setSellerId(sellerId);
         long productId = productService.saveProduct(uploadImg, productDto, productImgDto);
-        return "/product/productDetailBySeller"+productId;
+        return "redirect:/products/"+productId;
     }
 
     @GetMapping("/{productId}")

@@ -34,16 +34,19 @@ public class ImgServiceImpl implements ImgService {
             saveSingleImgFile(imgFile,imgSeq,imgDto);
             imgSeq++;
         }
-        //todo .Img.getImgId()" because "img" is null  발생
-        Img img = imgRepository.findMaxImgId();
-        return img.getImgId();
+        //이미지 저장후 가장 마지막 이미지 반환
+        //Img img = imgRepository.findMaxImgId();
+         Img lastSavedImg = imgRepository.findTopByOrderByID();
+        if (lastSavedImg == null){
+            throw new RuntimeException("NO Img saved");
+        }
+        return lastSavedImg.getImgId();
     }
 
     @Override
     public List<String> findImgByUUID(long imgId) {
         List<String> imgUUIDlList = new ArrayList<>();
-        //String imgUUIDById = imgRepository.findImgUUIDById(imgId);
-         Img img = imgRepository.findById(imgId);
+        Img img = imgRepository.findById(imgId);
         String imgUUID = img.getImgUUID();
         imgUUIDlList.add(imgUUID);
         return imgUUIDlList;

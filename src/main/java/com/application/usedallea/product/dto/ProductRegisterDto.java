@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class ProductRegisterDto {
 
     private String sellerId;
-    private long productId;
     private long imgId;
     private String title;
     private String price;

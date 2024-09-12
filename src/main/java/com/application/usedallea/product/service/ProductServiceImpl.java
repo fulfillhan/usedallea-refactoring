@@ -26,16 +26,16 @@ public class ProductServiceImpl implements ProductService {
     private final ImgService productImgService;
     private final ProductRepository productRepository;
     private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Override
     public long saveProduct(List<MultipartFile> uploadImg,
                             ProductRegisterDto productDto,
                             ImgRegisterDto productImgDto) throws IOException {
         long imgId = productImgService.saveImg(uploadImg, productImgDto);
-        Product newProduct = Product.createProduct(imgId, productDto);
+        Product newProduct = Product.from(imgId, productDto);
         productRepository.save(newProduct);
         return newProduct.getProductId();
     }
-
     @Override
     public ProductRegisterDto findByProductId(long productId, boolean isCheckReadCnt) {
         Product product = productRepository.findByProductId(productId);
