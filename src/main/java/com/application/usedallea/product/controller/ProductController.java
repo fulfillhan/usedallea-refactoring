@@ -4,7 +4,6 @@ import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +23,6 @@ public class ProductController {
     public String toRegisterPage() {
         return "product/createOrUpdate";
     }
-
-    //todo 확인 필요
     @PostMapping("/create")
     public String create(@SessionAttribute(name = "userId", required = false) String sellerId,
                          @RequestParam List<MultipartFile> uploadImg,
@@ -49,11 +46,11 @@ public class ProductController {
 
         ProductDetailDTO productDto = productService.findByProductId(productId, true);
         List<String> imgList = productService.findImgListById(productId);
-        //todo 저장한 이미지 여러장 가져오기
 
         // 뷰로 전달
         //model.addAttribute("userId", userId);
         model.addAttribute("productDTO", productDto);
+        model.addAttribute("imgUUIDList",imgList);
 
         return "product/productDetailBySeller";
     }

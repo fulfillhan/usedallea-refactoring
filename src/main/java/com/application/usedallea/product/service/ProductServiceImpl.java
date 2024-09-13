@@ -80,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
         List<String> imgUUIDList = new ArrayList<>();
         //todo 추가 작업 필요
         Img img = imgRepository.findById(productId);
+        imgUUIDList.add(img.getImgUUID());
         return imgUUIDList;
     }
 }
