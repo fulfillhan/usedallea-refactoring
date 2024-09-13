@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.application.usedallea.product.domain.repository.ProductRepository">
-    <insert id="save" parameterType="Product">
+    <insert id="save" parameterType="Product" useGeneratedKeys="true" keyProperty="productId">
         INSERT INTO PRODUCT(
             SELLER_ID,
             IMG_ID,
@@ -26,7 +26,6 @@
 
     <select id="findByProductId" parameterType="long" resultType="Product">
         SELECT
-            PRODUCT_ID,
             SELLER_ID,
             IMG_ID,
             PRICE,

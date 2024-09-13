@@ -16,10 +16,6 @@ public class Img {
 
     private String originalName;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     public static Img buildImg(Long imgId, long imgSeq, String originalName,String imgUUID){
         return Img.builder()
                 .imgId(imgId)

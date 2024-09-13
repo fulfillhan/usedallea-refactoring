@@ -1,10 +1,13 @@
 package com.application.usedallea.product.service;
 
 import com.application.usedallea.img.Service.ImgService;
+import com.application.usedallea.img.domain.entity.Img;
+import com.application.usedallea.img.domain.repository.ImgRepository;
 import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.domain.entity.Product;
 import com.application.usedallea.product.domain.repository.ProductRepository;
 import com.application.usedallea.product.dto.HomePageProductDTO;
+import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import lombok.RequiredArgsConstructor;
 
@@ -25,25 +28,26 @@ public class ProductServiceImpl implements ProductService {
 
     private final ImgService productImgService;
     private final ProductRepository productRepository;
+    private final ImgRepository imgRepository;
     private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Override
     public long saveProduct(List<MultipartFile> uploadImg,
                             ProductRegisterDto productDto,
                             ImgRegisterDto productImgDto) throws IOException {
         long imgId = productImgService.saveImg(uploadImg, productImgDto);
-        Product newProduct = Product.createProduct(imgId, productDto);
+        Product newProduct = Product.from(imgId, productDto);
         productRepository.save(newProduct);
         return newProduct.getProductId();
     }
-
     @Override
-    public ProductRegisterDto findByProductId(long productId, boolean isCheckReadCnt) {
+    public ProductDetailDTO findByProductId(long productId, boolean isCheckReadCnt) {
         Product product = productRepository.findByProductId(productId);
 
         if (isCheckReadCnt) {
             product.increaseReadCount();
         }
-        return ProductRegisterDto.setProduct(product);
+        return ProductDetailDTO.from(product);
     }
 
     @Override
@@ -69,5 +73,14 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findByProductId(productId);
         long imgId = product.getImgId();
         return productImgService.findImgByUUID(imgId);
+    }
+
+    @Override
+    public List<String> findImgListById(long productId) {
+        List<String> imgUUIDList = new ArrayList<>();
+        //todo 추가 작업 필요
+        Img img = imgRepository.findById(productId);
+        imgUUIDList.add(img.getImgUUID());
+        return imgUUIDList;
     }
 }

@@ -33,7 +33,7 @@
             </div>
 
             <div class="header-search-bar__menu">
-                <a th:href="@{/product/create}">
+                <a th:href="@{/products/register-page}">
                     <img src="/img/sell.png" />
                     <button>판매하기</button>
                 </a>
@@ -57,10 +57,10 @@
         $.ajax({
             url : "/usedallea/logout",
             type : "post",
-            success : function (){
+            success : function (response){
                 location.href = "/usedallea/header"
             },
-            error : function (){
+            error : function (response){
                 alert("로그아웃이 실패되었습니다.")
             }
         });
