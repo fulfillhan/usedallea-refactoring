@@ -23,21 +23,18 @@ public class ImgServiceImpl implements ImgService {
 
     private final ImgRepository imgRepository;
 
-    //이미지 저장하기  -> 캡슐화  메서드 단일 책임
     @Override
     public long saveImg(List<MultipartFile> uploadImg, ImgRegisterDto imgDto) throws IOException {
-        if(uploadImg.isEmpty()){
+        if (uploadImg.isEmpty()) {
             throw new RuntimeException("file is empty");
         }
-        long imgSeq =1;
-        for(MultipartFile imgFile : uploadImg) {
-            saveSingleImgFile(imgFile,imgSeq,imgDto);
+        long imgSeq = 1;
+        for (MultipartFile imgFile : uploadImg) {
+            saveSingleImgFile(imgFile, imgSeq, imgDto);
             imgSeq++;
         }
-        //이미지 저장후 가장 마지막 이미지 반환
-        //Img img = imgRepository.findMaxImgId();
-         Img lastSavedImg = imgRepository.findTopByOrderByID();
-        if (lastSavedImg == null){
+        Img lastSavedImg = imgRepository.findTopByOrderByID();
+        if (lastSavedImg == null) {
             throw new RuntimeException("NO Img saved");
         }
         return lastSavedImg.getImgId();

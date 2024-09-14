@@ -47,8 +47,6 @@ public class ProductController {
         ProductDetailDTO productDto = productService.findByProductId(productId, true);
         List<String> imgList = productService.findImgListById(productDto.getImgId());
 
-        // 뷰로 전달
-        model.addAttribute("userId", userId);
         model.addAttribute("productDTO", productDto);
         model.addAttribute("imgUUIDList",imgList);
 
