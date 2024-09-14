@@ -41,14 +41,14 @@ public class ProductController {
                          @SessionAttribute(name = "userId", required = false) String userId, Model model) {
 
         if (userId == null) {
-            return "redirect:/login-form";
+            return "redirect:/usedallea/login-form";
         }
 
         ProductDetailDTO productDto = productService.findByProductId(productId, true);
-        List<String> imgList = productService.findImgListById(productId);
+        List<String> imgList = productService.findImgListById(productDto.getImgId());
 
         // 뷰로 전달
-        //model.addAttribute("userId", userId);
+        model.addAttribute("userId", userId);
         model.addAttribute("productDTO", productDto);
         model.addAttribute("imgUUIDList",imgList);
 

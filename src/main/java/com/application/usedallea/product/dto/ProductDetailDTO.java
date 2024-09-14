@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ProductDetailDTO {
+    private String productId;
     private String sellerId;
     private long imgId;
     private String title;
