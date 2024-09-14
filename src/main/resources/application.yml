@@ -9,7 +9,7 @@ spring:
 
 file:
   repo:
-    path: c:/spring_member_profile/
+    path: D:/spring_member_profile02/
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
