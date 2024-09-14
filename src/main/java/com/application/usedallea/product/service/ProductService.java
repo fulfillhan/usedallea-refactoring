@@ -26,5 +26,5 @@ public interface ProductService {
 
     List<String> getImgUUIDList(long productId);
 
-    List<String> findImgListById(long productId);
+    List<String> findImgListById(long imgID);
 }

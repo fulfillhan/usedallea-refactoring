@@ -15,4 +15,6 @@ public interface ProductRepository {
     List<Product> findProductsBySearchInfo(Map<String, Object> searchInfoMap);
 
     List<String> findImgUUIDListById(long productId);
+
+    Product findSellerId(long productId);
 }

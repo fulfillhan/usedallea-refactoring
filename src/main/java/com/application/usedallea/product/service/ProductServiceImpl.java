@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private final ImgService productImgService;
     private final ProductRepository productRepository;
     private final ImgRepository imgRepository;
-    private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Override
     public long saveProduct(List<MultipartFile> uploadImg,
@@ -40,10 +40,10 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(newProduct);
         return newProduct.getProductId();
     }
+
     @Override
     public ProductDetailDTO findByProductId(long productId, boolean isCheckReadCnt) {
         Product product = productRepository.findByProductId(productId);
-
         if (isCheckReadCnt) {
             product.increaseReadCount();
         }
@@ -58,8 +58,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
 
-        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);  //오류발생
-        logger.info(productListBySearchInfo.toString());
+        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
         List<HomePageProductDTO> productDTOList = new ArrayList<>();
         for (Product product : productListBySearchInfo) {
             HomePageProductDTO productDTO = HomePageProductDTO.from(product);
@@ -76,10 +75,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<String> findImgListById(long productId) {
+    public List<String> findImgListById(long imgId) {
         List<String> imgUUIDList = new ArrayList<>();
-        //todo 추가 작업 필요
-        Img img = imgRepository.findById(productId);
+        Img img = imgRepository.findById(imgId);
         imgUUIDList.add(img.getImgUUID());
         return imgUUIDList;
     }

@@ -26,17 +26,19 @@
 
     <select id="findByProductId" parameterType="long" resultType="Product">
         SELECT
+            PRODUCT_ID,
             SELLER_ID,
             IMG_ID,
+            TITLE,
             PRICE,
             DESCRIPTION,
             QUALITY_CONDITION,
             CATEGORY,
-            READ_COUNT,
             STATUS,
-            TITLE,
+            VALIDATED_YN,
+            READ_COUNT,
             CREATED_AT,
-            VALIDATED_YN
+            UPDATED_AT
         FROM
             PRODUCT
         WHERE
