@@ -35,10 +35,9 @@
             QUALITY_CONDITION,
             CATEGORY,
             STATUS,
-            VALIDATED_YN,
             READ_COUNT,
-            CREATED_AT,
-            UPDATED_AT
+            VALIDATED_YN,
+            CREATED_AT
         FROM
             PRODUCT
         WHERE
@@ -69,15 +68,17 @@
              SELECT
                 PRODUCT_ID,
                 SELLER_ID,
+                IMG_ID,
+                TITLE,
                 PRICE,
                 DESCRIPTION,
                 QUALITY_CONDITION,
-                CREATED_AT,
-                UPDATED_AT,
-                READ_COUNT,
+                CATEGORY,
                 STATUS,
-                TITLE,
-                IMG_ID
+                READ_COUNT,
+                VALIDATED_YN,
+                CREATED_AT,
+                UPDATED_AT
              FROM
                 PRODUCT
              WHERE
@@ -89,17 +90,19 @@
             </when>
             <otherwise>
              SELECT
-                 PRODUCT_ID,
-                 SELLER_ID,
-                 PRICE,
-                 DESCRIPTION,
-                 QUALITY_CONDITION,
-                 CREATED_AT,
-                 UPDATED_AT,
-                 READ_COUNT,
-                 STATUS,
-                 TITLE,
-                 IMG_ID
+                PRODUCT_ID,
+                SELLER_ID,
+                IMG_ID,
+                TITLE,
+                PRICE,
+                DESCRIPTION,
+                QUALITY_CONDITION,
+                CATEGORY,
+                STATUS,
+                READ_COUNT,
+                VALIDATED_YN,
+                CREATED_AT,
+                UPDATED_AT
              FROM
                  PRODUCT
              <where>

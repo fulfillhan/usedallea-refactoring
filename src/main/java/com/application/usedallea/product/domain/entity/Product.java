@@ -2,13 +2,17 @@ package com.application.usedallea.product.domain.entity;
 
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 public class Product {
 
@@ -21,12 +25,10 @@ public class Product {
     private String qualityCondition;
     private String category;
     private String status;
-    private String validatedYn;
     private int readCount;
+    private String validatedYn;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-
     public static Product from(long imgId, ProductRegisterDto productDto){
         return  Product.builder()
                 .imgId(imgId)

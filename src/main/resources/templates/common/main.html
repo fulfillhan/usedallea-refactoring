@@ -33,7 +33,7 @@
         <div class="item-list">
             <!-- 상품 단건 이미지 보여주기-->
             <div class="item" id="productList" th:each="productDTO : ${productList}">
-                <a >
+                <a th:href="@{'/products/'+ ${productDTO.productId}}">
                     <div class="item__body">
                         <img th:src="@{/img/setThumbnail(imgName=${productDTO.firstImgUUID})}" alt="이미지"/>
                     </div>
@@ -62,10 +62,8 @@
         </div>
     </section>
     <!--화면 페이징 처리-->
-    <!--   <div style="display: table; margin-left: auto; margin-right: auto">-->
     <div class="pagination-container">
         <div>
-            <!--            <span th:if="${startPage > 10}">-->
             <span class="pagination__button--prev">
                 <a th:if="${currentPageNumber > 1}" th:href="|javascript:getProductList(${currentPageNumber-1})|">◀</a>
                 <span th:unless="${currentPageNumber > 1}"><a>◀</a></span>

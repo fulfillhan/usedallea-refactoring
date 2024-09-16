@@ -11,10 +11,6 @@ public interface ProductRepository {
     void save(Product product);
     Product findByProductId(long productId);
     int getTotalProductCount(Map<String, String> searchCountMap);
-
     List<Product> findProductsBySearchInfo(Map<String, Object> searchInfoMap);
 
-    List<String> findImgUUIDListById(long productId);
-
-    Product findSellerId(long productId);
 }

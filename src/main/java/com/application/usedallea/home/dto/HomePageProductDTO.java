@@ -1,18 +1,15 @@
-package com.application.usedallea.product.dto;
+package com.application.usedallea.home.dto;
 
 import com.application.usedallea.product.domain.entity.Product;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class HomePageProductDTO {
-        //메인 페이지에만 보이는 dto
+
     private long productId;
     private String sellerId;
     private String price;
