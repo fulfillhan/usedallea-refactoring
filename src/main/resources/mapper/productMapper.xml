@@ -37,8 +37,7 @@
             STATUS,
             READ_COUNT,
             VALIDATED_YN,
-            CREATED_AT,
-            UPDATED_AT
+            CREATED_AT
         FROM
             PRODUCT
         WHERE

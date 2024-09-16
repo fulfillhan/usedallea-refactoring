@@ -2,6 +2,7 @@ package com.application.usedallea.product.domain.entity;
 
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 public class Product {
 
@@ -57,10 +60,4 @@ public class Product {
         return Duration.between(createdAt,LocalDateTime.now()).toDays() / 7;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "createdAt=" + createdAt +
-                '}';
-    }
 }

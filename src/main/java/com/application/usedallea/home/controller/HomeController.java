@@ -33,13 +33,13 @@ public class HomeController {
 
         int onePageProductCount = 10;
 
-        PaginationDTO paginationDTO = productService.getHomePageProducts(searchWord, currentPageNumber, onePageProductCount);
+        PaginationDTO homePageProducts = productService.getHomePageAllProducts(searchWord, currentPageNumber, onePageProductCount);
 
-        model.addAttribute("productList", paginationDTO.getProductList());
-        model.addAttribute("allProductCnt", paginationDTO.getTotalProductCount());
-        model.addAttribute("allPageCnt", paginationDTO.getAllPageCnt());
-        model.addAttribute("startPage", paginationDTO.getStartPage());
-        model.addAttribute("endPage", paginationDTO.getEndPage());
+        model.addAttribute("productList", homePageProducts.getProductList());
+        model.addAttribute("allProductCnt", homePageProducts.getTotalProductCount());
+        model.addAttribute("allPageCnt", homePageProducts.getAllPageCnt());
+        model.addAttribute("startPage", homePageProducts.getStartPage());
+        model.addAttribute("endPage", homePageProducts.getEndPage());
         model.addAttribute("onePageProductCnt", onePageProductCount);
         model.addAttribute("currentPageNumber", currentPageNumber);
 

@@ -8,7 +8,7 @@
 <div class="login-container" layout:fragment="contents">
 
     <div class="login-info">
-        <a th:href="@{/usedallea/main}">
+        <a th:href="@{/usedallea/home}">
         <img src="/img/logo.png" class="site-logo" />
         </a>
         <div class="login-info--title">
@@ -50,8 +50,7 @@
                     data: JSON.stringify(loginData),
                     success: function (validateLogin) {
                         if (validateLogin) {
-                            //location.href = previousPage;  // 이전 페이지로 이동
-                            location.href = "/usedallea/header";
+                            location.href = previousPage;  // 이전 페이지로 이동
                         } else  {
                             $("#loginFaileMsg").html("<span style='color:red;'>아이디와 패스워드가 일치하지 않습니다.<br>입력한 내용을 다시 한번 확인해주세요.</span>");
                         }

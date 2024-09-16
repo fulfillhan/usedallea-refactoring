@@ -27,5 +27,5 @@ public interface ProductService {
 
     List<String> findImgListById(long imgID);
 
-    PaginationDTO getHomePageProducts(String searchWord, int currentPageNumber, int onePageProductCount);
+    PaginationDTO getHomePageAllProducts(String searchWord, int currentPageNumber, int onePageProductCount);
 }

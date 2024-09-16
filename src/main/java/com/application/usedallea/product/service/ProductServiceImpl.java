@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PaginationDTO getHomePageProducts(String searchWord, int currentPageNumber, int onePageProductCount) {
+    public PaginationDTO getHomePageAllProducts(String searchWord, int currentPageNumber, int onePageProductCount) {
         Map<String, String> searchCountMap = new HashMap<>();
         searchCountMap.put("searchWord", searchWord);
 
