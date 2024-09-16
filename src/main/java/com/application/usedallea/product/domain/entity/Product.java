@@ -21,12 +21,10 @@ public class Product {
     private String qualityCondition;
     private String category;
     private String status;
-    private String validatedYn;
     private int readCount;
+    private String validatedYn;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-
     public static Product from(long imgId, ProductRegisterDto productDto){
         return  Product.builder()
                 .imgId(imgId)

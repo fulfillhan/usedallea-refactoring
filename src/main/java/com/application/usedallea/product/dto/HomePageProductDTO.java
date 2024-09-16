@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class HomePageProductDTO {
         //메인 페이지에만 보이는 dto
     private long productId;

@@ -1,5 +1,6 @@
 package com.application.usedallea.home.controller;
 
+
 import com.application.usedallea.member.v2.service.UserService;
 import com.application.usedallea.product.dto.HomePageProductDTO;
 import com.application.usedallea.product.service.ProductService;
@@ -25,8 +26,8 @@ public class HomeController {
     private final ProductService productService;
 
     @GetMapping("/header")
-    public String toHomePageheader(){
-        return  "common/header";
+    public String toHomePageheader() {
+        return "common/header";
     }
 
     @GetMapping("/home")
@@ -35,11 +36,10 @@ public class HomeController {
                              @RequestParam(name = "currentPageNumber", defaultValue = "1") int currentPageNumber) {
 
         int onePageProductCount = 10;
-        //검색어의 수 만큼 map에 담기
+
         Map<String, String> searchCountMap = new HashMap<>();
         searchCountMap.put("searchWord", searchWord);
 
-        //전체 개시물의 갯수
         int totalProductCount = productService.getTotalProductCount(searchCountMap);
 
         Pagination pagination = new Pagination(onePageProductCount, currentPageNumber, totalProductCount);
@@ -48,8 +48,6 @@ public class HomeController {
         searchInfoMap.put("searchWord", searchWord);
         searchInfoMap.put("startProductIdx", pagination.getStartProductIdx());
         searchInfoMap.put("onePageProductCnt", onePageProductCount);
-        //todo 오류 발생:  to get column 'PRICE' from result set. Cause: java.sql.SQLDataException:
-        //: Cannot determine value type from string '15,000'
         List<HomePageProductDTO> productList = productService.getProductList(searchInfoMap);
         for (HomePageProductDTO productDTO : productList) {
             List<String> imgUUIDList = productService.getImgUUIDList(productDTO.getProductId());
@@ -57,7 +55,6 @@ public class HomeController {
                 String firstImgUUID = imgUUIDList.get(0);
                 productDTO.setFirstImgUUID(firstImgUUID);
             }
-            productList.add(productDTO);
         }
 
         model.addAttribute("productList", productList);
