@@ -49,18 +49,18 @@ public class ImgServiceImpl implements ImgService {
         return imgUUIDlList;
     }
 
-    public void saveSingleImgFile(MultipartFile imgFile,long imgSeq,ImgRegisterDto imgDto) throws IOException {
+    public void saveSingleImgFile(MultipartFile imgFile, long imgSeq, ImgRegisterDto imgDto) throws IOException {
         String originalImgName = imgFile.getOriginalFilename();
-        if(originalImgName == null){
-            throw  new RuntimeException("originalImgName is null");
+        if (originalImgName == null) {
+            throw new RuntimeException("originalImgName is null");
         }
         String imgUUID = createUUID(originalImgName);
         Img img = Img.buildImg(imgDto.getImgId(), imgSeq, originalImgName, imgUUID);
         imgFile.transferTo(new File(imgRepositoryPath + imgUUID));
-         imgRepository.save(img);
+        imgRepository.save(img);
     }
 
-    public String createUUID(String originalImgName){
+    public String createUUID(String originalImgName) {
         UUID uuid = UUID.randomUUID();
         String extension = originalImgName.substring(originalImgName.lastIndexOf("."));
         return uuid + extension;
