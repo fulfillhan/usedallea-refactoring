@@ -36,7 +36,4 @@ public class User {
 
     private String personalinfoYn;
 
-    //private LocalDateTime updatedAt;
-
-
 }

@@ -1,14 +1,11 @@
 package com.application.usedallea.zzim.service;
 
 import com.application.usedallea.zzim.dto.ZzimDTO;
+import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 
 public interface ZzimService {
 
-    void insertZzim(ZzimDTO zzimDTO);
-
-    int getZzimCount(long productId);
-
-    boolean checkZzim(ZzimDTO zzimDTO);
-
-    void removeZzim(ZzimDTO zzimDTO);
+    ZzimResponseDTO addZzim(long productId, String userId);
 }
+
+

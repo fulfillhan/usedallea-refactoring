@@ -1,44 +1,33 @@
 package com.application.usedallea.zzim.service;
 
-import com.application.usedallea.zzim.dao.ZzimDAO;
+import com.application.usedallea.zzim.domain.entity.Zzim;
+import com.application.usedallea.zzim.domain.repository.ZzimRepository;
 import com.application.usedallea.zzim.dto.ZzimDTO;
+import com.application.usedallea.zzim.dto.ZzimResponseDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class ZzImServiceImpl implements ZzimService{
 
-    @Autowired
-    private ZzimDAO zzimDAO;
-
-    private static Logger logger = LoggerFactory.getLogger(ZzImServiceImpl.class);
+    private final ZzimRepository zzimRepository;
+    private static final Logger logger = LoggerFactory.getLogger(ZzImServiceImpl.class);
 
     @Override
-    public void insertZzim(ZzimDTO zzimDTO) {
-        zzimDAO.insertZzim(zzimDTO);
+    public ZzimResponseDTO addZzim(long productId, String userId) {
+
+        ZzimDTO zzimDTO = new ZzimDTO();
+        zzimDTO.setUserId(userId);
+        zzimDTO.setProductId(productId);
+        Zzim zzim = new Zzim(zzimDTO);
+
+        zzimRepository.add(zzim);
+        return null;
     }
 
-    @Override
-    public int getZzimCount(long productId) {
-        return zzimDAO.getZzimCount(productId);
-    }
-
-    @Override
-    public boolean checkZzim(ZzimDTO zzimDTO) {
-        boolean isCheckZzim = false;
-
-        if(zzimDAO.getZzimId(zzimDTO) > 1){  // userId와productId의 zzimId가 한개라도 있으면 찜의 중복
-            isCheckZzim = true;
-        }
-        return isCheckZzim;
-    }
-
-    @Override
-    public void removeZzim(ZzimDTO zzimDTO) {
-        zzimDAO.deleteZzim(zzimDTO);
-    }
 
 }

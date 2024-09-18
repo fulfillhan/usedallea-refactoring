@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ZzimDTO {
+public class ZzimResponseDTO {
 
-    private  long zzimId;
-    private String userId;
-    private long productId;
+    private String status;
+    private int ZzimCount;
 }
