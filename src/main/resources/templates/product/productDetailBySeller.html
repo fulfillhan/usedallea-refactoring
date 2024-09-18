@@ -126,21 +126,21 @@
 
                 if (!userId) {
                     alert("로그인 후 이용 가능합니다!")
-                    location.href = "/member/login";
+                    location.href = "/usedallea/login";
                 } else {
                     $.ajax({
-                           type: "post",
-                        url: "/zzim/check",
+                        type: "post",
+                        url: "/product/"+productId+"/zzim/add",
                         data: {"productId": productId},
-                        success: function (response) {
-                            if (response.status == "y") {
+                        success: function (zzimDTO) {
+                            if (zzimDTO.status == "y") {
                                 alert("♥찜이 추가되었습니다!");
                                 // 찜 개수도 변경
-                                $("#zzimCountValue").text(response.zzimCount);
+                                $("#zzimCountValue").text(zzimDTO.zzimCount);
                                 //-> 버튼 색 바꾸기
                             } else {
                                 alert("♥찜이 삭제되었습니다!");
-                                $("#zzimCountValue").text(response.zzimCount);
+                                $("#zzimCountValue").text(zzimDTO.zzimCount);
                             }
 
                         }

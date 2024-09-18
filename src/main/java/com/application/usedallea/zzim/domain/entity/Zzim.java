@@ -18,6 +18,7 @@ public class Zzim {
         private LocalDateTime createdAt;
 
         public Zzim(ZzimDTO zzimDTO) {
+                this.zzimId = zzimDTO.getZzimId();
                 this.productId=zzimDTO.getProductId();
                 this.userId= zzimDTO.getUserId();
         }

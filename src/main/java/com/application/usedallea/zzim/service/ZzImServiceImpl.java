@@ -26,8 +26,14 @@ public class ZzImServiceImpl implements ZzimService{
         Zzim zzim = new Zzim(zzimDTO);
 
         zzimRepository.add(zzim);
-        return null;
-    }
 
+       int zzimCount = zzimRepository.findZzimCountByProductId(productId);
+
+       ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
+       zzimResponseDTO.setZzimCount(zzimCount);
+       zzimResponseDTO.setStatus("n");
+
+        return zzimResponseDTO;
+    }
 
 }

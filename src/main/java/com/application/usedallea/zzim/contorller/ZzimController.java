@@ -1,10 +1,8 @@
 package com.application.usedallea.zzim.contorller;
 
 
-import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import com.application.usedallea.zzim.service.ZzimService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.util.Map;
 
 @Controller
 @RequestMapping("/product/{productId}/zzim")
@@ -24,14 +21,12 @@ public class ZzimController {
 
     @PostMapping("/add")
     public ResponseEntity<ZzimResponseDTO> add(@PathVariable long productId,
-                                                   @SessionAttribute(name = "userId", required = false) String userId){
+                                               @SessionAttribute(name = "userId", required = false) String userId){
 
+         ZzimResponseDTO zzimDTO= zzimService.addZzim(productId,userId);
 
-        //특정 상품 아이디를 기준으로 찜 추가하기
-         ZzimResponseDTO zzimResponseDTO= zzimService.addZzim(productId,userId);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(zzimDTO);
     }
 
-
+    //todo 찜 삭제하기
 }

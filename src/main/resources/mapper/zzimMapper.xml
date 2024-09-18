@@ -3,9 +3,27 @@
 <mapper namespace="com.application.usedallea.zzim.domain.repository.ZzimRepository">
 
 <insert id="add" parameterType="Zzim">
-
+    INSERT INTO ZZIM(
+        ZZIM_ID,
+        PRODUCT_ID,
+        USER_ID,
+        CREATED_AT
+    )
+    VALUES(
+        #{zzimId},
+        #{productId},
+        #{userId},
+        NOW()
+    )
 </insert>
 
-
+<select id="findZzimCountByProductId" parameterType="long" resultType="int">
+    SELECT
+        COUNT(*) AS ZZIM_COUNT
+    FROM
+        ZZIM
+    WHERE
+        PRODUCT_ID = #{productId}
+</select>
 
 </mapper>
