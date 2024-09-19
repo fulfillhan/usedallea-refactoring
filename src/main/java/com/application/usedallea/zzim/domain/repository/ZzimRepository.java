@@ -6,8 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ZzimRepository {
 
-    void add(Zzim zzim);
+    void save(Zzim zzim);
 
-    int findZzimCountByProductId(long productId);
+    int findZzimCountById(Zzim zzim);
 
+    int findZzimCount(long productId);
+
+    Zzim findzzimById(long productId);
+
+    void delete(Zzim zzim);
 }

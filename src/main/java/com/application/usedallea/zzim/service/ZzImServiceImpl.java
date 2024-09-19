@@ -23,17 +23,52 @@ public class ZzImServiceImpl implements ZzimService{
         ZzimDTO zzimDTO = new ZzimDTO();
         zzimDTO.setUserId(userId);
         zzimDTO.setProductId(productId);
-        Zzim zzim = new Zzim(zzimDTO);
 
-        zzimRepository.add(zzim);
+        Zzim newZzim = new Zzim(zzimDTO);
+        boolean isAlreadyZzim = checkZzimCount(newZzim);  // 찜의 존재여부
 
-       int zzimCount = zzimRepository.findZzimCountByProductId(productId);
+        ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
-       ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
-       zzimResponseDTO.setZzimCount(zzimCount);
-       zzimResponseDTO.setStatus("n");
+        if(!isAlreadyZzim){
+            zzimRepository.save(newZzim);
+            int plusZzimCount = zzimRepository.findZzimCount(productId);
+            zzimResponseDTO.setZzimCount(plusZzimCount);
+            zzimResponseDTO.setStatus("y");
+        }
 
         return zzimResponseDTO;
+    }
+
+    @Override
+    public ZzimResponseDTO removeZzim(long productId, String userId) {
+        ZzimDTO zzimDTO = new ZzimDTO();
+        zzimDTO.setUserId(userId);
+        zzimDTO.setProductId(productId);
+
+         Zzim existedZzim = zzimRepository.findzzimById(productId);
+        boolean isAlreadyZzim = checkZzimCount(existedZzim);
+
+        ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
+
+        if(isAlreadyZzim){
+            zzimRepository.delete(existedZzim);
+            int minusZzimCount = zzimRepository.findZzimCount(productId);
+            zzimResponseDTO.setZzimCount(minusZzimCount);
+            zzimResponseDTO.setStatus("n");
+        }
+
+        return zzimResponseDTO;
+    }
+
+    //상품에 대한 찜이 있는지 확인
+    private boolean checkZzimCount(Zzim zzim){
+        boolean isCheckedZzim = false;  // 기존에 찜이 존재하는지
+
+        int zzimCountById = zzimRepository.findZzimCountById(zzim);
+        if (zzimCountById > 1) {
+            isCheckedZzim=true;
+        }
+        return isCheckedZzim;
     }
 
 }

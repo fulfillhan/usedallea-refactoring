@@ -22,4 +22,5 @@ public class Zzim {
                 this.productId=zzimDTO.getProductId();
                 this.userId= zzimDTO.getUserId();
         }
+
 }

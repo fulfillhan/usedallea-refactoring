@@ -6,6 +6,7 @@ public interface ZzimService {
 
     ZzimResponseDTO addZzim(long productId, String userId);
 
+    ZzimResponseDTO removeZzim(long productId, String userId);
 }
 
 

@@ -123,28 +123,37 @@
             $("#zzimBtn").click(function () {
                 var productId = $("#productId").val();
                 var userId = $("#userId").val();
+                var isZzimAdded = $("zzimBtn").hasClass("added");//찜 상태 확인
 
                 if (!userId) {
                     alert("로그인 후 이용 가능합니다!")
                     location.href = "/usedallea/login";
                 } else {
-                    $.ajax({
-                        type: "post",
-                        url: "/product/"+productId+"/zzim/add",
-                        data: {"productId": productId},
-                        success: function (zzimDTO) {
-                            if (zzimDTO.status == "y") {
-                                alert("♥찜이 추가되었습니다!");
-                                // 찜 개수도 변경
-                                $("#zzimCountValue").text(zzimDTO.zzimCount);
-                                //-> 버튼 색 바꾸기
-                            } else {
+                    if(isZzimAdded){  //이미 찜한 상태
+                        //찜 삭제하기
+                        $.ajax({
+                            type : "delete",
+                            url : "/product/"+productId+"/zzim/remove",
+                            data : {"productId":productId},
+                            success: function (zzimDTO){
                                 alert("♥찜이 삭제되었습니다!");
-                                $("#zzimCountValue").text(zzimDTO.zzimCount);
+                                $("#zzimCountValue").text(response.zzimCount);
+                                $("zzimBtn").remove("added");
                             }
-
-                        }
-                    });
+                        });
+                    }else{
+                        //찜 추가 요청
+                        $.ajax({
+                            type : "post",
+                            url : "/product/"+productId+"/zzim/add",
+                            data : {"productId":productId},
+                            success: function (zzimDTO){
+                                alert("♥찜이 추가되었습니다!");
+                                $("#zzimCountValue").text(response.zzimCount);
+                                $("zzimBtn").add("added");
+                            }
+                        });
+                    }
                 }
             });
         });
