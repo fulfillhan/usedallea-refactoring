@@ -5,20 +5,21 @@ import com.application.usedallea.member.v2.domain.repository.UserRepository;
 import com.application.usedallea.member.v2.dto.UserModifyDTO;
 import com.application.usedallea.member.v2.dto.UserRegisterDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public void registerUser(UserRegisterDTO userDTO) {
