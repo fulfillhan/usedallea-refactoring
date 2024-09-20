@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -8,15 +7,15 @@
 <section  th:if="${session.adminId == null}" class="header-tool-bar" th:fragment="toolBar">
     <div class="header-tool-bar__wrap">
         <div th:if="${session.userId == null}">
-            <button><a th:href="@{/usedallea/login-form}">로그인</a></button>
+            <button><a th:href="@{/users/login-form}">로그인</a></button>
 	        <button><a th:href="@{/users/register-page}">회원가입</a></button>
 	        <button><a th:href="@{/admin/login}">관리자페이지</a></button>
          </div>
          <div th:if="${session.userId != null}">
 	        <span th:text="|♥${session.userId} 님, 환영합니다♥|"></span>
             <button th:if="${session.userId != 'admin'}"><a th:href="@{/users/update}">회원수정</a></button>
-            <button  th:unless="${session.userId != 'admin'}"><a th:href="@{/usedallea/main}">관리자페이지</a></button>
-             <button id="logoutBtn">로그아웃</button>
+            <button th:unless="${session.userId != 'admin'}"><a th:href="@{/usedallea/main}">관리자페이지</a></button>
+             <button><a th:href="@{/users/logout}">로그아웃</a></button>
          </div>
     </div>
 </section>
@@ -50,19 +49,20 @@
         </div>
     </div>
 </section>
-<script>
+
+<!--<script>
     $("#logoutBtn").click(function (){
         $.ajax({
-            url : "/usedallea/logout",
             type : "post",
-            success : function (response){
-                location.href = "/usedallea/header"
+            url : "/logout",
+            success : function (){
+                location.href = "/usedallea/home"
             },
-            error : function (response){
+            error : function (){
                 alert("로그아웃이 실패되었습니다.")
             }
         });
     });
-</script>
+</script>-->
 
 </html>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/usedallea")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -31,14 +31,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(validateLogin);
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
-        String userId = (String) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        if (session != null) {
+            session.invalidate();
         }
-        session.invalidate();
-        return ResponseEntity.ok().build();
+        return "redirect:/usedallea/home";
     }
-
 }
