@@ -28,19 +28,14 @@
 ## 🌿기술 스택
 
 - 언어
-    - Back-End: **`jdk 17`**
+    - Back-End: **`jdk 17`**, **`Spring Boot 3.2.3`**, **`MyBatis`**
     - Front-End: **`thymeleaf` ,`HTML5` ,  `CSS3`,  `Javascript` , `jQuery`**
-- 개발 도구 : **`IntelliJ IDEA`**
-- 개발 프레임워크 : **`Spring Boot 3.2.3`**
-- Database: **`MySQL workbench 8.0 CE`** , **`MyBatis`**
+- 개발 도구 : **`IntelliJ IDEA`**, **`MySQL workbench 8.0 CE`**
 - 소스 관리 : **`Git` , `Git hub`**
 - 사용 라이브러리 및 API :
     - 의존성 관리 : **`Gradle`**
-    - DB : **`Mybatis`**
     - 데이터 전송: **`AJAX` , `JSON`**
-    - 로그:  **`Logback` ,`SQL logging`**
-    - 보안 : **`Spring Security-5.0.8`**
-    - 파일 :**`Spring File`**
+    - 로그:  **`Logback`**
     - Daum 주소 :**`DaumPostCard`**
 
 <br/>
