@@ -5,13 +5,13 @@
 <br/>
 
 ## ☑️ Refactoring 현황
-### Architecture
+### 🌿Architecture
 - 레이어드 아키텍처의 각 레이어를 분명하게 구분하여 의존성 분리
 - 각 계층간 데이터 교환은 DTO를 사용
 - 데이터 접근 계층에서의 데이터 교환은 엔티티 개념을 적용
 - MVC를 이해하며 적용
 
-### Implementation
+### 🌿Implementation
 - Restful API
 - 메서드, 변수명을 지을 때 의미를 나타는 메시지를 표현하고자 함
 - 인덱스와 풀스캔을 예상하며 쿼리 작성
