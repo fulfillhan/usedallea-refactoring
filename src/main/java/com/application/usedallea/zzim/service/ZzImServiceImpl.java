@@ -57,12 +57,6 @@ public class ZzImServiceImpl implements ZzimService{
         return zzimResponseDTO;
     }
 
-    @Override
-    public int findZzimCount(long productId) {
-        Zzim existedZzim = zzimRepository.findzzimById(productId);
-        return zzimRepository.findZzimCount(existedZzim);
-    }
-
     private boolean isCheckedZzim(Zzim zzim){
          Zzim existingZzim = zzimRepository.findZzimByProductIdAndUserId(zzim);
          if(existingZzim != null){
