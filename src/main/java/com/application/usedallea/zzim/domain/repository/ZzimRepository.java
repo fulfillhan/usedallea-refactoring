@@ -8,11 +8,11 @@ public interface ZzimRepository {
 
     void save(Zzim zzim);
 
-    int findZzimCountById(Zzim zzim);
+    void delete(Zzim zzim);
 
-    int findZzimCount(long productId);
+    int findZzimCount(Zzim zzim);
 
     Zzim findzzimById(long productId);
 
-    void delete(Zzim zzim);
+    Zzim findZzimByProductIdAndUserId(Zzim zzim);
 }
