@@ -4,43 +4,43 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<section  th:if="${session.adminId == null}" class="header-tool-bar" th:fragment="toolBar">
+<section th:if="${session.adminId == null}" class="header-tool-bar" th:fragment="toolBar">
     <div class="header-tool-bar__wrap">
         <div th:if="${session.userId == null}">
             <button><a th:href="@{/users/login-form}">로그인</a></button>
-	        <button><a th:href="@{/users/register-page}">회원가입</a></button>
-	        <button><a th:href="@{/admin/login}">관리자페이지</a></button>
-         </div>
-         <div th:if="${session.userId != null}">
-	        <span th:text="|♥${session.userId} 님, 환영합니다♥|"></span>
+            <button><a th:href="@{/users/register-page}">회원가입</a></button>
+            <button><a th:href="@{/admin/login}">관리자페이지</a></button>
+        </div>
+        <div th:if="${session.userId != null}">
+            <span th:text="|♥${session.userId} 님, 환영합니다♥|"></span>
             <button th:if="${session.userId != 'admin'}"><a th:href="@{/users/update}">회원수정</a></button>
             <button th:unless="${session.userId != 'admin'}"><a th:href="@{/usedallea/main}">관리자페이지</a></button>
-             <button><a th:href="@{/users/logout}">로그아웃</a></button>
-         </div>
+            <button><a th:href="@{/users/logout}">로그아웃</a></button>
+        </div>
     </div>
 </section>
 <section th:if="${session.adminId == null}" class="header-search-bar" th:fragment="searchBar">
     <input type="hidden" id="userId" th:value="${session.userId}">
     <div class="header-search-bar__wrap">
         <div class="header-search-bar__top">
-            <a th:href="@{/usedallea/home}"><img src="/img/logo.png" class="site-logo" /></a>
+            <a th:href="@{/usedallea/home}"><img src="/img/logo.png" class="site-logo"/></a>
             <div class="header-search-bar__search">
                 <input type="text" id="searchWord" name="searchWord" placeholder="상품명 입력" maxlength="40"/>
-                <img src="/img/search.png" onclick="getMyProductList()" />
+                <img src="/img/search.png" onclick="getMyProductList()"/>
             </div>
 
             <div class="header-search-bar__menu">
                 <a th:href="@{/products/register-page}">
-                    <img src="/img/sell.png" />
+                    <img src="/img/sell.png"/>
                     <button>판매하기</button>
                 </a>
                 <a th:href="@{/product/productManager(sellerId=${session.userId})}">
-                    <img src="/img/store.png" />
-	                
+                    <img src="/img/store.png"/>
+
                     <button>내상점</button>
                 </a>
-                <a >
-                    <img src="/img/chat.png" />
+                <a>
+                    <img src="/img/chat.png"/>
                     <button>올래톡</button>
                 </a>
             </div>
@@ -49,20 +49,4 @@
         </div>
     </div>
 </section>
-
-<!--<script>
-    $("#logoutBtn").click(function (){
-        $.ajax({
-            type : "post",
-            url : "/logout",
-            success : function (){
-                location.href = "/usedallea/home"
-            },
-            error : function (){
-                alert("로그아웃이 실패되었습니다.")
-            }
-        });
-    });
-</script>-->
-
 </html>
