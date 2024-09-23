@@ -17,17 +17,32 @@
         )
     </insert>
 
-    <select id="findZzimCountById" parameterType="long" resultType="int">
+    <select id="findZzimCount" parameterType="Zzim" resultType="int">
         SELECT
-            COUNT(*) AS ZZIM_ID_COUNT
+            COUNT(*) AS ZZIM_COUNT
+        FROM
+            ZZIM
+        WHERE
+            PRODUCT_ID = #{productId}
+    </select>
+    <select id="findZzimByProductIdAndUserId" parameterType="Zzim" resultType="Zzim">
+        select
+            ZZIM_ID,
+            PRODUCT_ID,
+            USER_ID,
+            CREATED_AT
         FROM
             ZZIM
         WHERE
             PRODUCT_ID = #{productId} AND USER_ID = #{userId}
     </select>
-    <select id="findZzimCount" parameterType="long" resultType="int">
+
+    <select id="findzzimById" parameterType="long" resultType="Zzim">
         SELECT
-            COUNT(*) AS ZZIM_COUNT
+            ZZIM_ID,
+            PRODUCT_ID,
+            USER_ID,
+            CREATED_AT
         FROM
             ZZIM
         WHERE

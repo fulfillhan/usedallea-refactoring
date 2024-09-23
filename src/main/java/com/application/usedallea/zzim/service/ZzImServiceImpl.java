@@ -5,8 +5,6 @@ import com.application.usedallea.zzim.domain.repository.ZzimRepository;
 import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class ZzImServiceImpl implements ZzimService{
 
     private final ZzimRepository zzimRepository;
-    private static final Logger logger = LoggerFactory.getLogger(ZzImServiceImpl.class);
 
     @Override
     public ZzimResponseDTO addZzim(long productId, String userId) {
@@ -25,14 +22,14 @@ public class ZzImServiceImpl implements ZzimService{
         zzimDTO.setProductId(productId);
 
         Zzim newZzim = new Zzim(zzimDTO);
-        boolean isAlreadyZzim = checkZzimCount(newZzim);  // 찜의 존재여부
+        boolean isAlreadyZzim = isCheckedZzim(newZzim);
 
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
         if(!isAlreadyZzim){
             zzimRepository.save(newZzim);
-            int plusZzimCount = zzimRepository.findZzimCount(productId);
-            zzimResponseDTO.setZzimCount(plusZzimCount);
+            int zzimCount = zzimRepository.findZzimCount(newZzim);
+            zzimResponseDTO.setZzimCount(zzimCount);
             zzimResponseDTO.setStatus("y");
         }
 
@@ -40,35 +37,32 @@ public class ZzImServiceImpl implements ZzimService{
     }
 
     @Override
-    public ZzimResponseDTO removeZzim(long productId, String userId) {
+    public ZzimResponseDTO deleteZzim(long productId, String userId) {
         ZzimDTO zzimDTO = new ZzimDTO();
         zzimDTO.setUserId(userId);
         zzimDTO.setProductId(productId);
 
-         Zzim existedZzim = zzimRepository.findzzimById(productId);
-        boolean isAlreadyZzim = checkZzimCount(existedZzim);
+        Zzim existedZzim = zzimRepository.findzzimById(productId);
+        boolean isAlreadyZzim = isCheckedZzim(existedZzim);
 
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
         if(isAlreadyZzim){
             zzimRepository.delete(existedZzim);
-            int minusZzimCount = zzimRepository.findZzimCount(productId);
-            zzimResponseDTO.setZzimCount(minusZzimCount);
+            int zzimCount = zzimRepository.findZzimCount(existedZzim);
+            zzimResponseDTO.setZzimCount(zzimCount);
             zzimResponseDTO.setStatus("n");
         }
 
         return zzimResponseDTO;
     }
 
-    //상품에 대한 찜이 있는지 확인
-    private boolean checkZzimCount(Zzim zzim){
-        boolean isCheckedZzim = false;  // 기존에 찜이 존재하는지
-
-        int zzimCountById = zzimRepository.findZzimCountById(zzim);
-        if (zzimCountById > 1) {
-            isCheckedZzim=true;
-        }
-        return isCheckedZzim;
+    private boolean isCheckedZzim(Zzim zzim){
+         Zzim existingZzim = zzimRepository.findZzimByProductIdAndUserId(zzim);
+         if(existingZzim != null){
+             return true;
+         }
+        return false;
     }
 
 }

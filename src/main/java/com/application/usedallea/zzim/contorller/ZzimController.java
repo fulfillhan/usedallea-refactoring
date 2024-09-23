@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/product/{productId}/zzim")
+@RequestMapping("/zzim")
 @RequiredArgsConstructor
 public class ZzimController {
 
     private final ZzimService zzimService;
 
     // 찜 추가
-    @PostMapping("/add")
+    @PostMapping("/{productId}")
     public ResponseEntity<ZzimResponseDTO> add(@PathVariable long productId,
                                                @SessionAttribute(name = "userId", required = false) String userId){
 
@@ -26,11 +26,11 @@ public class ZzimController {
     }
 
     //찜 삭제
-    @DeleteMapping("/remove")
-    public ResponseEntity<ZzimResponseDTO> remove(@PathVariable long productId,
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<ZzimResponseDTO> delete(@PathVariable long productId,
                                                   @SessionAttribute(name = "userId", required = false) String userId){
 
-        ZzimResponseDTO zzimDTO = zzimService.removeZzim(productId,userId);
+        ZzimResponseDTO zzimDTO = zzimService.deleteZzim(productId,userId);
 
        return ResponseEntity.ok(zzimDTO);
     }

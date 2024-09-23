@@ -10,4 +10,5 @@ public class ZzimResponseDTO {
 
     private String status;
     private int zzimCount;
+
 }
