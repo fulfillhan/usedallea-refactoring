@@ -25,7 +25,6 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> login(@RequestBody UserRegisterDTO userDto, HttpSession session) {
         boolean validateLogin = userService.validateUser(userDto);
         if (validateLogin) {
-            //로그인 성공시 세션 설정
             session.setAttribute("userId", userDto.getUserId());
         }
         return ResponseEntity.ok(validateLogin);
