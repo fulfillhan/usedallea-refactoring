@@ -17,6 +17,13 @@
         )
     </insert>
 
+    <delete id="delete" parameterType="Zzim">
+        DELETE FROM
+            ZZIM
+        WHERE
+            PRODUCT_ID = #{productId} AND USER_ID = #{userId}
+    </delete>
+
     <select id="findZzimCount" parameterType="Zzim" resultType="int">
         SELECT
             COUNT(*) AS ZZIM_COUNT
@@ -48,12 +55,5 @@
         WHERE
             PRODUCT_ID = #{productId}
     </select>
-
-    <delete id="delete" parameterType="Zzim">
-        DELETE FROM
-            ZZIM
-        WHERE
-            PRODUCT_ID = #{productId} AND USER_ID = #{userId}
-    </delete>
 
 </mapper>
