@@ -41,7 +41,7 @@ public class ProductController {
                          @SessionAttribute(name = "userId", required = false) String userId, Model model) {
 
         if (userId == null) {
-            return "redirect:/usedallea/login-form";
+            return "redirect:/users/login-form";
         }
 
         ProductDetailDTO productDto = productService.findByProductId(productId, true);

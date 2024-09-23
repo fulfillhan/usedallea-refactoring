@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ProductDetailDTO {
-    private String productId;
+    private long productId;
     private String sellerId;
     private long imgId;
     private String title;
@@ -26,6 +26,7 @@ public class ProductDetailDTO {
 
     public static ProductDetailDTO from(Product product){
         ProductDetailDTO dto = new ProductDetailDTO();
+        dto.setProductId(product.getProductId());
         dto.setSellerId(product.getSellerId());
         dto.setImgId(product.getImgId());
         dto.setTitle(product.getTitle());
