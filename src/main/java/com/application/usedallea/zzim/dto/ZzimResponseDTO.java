@@ -1,6 +1,5 @@
 package com.application.usedallea.zzim.dto;
 
-import com.application.usedallea.zzim.domain.entity.Zzim;
 import lombok.Getter;
 import lombok.Setter;
 

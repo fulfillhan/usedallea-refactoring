@@ -4,7 +4,6 @@ import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
-import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,6 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final ZzimService zzimService;
 
     @GetMapping("/register-page")
     public String toRegisterPage() {
@@ -47,11 +45,9 @@ public class ProductController {
         }
 
         ProductDetailDTO productDto = productService.findByProductId(productId, true);
-        int zzimCount = zzimService.findZzimCount(productId);
         List<String> imgList = productService.findImgListById(productDto.getImgId());
 
         model.addAttribute("productDTO", productDto);
-        model.addAttribute("zzimCount",zzimCount);
         model.addAttribute("imgUUIDList",imgList);
 
         return "product/productDetailBySeller";
