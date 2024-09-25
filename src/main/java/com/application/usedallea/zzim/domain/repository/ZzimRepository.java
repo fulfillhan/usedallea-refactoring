@@ -12,7 +12,7 @@ public interface ZzimRepository {
 
     int findZzimCount(Zzim zzim);
 
-    Zzim findzzimById(long productId);
+    Zzim findZzimById(long productId);
 
     Zzim findZzimByProductIdAndUserId(Zzim zzim);
 }

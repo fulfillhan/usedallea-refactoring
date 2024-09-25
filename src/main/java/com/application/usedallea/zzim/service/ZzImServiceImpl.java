@@ -5,14 +5,17 @@ import com.application.usedallea.zzim.domain.repository.ZzimRepository;
 import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-
 @Service
+
 @RequiredArgsConstructor
 public class ZzImServiceImpl implements ZzimService{
 
     private final ZzimRepository zzimRepository;
+    private final Logger log = LoggerFactory.getLogger(ZzImServiceImpl.class);
 
     @Override
     public ZzimResponseDTO addZzim(long productId, String userId) {
@@ -22,7 +25,7 @@ public class ZzImServiceImpl implements ZzimService{
         zzimDTO.setProductId(productId);
 
         Zzim newZzim = new Zzim(zzimDTO);
-        boolean isAlreadyZzim = isCheckedZzim(newZzim);
+        boolean isAlreadyZzim = isCheckedZzim(newZzim);  // 이미 찜이 있는지 확인
 
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
@@ -32,7 +35,6 @@ public class ZzImServiceImpl implements ZzimService{
             zzimResponseDTO.setZzimCount(zzimCount);
             zzimResponseDTO.setStatus("y");
         }
-
         return zzimResponseDTO;
     }
 
@@ -42,24 +44,25 @@ public class ZzImServiceImpl implements ZzimService{
         zzimDTO.setUserId(userId);
         zzimDTO.setProductId(productId);
 
-        Zzim existedZzim = zzimRepository.findzzimById(productId);
+        Zzim existedZzim = zzimRepository.findZzimById(productId);
         boolean isAlreadyZzim = isCheckedZzim(existedZzim);
 
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
-        if(isAlreadyZzim){
+        if(isAlreadyZzim) {
             zzimRepository.delete(existedZzim);
             int zzimCount = zzimRepository.findZzimCount(existedZzim);
+            System.out.println("zzimCount = " + zzimCount);
+
             zzimResponseDTO.setZzimCount(zzimCount);
             zzimResponseDTO.setStatus("n");
         }
-
         return zzimResponseDTO;
     }
 
     @Override
     public int findZzimCount(long productId) {
-        Zzim existedZzim = zzimRepository.findzzimById(productId);
+        Zzim existedZzim = zzimRepository.findZzimById(productId);
         return zzimRepository.findZzimCount(existedZzim);
     }
 

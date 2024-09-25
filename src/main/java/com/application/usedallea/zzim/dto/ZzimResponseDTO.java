@@ -1,5 +1,6 @@
 package com.application.usedallea.zzim.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class ZzimResponseDTO {
 
-    private String status;
+    private String Status;
     private int zzimCount;
-
 }
