@@ -5,10 +5,11 @@ import com.application.usedallea.zzim.domain.repository.ZzimRepository;
 import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ZzImServiceImpl implements ZzimService{
 
@@ -32,7 +33,6 @@ public class ZzImServiceImpl implements ZzimService{
             zzimResponseDTO.setZzimCount(zzimCount);
             zzimResponseDTO.setStatus("y");
         }
-
         return zzimResponseDTO;
     }
 
@@ -42,24 +42,23 @@ public class ZzImServiceImpl implements ZzimService{
         zzimDTO.setUserId(userId);
         zzimDTO.setProductId(productId);
 
-        Zzim existedZzim = zzimRepository.findzzimById(productId);
+        Zzim existedZzim = zzimRepository.findZzimById(productId);
         boolean isAlreadyZzim = isCheckedZzim(existedZzim);
 
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
-        if(isAlreadyZzim){
+        if(isAlreadyZzim) {
             zzimRepository.delete(existedZzim);
             int zzimCount = zzimRepository.findZzimCount(existedZzim);
             zzimResponseDTO.setZzimCount(zzimCount);
             zzimResponseDTO.setStatus("n");
         }
-
         return zzimResponseDTO;
     }
 
     @Override
     public int findZzimCount(long productId) {
-        Zzim existedZzim = zzimRepository.findzzimById(productId);
+        Zzim existedZzim = zzimRepository.findZzimById(productId);
         return zzimRepository.findZzimCount(existedZzim);
     }
 

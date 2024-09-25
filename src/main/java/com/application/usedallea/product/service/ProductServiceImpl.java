@@ -100,7 +100,6 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
         List<HomePageProductDTO> productDTOList = new ArrayList<>();
         for (Product product : productListBySearchInfo) {
-            System.out.println("product.toString() = " + product.toString());
             HomePageProductDTO productDTO = HomePageProductDTO.from(product);
             productDTOList.add(productDTO);
         }
