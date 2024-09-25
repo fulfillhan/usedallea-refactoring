@@ -118,6 +118,19 @@
     <script>
 
         $().ready(function () {
+         /*   var productId = $("#productId").val();
+            $.ajax({
+                type : "get",
+                url : "/zzim/status/"+productId,
+                success : function (zzimDTO){
+                    if(zzimDTO.zzimStatus){
+                        $("#zzimBtn").addClass("added");
+                    }else{
+                        $("#zzimBtn").removeClass("added");
+                    }
+                    $("#zzimCountValue").text(zzimDTO.zzimCount);
+                }
+            });*/
             $("#zzimBtn").click(function () {
                 var isZzimAdded = $("#zzimBtn").hasClass("added");//찜 상태 확인
                 var productId = $("#productId").val();
@@ -131,10 +144,10 @@
                             type : "delete",
                             url : "/zzim/"+productId,
                             success: function (zzimDTO){
-                                if(zzimDTO.status == "n"){
+                                if(zzimDTO.zzimStatus){
                                     alert("♥찜이 삭제되었습니다!");
-                                    $("#zzimCountValue").text(zzimDTO.zzimCount);
                                     $("#zzimBtn").removeClass("added");
+                                    $("#zzimCountValue").text(zzimDTO.zzimCount);
                                 }
                             }
                         });
@@ -144,12 +157,10 @@
                             url : "/zzim/"+productId,
                             data : {"productId":productId},
                             success: function (zzimDTO){
-                                if(zzimDTO.status == "y"){
+                                if(!zzimDTO.zzimStatus){
                                     alert("♥찜이 추가되었습니다!");
-                                    $("#zzimCountValue").text(zzimDTO.zzimCount);
                                     $("#zzimBtn").addClass("added");
-                                }else {
-                                    alert("이미 찜을 추가했습니다.")
+                                    $("#zzimCountValue").text(zzimDTO.zzimCount);
                                 }
                             }
                         });

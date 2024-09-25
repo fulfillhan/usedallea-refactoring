@@ -8,6 +8,9 @@ import lombok.Setter;
 @Setter
 public class ZzimResponseDTO {
 
-    private String Status;
+    //private String Status;
+    private boolean zzimStatus;
     private int zzimCount;
+
+
 }

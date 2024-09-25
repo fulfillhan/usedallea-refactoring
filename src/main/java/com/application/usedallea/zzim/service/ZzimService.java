@@ -9,6 +9,8 @@ public interface ZzimService {
     ZzimResponseDTO deleteZzim(long productId, String userId);
 
     int findZzimCount(long productId);
+
+    boolean isZzimAdded(long productId, String userId);
 }
 
 
