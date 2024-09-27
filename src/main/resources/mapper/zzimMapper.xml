@@ -32,19 +32,8 @@
         WHERE
             PRODUCT_ID = #{productId} AND USER_ID = #{userId}
     </select>
-    <select id="findZzimByProductIdAndUserId" parameterType="Zzim" resultType="Zzim">
-        select
-            ZZIM_ID,
-            PRODUCT_ID,
-            USER_ID,
-            CREATED_AT
-        FROM
-            ZZIM
-        WHERE
-            PRODUCT_ID = #{productId} AND USER_ID = #{userId}
-    </select>
 
-    <select id="findZzimById" parameterType="long" resultType="Zzim">
+    <select id="findZzim" parameterType="Zzim" resultType="Zzim">
         SELECT
             ZZIM_ID,
             PRODUCT_ID,
@@ -53,6 +42,6 @@
         FROM
             ZZIM
         WHERE
-            PRODUCT_ID = #{productId}
+            PRODUCT_ID = #{productId} AND  USER_ID = #{userId}
     </select>
 </mapper>
