@@ -2,7 +2,6 @@ package com.application.usedallea.zzim.service;
 
 import com.application.usedallea.zzim.domain.entity.Zzim;
 import com.application.usedallea.zzim.domain.repository.ZzimRepository;
-import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,24 +14,18 @@ public class ZzImServiceImpl implements ZzimService {
 
     private final ZzimRepository zzimRepository;
 
-
     @Override
     public ZzimResponseDTO addZzim(long productId, String userId) {
-
-        ZzimDTO zzimDTO = new ZzimDTO();
-        zzimDTO.setUserId(userId);
-        zzimDTO.setProductId(productId);
-        Zzim newZzim = new Zzim(zzimDTO);
-
-        boolean isAlreadyZzim = isCheckedZzim(productId, userId);
-
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
 
-        if (!isAlreadyZzim) {
-            zzimRepository.save(newZzim); // 찜 저장
-            zzimResponseDTO.setZzimStatus(false);// 중복
-        } else {
+        Zzim newZzim = new Zzim(productId, userId);
+        boolean isAlreadyZzim = isCheckedZzim(productId, userId);
+
+        if (isAlreadyZzim) {
             zzimResponseDTO.setZzimStatus(true);
+        } else {
+            zzimRepository.save(newZzim);
+            zzimResponseDTO.setZzimStatus(false);
         }
 
         int zzimCount = zzimRepository.findZzimCount(newZzim);
@@ -43,16 +36,11 @@ public class ZzImServiceImpl implements ZzimService {
 
     @Override
     public ZzimResponseDTO deleteZzim(long productId, String userId) {
-        ZzimDTO zzimDTO = new ZzimDTO();
-        zzimDTO.setUserId(userId);
-        zzimDTO.setProductId(productId);
-        Zzim zzim = new Zzim(zzimDTO);
-
-        boolean isAlreadyZzim = isCheckedZzim(productId, userId);
-
         ZzimResponseDTO zzimResponseDTO = new ZzimResponseDTO();
+        Zzim zzim = new Zzim(productId, userId);
         Zzim existedZzim = zzimRepository.findZzim(zzim);
 
+        boolean isAlreadyZzim = isCheckedZzim(productId, userId);
         if (isAlreadyZzim) {  // 이미 찜한 상태라면 삭제
             zzimRepository.delete(existedZzim);
             zzimResponseDTO.setZzimStatus(true);  // 찜 삭제됨
@@ -68,22 +56,14 @@ public class ZzImServiceImpl implements ZzimService {
 
     @Override
     public int findZzimCount(long productId, String userId) {
-        ZzimDTO zzimDTO = new ZzimDTO();
-        zzimDTO.setProductId(productId);
-        zzimDTO.setUserId(userId);
-        Zzim zzim = new Zzim(zzimDTO);
-
+        Zzim zzim = new Zzim(productId, userId);
         Zzim existedZzim = zzimRepository.findZzim(zzim);
         return zzimRepository.findZzimCount(existedZzim);
     }
 
     @Override
     public boolean isCheckedZzim(long productId, String userId) {
-        ZzimDTO zzimDTO = new ZzimDTO();
-        zzimDTO.setProductId(productId);
-        zzimDTO.setUserId(userId);
-        Zzim zzim = new Zzim(zzimDTO);
-
+        Zzim zzim = new Zzim(productId, userId);
         Zzim existedZzim = zzimRepository.findZzim(zzim);
         if (existedZzim != null) {
             return true;

@@ -122,30 +122,29 @@
            var productId = $("#productId").val();
            var isZzimAdded = $("#zzimBtn").hasClass("added");  // 초기 찜 상태 확인
 
-           // 찜 버튼 클릭 이벤트
            $("#zzimBtn").click(function () {
                if (!userId) {
                    alert("로그인 후 이용 가능합니다!");
                    location.href = "/users/login";
                } else {
-                   if (isZzimAdded) {  // 찜된 상태라면 찜 삭제 요청
+                   if (isZzimAdded) {
                        $.ajax({
                            type: "delete",
                            url: "/zzim/" + productId,
                            success: function (zzimDTO) {
-                               alert("♥ 찜이 삭제되었습니다!");  // 상태 변화만 alert로 알림
-                               $("#zzimCountValue").text(zzimDTO.zzimCount);  // 찜 갯수 업데이트
-                               isZzimAdded = false;  // 상태 변경
+                               alert("♥ 찜이 삭제되었습니다!");
+                               $("#zzimCountValue").text(zzimDTO.zzimCount);
+                               isZzimAdded = false;
                            }
                        });
-                   } else {  // 찜되지 않은 상태라면 찜 추가 요청
+                   } else {
                        $.ajax({
                            type: "post",
                            url: "/zzim/" + productId,
                            success: function (zzimDTO) {
-                               alert("♥ 찜이 추가되었습니다!");  // 상태 변화만 alert로 알림
-                               $("#zzimCountValue").text(zzimDTO.zzimCount);  // 찜 갯수 업데이트
-                               isZzimAdded = true;  // 상태 변경
+                               alert("♥ 찜이 추가되었습니다!");
+                               $("#zzimCountValue").text(zzimDTO.zzimCount);
+                               isZzimAdded = true;
                            }
                        });
                    }

@@ -17,10 +17,10 @@ public class Zzim {
         private long productId;
         private LocalDateTime createdAt;
 
-        public Zzim(ZzimDTO zzimDTO) {
-                this.zzimId = zzimDTO.getZzimId();
-                this.productId=zzimDTO.getProductId();
-                this.userId= zzimDTO.getUserId();
+        public Zzim(long productId,String userId){
+                this.productId = productId;
+                this.userId = userId;
         }
+
 
 }
