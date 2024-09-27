@@ -16,7 +16,7 @@ public class ZzimController {
     private final ZzimService zzimService;
 
     //찜 화면 조회
- /*   @GetMapping("/status/{productId}")
+    @GetMapping("/status/{productId}")
     public ResponseEntity<ZzimResponseDTO> showStatus(@PathVariable long productId,
                                                       @SessionAttribute(name = "userId", required = false) String userId){
 
@@ -29,7 +29,6 @@ public class ZzimController {
 
         return ResponseEntity.ok(zzimDTO);
     }
-*/
     // 찜 추가
     @PostMapping("/{productId}")
     public ResponseEntity<ZzimResponseDTO> add(@PathVariable long productId,
