@@ -77,7 +77,8 @@
                 <div th:if="${productDTO.status == '판매중'}">
                 <!--userId 로그인 한 아이디가 없거나, 로그인을 해도 userId 와 sellerId가 같지 않아야 한다.-->
                 <button  id="zzimBtn" class="product-detail__button--zzim"
-                    th:if="${session.userId == null or session.userId != null and !session.userId.equals(productDTO.sellerId)}">
+                    th:if="${session.userId == null or session.userId != null and !session.userId.equals(productDTO.sellerId)}"
+                    th:classappend="${isZzimAdded ? 'added':''}">
                     찜
                 </button>
                 <button class="product-detail__button--chat"
@@ -117,57 +118,40 @@
     </div>
     <script>
 
-        $().ready(function () {
-            var productId = $("#productId").val();
-            $.ajax({
-                type : "get",
-                url : "/zzim/status/"+productId,
-                success : function (zzimDTO){
-                    if(zzimDTO.zzimStatus){
-                        $("#zzimBtn").addClass("added");
-                    }else{
-                        $("#zzimBtn").removeClass("added");
-                    }
-                    $("#zzimCountValue").text(zzimDTO.zzimCount);
-                }
-            });
-            $("#zzimBtn").click(function () {
-                var isZzimAdded = $("#zzimBtn").hasClass("added");//찜 상태 확인
-                var productId = $("#productId").val();
+       $().ready(function () {
+           var productId = $("#productId").val();
+           var isZzimAdded = $("#zzimBtn").hasClass("added");  // 초기 찜 상태 확인
 
-                if (!userId) {
-                    alert("로그인 후 이용 가능합니다!")
-                    location.href = "/users/login";
-                } else {
-                    if(isZzimAdded){  //이미 찜한 상태
-                        $.ajax({
-                            type : "delete",
-                            url : "/zzim/"+productId,
-                            success: function (zzimDTO){
-                                if(zzimDTO.zzimStatus){
-                                    alert("♥찜이 삭제되었습니다!");
-                                    $("#zzimBtn").removeClass("added");
-                                    $("#zzimCountValue").text(zzimDTO.zzimCount);
-                                }
-                            }
-                        });
-                    }else{
-                        $.ajax({
-                            type : "post",
-                            url : "/zzim/"+productId,
-                            data : {"productId":productId},
-                            success: function (zzimDTO){
-                                if(!zzimDTO.zzimStatus){
-                                    alert("♥찜이 추가되었습니다!");
-                                    $("#zzimBtn").addClass("added");
-                                    $("#zzimCountValue").text(zzimDTO.zzimCount);
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        });
+           // 찜 버튼 클릭 이벤트
+           $("#zzimBtn").click(function () {
+               if (!userId) {
+                   alert("로그인 후 이용 가능합니다!");
+                   location.href = "/users/login";
+               } else {
+                   if (isZzimAdded) {  // 찜된 상태라면 찜 삭제 요청
+                       $.ajax({
+                           type: "delete",
+                           url: "/zzim/" + productId,
+                           success: function (zzimDTO) {
+                               alert("♥ 찜이 삭제되었습니다!");  // 상태 변화만 alert로 알림
+                               $("#zzimCountValue").text(zzimDTO.zzimCount);  // 찜 갯수 업데이트
+                               isZzimAdded = false;  // 상태 변경
+                           }
+                       });
+                   } else {  // 찜되지 않은 상태라면 찜 추가 요청
+                       $.ajax({
+                           type: "post",
+                           url: "/zzim/" + productId,
+                           success: function (zzimDTO) {
+                               alert("♥ 찜이 추가되었습니다!");  // 상태 변화만 alert로 알림
+                               $("#zzimCountValue").text(zzimDTO.zzimCount);  // 찜 갯수 업데이트
+                               isZzimAdded = true;  // 상태 변경
+                           }
+                       });
+                   }
+               }
+           });
+       });
     </script>
 </div>
 </html>

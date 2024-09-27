@@ -47,12 +47,14 @@ public class ProductController {
         }
 
         ProductDetailDTO productDto = productService.findByProductId(productId, true);
-        int zzimCount = zzimService.findZzimCount(productId);
+        int zzimCount = zzimService.findZzimCount(productId, userId);
+        boolean isZzimAdded = zzimService.isCheckedZzim(productId, userId);
         List<String> imgList = productService.findImgListById(productDto.getImgId());
 
         model.addAttribute("productDTO", productDto);
         model.addAttribute("zzimCount", zzimCount);
-        model.addAttribute("imgUUIDList",imgList);
+        model.addAttribute("isZzimAdded", isZzimAdded);
+        model.addAttribute("imgUUIDList", imgList);
 
         return "product/productDetailBySeller";
     }

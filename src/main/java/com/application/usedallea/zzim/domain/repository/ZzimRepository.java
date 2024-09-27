@@ -3,6 +3,8 @@ package com.application.usedallea.zzim.domain.repository;
 import com.application.usedallea.zzim.domain.entity.Zzim;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface ZzimRepository {
 
@@ -12,9 +14,6 @@ public interface ZzimRepository {
 
     int findZzimCount(Zzim zzim);
 
-    //Zzim findZzimById(long productId);
-
     Zzim findZzim(Zzim zzim);
 
-    Zzim findZzimByProductIdAndUserId(Zzim zzim);
 }
