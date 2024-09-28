@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
         int totalProductCount = productRepository.findTotalProductsCount(searchCountMap);
 
         //페이징
-        Pagination pagination = new Pagination( onePageProductCount, currentPageNumber, totalProductCount);
+        Pagination pagination = new Pagination(onePageProductCount, currentPageNumber, totalProductCount);
 
         Map<String, Object> searchInfoMap = new HashMap<>();
         searchInfoMap.put("searchWord", searchWord);
@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
         Map<String, Object> searchinfoMap = new HashMap<>();
         searchinfoMap.put("searchWord", searchWord);
         searchinfoMap.put("startProductIdx", pagination.getStartProductIdx());
-        searchinfoMap.put("onePageProductCnt",onePageProductCount);
+        searchinfoMap.put("onePageProductCnt", onePageProductCount);
         searchinfoMap.put("sellerId", sellerId);
 
         List<HomePageProductDTO> productList = getProductList(searchinfoMap);

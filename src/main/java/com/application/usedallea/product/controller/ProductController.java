@@ -28,6 +28,7 @@ public class ProductController {
     public String toRegisterPage() {
         return "product/createOrUpdate";
     }
+
     @PostMapping("/create")
     public String create(@SessionAttribute(name = "userId", required = false) String sellerId,
                          @RequestParam List<MultipartFile> uploadImg,
@@ -38,7 +39,7 @@ public class ProductController {
         }
         productDto.setSellerId(sellerId);
         long productId = productService.saveProduct(uploadImg, productDto, productImgDto);
-        return "redirect:/products/"+productId;
+        return "redirect:/products/" + productId;
     }
 
     @GetMapping("/{productId}")
@@ -63,20 +64,20 @@ public class ProductController {
     }
 
     @GetMapping("/my-store")
-    public String toMyStore(Model model, @SessionAttribute(name="userId",required = false)String sellerId,
+    public String toMyStore(Model model, @SessionAttribute(name = "userId", required = false) String sellerId,
                             @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
                             @RequestParam(name = "onePageProductCnt", defaultValue = "10") int onePageProductCount,
-                            @RequestParam(name = "currentPageNumber", defaultValue = "1") int currentPageNumber){
+                            @RequestParam(name = "currentPageNumber", defaultValue = "1") int currentPageNumber) {
 
         //페이징 메서드
-        PaginationDTO productsBySeller =  productService.getProductsBySeller(sellerId,searchWord,onePageProductCount,currentPageNumber);
+        PaginationDTO productsBySeller = productService.getProductsBySeller(sellerId, searchWord, onePageProductCount, currentPageNumber);
 
-        model.addAttribute("productListBySeller",productsBySeller.getProductList());
-        model.addAttribute("allPageCnt",productsBySeller.getAllPageCnt());
-        model.addAttribute("startPage",productsBySeller.getStartPage());
-        model.addAttribute("endPage",productsBySeller.getEndPage());
-        model.addAttribute("onePageProductCnt",onePageProductCount);
-        model.addAttribute("currentPageNumber",currentPageNumber);
+        model.addAttribute("productListBySeller", productsBySeller.getProductList());
+        model.addAttribute("allPageCnt", productsBySeller.getAllPageCnt());
+        model.addAttribute("startPage", productsBySeller.getStartPage());
+        model.addAttribute("endPage", productsBySeller.getEndPage());
+        model.addAttribute("onePageProductCnt", onePageProductCount);
+        model.addAttribute("currentPageNumber", currentPageNumber);
 
         return "product/productManager";
     }
