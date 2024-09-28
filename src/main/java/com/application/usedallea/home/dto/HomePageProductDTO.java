@@ -26,6 +26,7 @@ public class HomePageProductDTO {
     private long hoursAgo;
     private long weeksAgo;
     private String FirstImgUUID;
+    private int zzimCount;
 
     public static HomePageProductDTO from(Product product) {
         HomePageProductDTO dto = new HomePageProductDTO();
@@ -40,10 +41,6 @@ public class HomePageProductDTO {
         dto.setStatus(product.getStatus());
         dto.setTitle(product.getTitle());
         dto.setImgId(product.getImgId());
-        dto.setMinutesAgo(product.calculateMinutesFromNow());
-        dto.setHoursAgo(product.calculateHoursFromNow());
-        dto.setDaysAgo(product.calculateDaysFromNow());
-        dto.setWeeksAgo(product.calculateWeeksFromNow());
         return dto;
     }
 }

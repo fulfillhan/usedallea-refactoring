@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ZzimResponseDTO {
+public class  ZzimResponseDTO {
 
     private boolean zzimStatus;
     private int zzimCount;

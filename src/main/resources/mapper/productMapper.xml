@@ -44,7 +44,7 @@
             PRODUCT_ID = #{productId}
     </select>
 
-    <select id="getTotalProductCount" parameterType="hashmap" resultType="int">
+    <select id="findTotalProductsCount" parameterType="hashmap" resultType="int">
         SELECT
             COUNT(*)
         FROM
@@ -62,7 +62,35 @@
         </where>
     </select>
 
-    <select id="findProductsBySearchInfo" parameterType="hashMap" resultType="Product">
+    <select id="findTotalProductCountBySeller" parameterType="hashMap" resultType="int">
+        <choose>
+            <when test="searchWord == ''">
+                SELECT
+                    COUNT(*)
+                FROM
+                    PRODUCT
+                WHERE
+                SELLER_ID = #{sellerId}
+                AND VALIDATED_YN = 'y'
+            </when>
+            <otherwise>
+                SELECT
+                    COUNT(*)
+                FROM
+                    PRODUCT
+                WHERE
+                    SELLER_ID = #{sellerId}
+                AND VALIDATED_YN = 'y'
+                AND(
+                    CATEGORY LIKE CONCAT('%', #{searchWord}, '%') OR
+                    TITLE LIKE CONCAT('%', #{searchWord}, '%') OR
+                    DESCRIPTION LIKE CONCAT('%', #{searchWord}, '%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findProductsList" parameterType="hashMap" resultType="Product">
         <choose>
             <when test="searchWord == ''">
              SELECT
@@ -121,6 +149,56 @@
              </otherwise>
         </choose>
     </select>
-
+    
+    <select id="findSellerProductsList" parameterType="hashMap" resultType="Product">
+        <choose>
+            <when test="searchWord == ''">
+                SELECT
+                    PRODUCT_ID,
+                    SELLER_ID,
+                    PRICE,
+                    UPDATED_AT,
+                    READ_COUNT,
+                    STATUS,
+                    TITLE,
+                    IMG_ID
+                FROM
+                    PRODUCT
+                WHERE
+                    SELLER_ID = #{sellerId}
+                AND  VALIDATED_YN = 'y'
+                ORDER BY
+                    CREATED_AT DESC
+                LIMIT
+                    #{startProductIdx}, #{onePageProductCnt}
+            </when>
+            <otherwise>
+                SELECT
+                    PRODUCT_ID,
+                    SELLER_ID,
+                    PRICE,
+                    UPDATED_AT,
+                    READ_COUNT,
+                    STATUS,
+                    TITLE,
+                    IMG_ID
+                FROM
+                    PRODUCT
+                <where>
+                    SELLER_ID = #{sellerId}
+                    AND VALIDATED_YN = 'y'
+                    AND (
+                    CATEGORY LIKE CONCAT('%', #{searchWord}, '%') OR
+                    TITLE LIKE CONCAT('%', #{searchWord}, '%') OR
+                    DESCRIPTION LIKE CONCAT('%', #{searchWord}, '%')
+                    )
+                </where>
+                ORDER BY
+                    CREATED_AT DESC
+                LIMIT
+                    #{startProductIdx}, #{onePageProductCnt}
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>
