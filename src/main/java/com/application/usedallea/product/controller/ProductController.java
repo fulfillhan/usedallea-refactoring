@@ -1,9 +1,12 @@
 package com.application.usedallea.product.controller;
 
+import com.application.usedallea.home.dto.HomePageProductDTO;
 import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
+import com.application.usedallea.utils.Pagination;
+import com.application.usedallea.utils.dto.PaginationDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -57,6 +60,25 @@ public class ProductController {
         model.addAttribute("imgUUIDList", imgList);
 
         return "product/productDetailBySeller";
+    }
+
+    @GetMapping("/my-store")
+    public String toMyStore(Model model, @SessionAttribute(name="userId",required = false)String sellerId,
+                            @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
+                            @RequestParam(name = "onePageProductCnt", defaultValue = "10") int onePageProductCount,
+                            @RequestParam(name = "currentPageNumber", defaultValue = "1") int currentPageNumber){
+
+        //페이징 메서드
+        PaginationDTO productsBySeller =  productService.getProductsBySeller(sellerId,searchWord,onePageProductCount,currentPageNumber);
+
+        model.addAttribute("productListBySeller",productsBySeller.getProductList());
+        model.addAttribute("allPageCnt",productsBySeller.getAllPageCnt());
+        model.addAttribute("startPage",productsBySeller.getStartPage());
+        model.addAttribute("endPage",productsBySeller.getEndPage());
+        model.addAttribute("onePageProductCnt",onePageProductCount);
+        model.addAttribute("currentPageNumber",currentPageNumber);
+
+        return "product/productManager";
     }
 
 }

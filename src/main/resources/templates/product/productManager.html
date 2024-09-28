@@ -7,7 +7,6 @@
 </head>
 
 <div class="list-container" layout:fragment="contents">
-    <!--<input type="hidden" id="sellerId" name="sellerId" th:value="${session.userId}">-->
     <div class="list__tabs">
         <div class="sv-tabs-wrapper">
             <nav class="sv-tabs-tab-list">
@@ -181,7 +180,6 @@
                 }
             });
         }
-
 
         $("#searchWord").keypress(function (event) {
             if (event.keyCode == 13) {

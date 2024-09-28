@@ -75,7 +75,6 @@
 
             <div th:if="${session.adminId == null}" class="product-detail__action-wrap">
                 <div th:if="${productDTO.status == '판매중'}">
-                <!--userId 로그인 한 아이디가 없거나, 로그인을 해도 userId 와 sellerId가 같지 않아야 한다.-->
                 <button  id="zzimBtn" class="product-detail__button--zzim"
                     th:if="${session.userId == null or session.userId != null and !session.userId.equals(productDTO.sellerId)}"
                     th:classappend="${isZzimAdded ? 'added':''}">
@@ -85,10 +84,9 @@
                     th:if="${session.userId == null or session.userId != null and !session.userId.equals(productDTO.sellerId)}" >
                     올래톡
                 </button>
-                <!--userId가 있어야 하고, sellerid가 있는 경우 그리고 해당 sellerId가 올린 물건만-->
                 <button class="product-detail__button--buy"
                     th:if="${session.userId != null and productDTO.sellerId != null and session.userId.equals(productDTO.sellerId)}"
-                th:onclick="|location.href='@{/product/productManager(sellerId=${productDTO.sellerId})}'|">
+                    th:onclick="|location.href='@{/products/my-store}'|">
                     내 상점 관리
                 </button>
                 </div>

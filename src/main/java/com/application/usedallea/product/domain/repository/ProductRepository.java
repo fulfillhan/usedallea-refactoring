@@ -10,7 +10,8 @@ import java.util.Map;
 public interface ProductRepository {
     void save(Product product);
     Product findByProductId(long productId);
-    int getTotalProductCount(Map<String, String> searchCountMap);
-    List<Product> findProductsBySearchInfo(Map<String, Object> searchInfoMap);
-
+    int findTotalProductsCount(Map<String, String> searchCountMap);
+    List<Product> findProductsList(Map<String, Object> searchInfoMap);
+    List<Product> findSellerProductsList(Map<String, Object> searchInfoMap);
+    int findTotalProductCountBySeller(Map<String, String> searchCntMap);
 }

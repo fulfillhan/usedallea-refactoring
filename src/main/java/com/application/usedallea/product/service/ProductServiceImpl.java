@@ -11,6 +11,7 @@ import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.utils.Pagination;
 import com.application.usedallea.utils.dto.PaginationDTO;
+import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
@@ -19,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -30,6 +28,7 @@ import java.util.Map;
 public class ProductServiceImpl implements ProductService {
 
     private final ImgService productImgService;
+    private final ZzimService zzimService;
     private final ProductRepository productRepository;
     private final ImgRepository imgRepository;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
@@ -66,9 +65,10 @@ public class ProductServiceImpl implements ProductService {
         Map<String, String> searchCountMap = new HashMap<>();
         searchCountMap.put("searchWord", searchWord);
 
-        int totalProductCount = productRepository.getTotalProductCount(searchCountMap);
+        int totalProductCount = productRepository.findTotalProductsCount(searchCountMap);
 
-        Pagination pagination = new Pagination(onePageProductCount, currentPageNumber, totalProductCount);
+        //페이징
+        Pagination pagination = new Pagination( onePageProductCount, currentPageNumber, totalProductCount);
 
         Map<String, Object> searchInfoMap = new HashMap<>();
         searchInfoMap.put("searchWord", searchWord);
@@ -95,13 +95,64 @@ public class ProductServiceImpl implements ProductService {
         return paginationDTO;
     }
 
-    public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
+    @Override
+    public PaginationDTO getProductsBySeller(String sellerId, String searchWord,
+                                             int onePageProductCount, int currentPageNumber) {
+        Map<String, String> searchCntMap = new HashMap<>();
+        searchCntMap.put("searchWord", searchWord);
+        searchCntMap.put("sellerId", sellerId);
 
-        List<Product> productListBySearchInfo = productRepository.findProductsBySearchInfo(searchInfoMap);
+        int totalProductCountBySeller = productRepository.findTotalProductCountBySeller(searchCntMap);  //특정 판매자의 상품 총 갯수
+
+        //페이징
+        Pagination pagination = new Pagination(onePageProductCount, currentPageNumber, totalProductCountBySeller);
+
+        Map<String, Object> searchinfoMap = new HashMap<>();
+        searchinfoMap.put("searchWord", searchWord);
+        searchinfoMap.put("startProductIdx", pagination.getStartProductIdx());
+        searchinfoMap.put("onePageProductCnt",onePageProductCount);
+        searchinfoMap.put("sellerId", sellerId);
+
+        List<HomePageProductDTO> productList = getProductList(searchinfoMap);
+        for (HomePageProductDTO productDTO : productList) {
+            List<String> imgUUIDList = getImgUUIDList(productDTO.getProductId());
+            if (!imgUUIDList.isEmpty()) {
+                String firstImgUUID = imgUUIDList.get(0);
+                productDTO.setFirstImgUUID(firstImgUUID);
+            }
+            int zzimCount = zzimService.findZzimCount(productDTO.getProductId(), sellerId);
+            productDTO.setZzimCount(zzimCount);
+        }
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+        paginationDTO.setProductList(productList);
+        paginationDTO.setTotalProductCount(totalProductCountBySeller);
+        paginationDTO.setAllPageCnt(pagination.getAllPageCount());
+        paginationDTO.setStartPage(pagination.getStartPage());
+        paginationDTO.setEndPage(pagination.getEndPage());
+
+        return paginationDTO;
+    }
+
+    public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
         List<HomePageProductDTO> productDTOList = new ArrayList<>();
-        for (Product product : productListBySearchInfo) {
-            HomePageProductDTO productDTO = HomePageProductDTO.from(product);
-            productDTOList.add(productDTO);
+
+        if (searchInfoMap.containsKey("sellerId")) {
+            List<Product> productListBySearchInfo = productRepository.findSellerProductsList(searchInfoMap);
+            for (Product product : productListBySearchInfo) {
+                HomePageProductDTO productDTO = HomePageProductDTO.from(product);
+                productDTOList.add(productDTO);
+            }
+        } else {
+            List<Product> productListBySearchInfo = productRepository.findProductsList(searchInfoMap);
+            for (Product product : productListBySearchInfo) {
+                HomePageProductDTO productDTO = HomePageProductDTO.from(product);
+                productDTO.setMinutesAgo(product.calculateMinutesFromNow());
+                productDTO.setHoursAgo(product.calculateHoursFromNow());
+                productDTO.setDaysAgo(product.calculateDaysFromNow());
+                productDTO.setWeeksAgo(product.calculateWeeksFromNow());
+                productDTOList.add(productDTO);
+            }
         }
         return productDTOList;
     }
