@@ -9,9 +9,11 @@ import java.util.Map;
 @Mapper
 public interface ProductRepository {
     void save(Product product);
-    Product findByProductId(long productId);
+    Product findProductById(long productId);
     int findTotalProductsCount(Map<String, String> searchCountMap);
     List<Product> findProductsList(Map<String, Object> searchInfoMap);
     List<Product> findSellerProductsList(Map<String, Object> searchInfoMap);
     int findTotalProductCountBySeller(Map<String, String> searchCntMap);
+
+    void updateReadCount(Product product);
 }

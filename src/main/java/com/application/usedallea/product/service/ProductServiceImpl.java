@@ -14,16 +14,16 @@ import com.application.usedallea.utils.dto.PaginationDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
 
-
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -31,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
     private final ZzimService zzimService;
     private final ProductRepository productRepository;
     private final ImgRepository imgRepository;
-    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Override
     public long saveProduct(List<MultipartFile> uploadImg,
@@ -43,12 +42,16 @@ public class ProductServiceImpl implements ProductService {
         return newProduct.getProductId();
     }
 
+    @Transactional
     @Override
-    public ProductDetailDTO findByProductId(long productId, boolean isCheckReadCnt) {
-        Product product = productRepository.findByProductId(productId);
-        if (isCheckReadCnt) {
+    public ProductDetailDTO findProductDetailWithViewCount(long productId, String userId, boolean isCheckReadCount) {
+        Product product = productRepository.findProductById(productId);
+
+        if (!product.getSellerId().equals(userId) && isCheckReadCount) {
             product.increaseReadCount();
+            productRepository.updateReadCount(product);
         }
+
         return ProductDetailDTO.from(product);
     }
 
@@ -158,7 +161,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public List<String> getImgUUIDList(long productId) {
-        Product product = productRepository.findByProductId(productId);
+        Product product = productRepository.findProductById(productId);
         long imgId = product.getImgId();
         return productImgService.findImgByUUID(imgId);
     }

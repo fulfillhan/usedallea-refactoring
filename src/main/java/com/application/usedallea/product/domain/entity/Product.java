@@ -39,11 +39,12 @@ public class Product {
                 .description(productDto.getDescription())
                 .qualityCondition(productDto.getQualityCondition())
                 .category(productDto.getCategory())
+                .readCount(productDto.getReadCount())
                 .build();
     }
 
     public void increaseReadCount() {
-        readCount++;
+          this.readCount++;
     }
 
     public long calculateDaysFromNow(){

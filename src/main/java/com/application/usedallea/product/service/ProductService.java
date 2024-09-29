@@ -19,7 +19,7 @@ public interface ProductService {
                      ImgRegisterDto productImgDto) throws IOException;
 
 
-    ProductDetailDTO findByProductId(long productId, boolean isCheckReadCnt);
+    ProductDetailDTO findProductDetailWithViewCount(long productId, String userId,boolean isCheckReadCount);
 
     List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap);
 
