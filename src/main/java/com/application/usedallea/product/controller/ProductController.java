@@ -1,11 +1,9 @@
 package com.application.usedallea.product.controller;
 
-import com.application.usedallea.home.dto.HomePageProductDTO;
 import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
-import com.application.usedallea.utils.Pagination;
 import com.application.usedallea.utils.dto.PaginationDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +48,7 @@ public class ProductController {
             return "redirect:/users/login-form";
         }
 
-        ProductDetailDTO productDto = productService.findByProductId(productId, true);
+        ProductDetailDTO productDto = productService.findProductDetailWithViewCount(productId, userId, true);
         int zzimCount = zzimService.findZzimCount(productId, userId);
         boolean isZzimAdded = zzimService.isCheckedZzim(productId, userId);
         List<String> imgList = productService.findImgListById(productDto.getImgId());

@@ -10,7 +10,8 @@
             QUALITY_CONDITION,
             PRICE,
             DESCRIPTION,
-            STATUS
+            STATUS,
+            READ_COUNT
         )
         VALUES(
             #{sellerId},
@@ -20,11 +21,12 @@
             #{qualityCondition},
             #{price},
             #{description},
-            #{status}
+            #{status},
+            #{readCount}
         )
     </insert>
 
-    <select id="findByProductId" parameterType="long" resultType="Product">
+    <select id="findProductById" parameterType="long" resultType="Product">
         SELECT
             PRODUCT_ID,
             SELLER_ID,
@@ -61,6 +63,15 @@
             </if>
         </where>
     </select>
+
+    <update id="updateReadCount" parameterType="Product">
+        UPDATE
+            PRODUCT
+        SET
+            READ_COUNT = #{readCount}
+        WHERE
+            PRODUCT_ID = #{productId}
+    </update>
 
     <select id="findTotalProductCountBySeller" parameterType="hashMap" resultType="int">
         <choose>
