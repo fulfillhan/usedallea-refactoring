@@ -123,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
                 String firstImgUUID = imgUUIDList.get(0);
                 productDTO.setFirstImgUUID(firstImgUUID);
             }
-            int zzimCount = zzimService.findZzimCount(productDTO.getProductId(), sellerId);
+            int zzimCount = zzimService.findZzimCount(productDTO.getProductId());
             productDTO.setZzimCount(zzimCount);
         }
 

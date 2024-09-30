@@ -22,5 +22,4 @@ public class Zzim {
                 this.userId = userId;
         }
 
-
 }

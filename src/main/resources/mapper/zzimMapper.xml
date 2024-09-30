@@ -33,7 +33,7 @@
             PRODUCT_ID = #{productId} AND USER_ID = #{userId}
     </select>
 
-    <select id="findZzim" parameterType="Zzim" resultType="Zzim">
+    <select id="findByProductIdAndUserId" parameterType="Zzim" resultType="Zzim">
         SELECT
             ZZIM_ID,
             PRODUCT_ID,
@@ -42,6 +42,28 @@
         FROM
             ZZIM
         WHERE
-            PRODUCT_ID = #{productId} AND  USER_ID = #{userId}
+            PRODUCT_ID = #{productId} AND USER_ID = #{userId}
     </select>
+
+    <select id="findZzimById" parameterType="long" resultType="Zzim">
+        SELECT
+            ZZIM_ID,
+            PRODUCT_ID,
+            USER_ID,
+            CREATED_AT
+        FROM
+            ZZIM
+        WHERE
+            ZZIM_ID = #{zzimId}
+    </select>
+
+    <select id="countByProductId" parameterType="long" resultType="int">
+        SELECT
+            COUNT(*) AS ZZIM_COUNT
+        FROM
+            ZZIM
+        WHERE
+            PRODUCT_ID = #{productId}
+    </select>
+
 </mapper>

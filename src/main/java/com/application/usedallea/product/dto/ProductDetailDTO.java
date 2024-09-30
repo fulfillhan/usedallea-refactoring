@@ -24,6 +24,7 @@ public class ProductDetailDTO {
     private long daysAgo;
     private long hoursAgo;
 
+
     public static ProductDetailDTO from(Product product){
         ProductDetailDTO dto = new ProductDetailDTO();
         dto.setProductId(product.getProductId());

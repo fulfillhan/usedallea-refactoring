@@ -6,7 +6,7 @@
 </head>
 <div class="product-detail-container" layout:fragment="contents">
     <input type="hidden" id = "productId" name="productId" th:value="${productDTO.productId}"/>
-   <!-- <input type="hidden" id = "userId" name="userId" th:value="${session.userId}"/>-->
+    <input type="hidden" id = "userId" name="userId" th:value="${session.userId}"/>
     <div class="product-detail__category"></div>
     <div class="product-detail__info-wrap">
         <div class="product-detail__img-wrap" >
@@ -119,30 +119,69 @@
        $().ready(function () {
            var productId = $("#productId").val();
            var isZzimAdded = $("#zzimBtn").hasClass("added");  // 초기 찜 상태 확인
+           var userId = $("#userId").val();
+           var zzimId;
+
+
+           if(userId){
+               $.ajax({
+                   type: "get",
+                   url: "/zzim/status/" + productId,  // 서버에 찜 상태 조회 요청
+                   success: function (zzimDTO) {
+                       if (zzimDTO.zzimStatus) {
+                           zzimId = zzimDTO.zzimId;  // 서버로부터 zzimId를 받아옴
+                           isZzimAdded = true;  // 찜이 이미 추가된 상태라면 상태 업데이트
+                           $("#zzimBtn").addClass("added");
+                       } else {
+                           zzimId = null;
+                           isZzimAdded = false;
+                           $("#zzimBtn").removeClass("added");
+                       }
+                   },
+                   error: function () {
+                       console.error("찜 상태를 불러오는데 실패했습니다.");
+                   }
+               });
+           }
 
            $("#zzimBtn").click(function () {
-               if (!userId) {
+               var data = {"userId": userId,
+                   "productId": productId
+               }
+               if (!sellerId) {
                    alert("로그인 후 이용 가능합니다!");
                    location.href = "/users/login";
                } else {
                    if (isZzimAdded) {
                        $.ajax({
                            type: "delete",
-                           url: "/zzim/" + productId,
-                           success: function (zzimDTO) {
+                           url: "/products/unlike",
+                           data:  JSON.stringify(data),
+                           success: function (zzimResponseDTO) {
+                               if(!zzimDTO.zzimStatus){
+                                   location.href="redirect:/zzim/"+productId;
+                                   isZzimAdded = true;
+                               }
                                alert("♥ 찜이 삭제되었습니다!");
                                $("#zzimCountValue").text(zzimDTO.zzimCount);
                                isZzimAdded = false;
+                               zzimId = null;
                            }
                        });
                    } else {
                        $.ajax({
                            type: "post",
-                           url: "/zzim/" + productId,
-                           success: function (zzimDTO) {
+                           url: "/zzim/like",
+                           data:{"productId":productId},
+                           success: function (zzimResponseDTO) {
+                               if(zzimDTO.zzimStatus){
+                                   location.href="redirect:/zzim/"+productId;
+                                   isZzimAdded = false;
+                               }
                                alert("♥ 찜이 추가되었습니다!");
                                $("#zzimCountValue").text(zzimDTO.zzimCount);
                                isZzimAdded = true;
+                               zzimId = zzimDTO.zzimId;
                            }
                        });
                    }
