@@ -5,6 +5,7 @@ import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
 import com.application.usedallea.utils.dto.PaginationDTO;
+import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -49,8 +50,8 @@ public class ProductController {
         }
 
         ProductDetailDTO productDto = productService.findProductDetailWithViewCount(productId, userId, true);
-        int zzimCount = zzimService.findZzimCount(productId, userId);
-        boolean isZzimAdded = zzimService.isCheckedZzim(productId, userId);
+        int zzimCount = zzimService.findZzimCount(productDto.getProductId());
+        boolean isZzimAdded = zzimService.isCheckedZzim(productId,userId);
         List<String> imgList = productService.findImgListById(productDto.getImgId());
 
         model.addAttribute("productDTO", productDto);

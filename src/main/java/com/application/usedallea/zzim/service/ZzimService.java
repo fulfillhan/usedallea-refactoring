@@ -1,17 +1,21 @@
 package com.application.usedallea.zzim.service;
 
 import com.application.usedallea.zzim.domain.entity.Zzim;
+import com.application.usedallea.zzim.dto.ZzimDTO;
 import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 
 public interface ZzimService {
 
-    ZzimResponseDTO addZzim(long productId, String userId);
+    ZzimDTO addZzim(long productId, String userId);
 
-    ZzimResponseDTO deleteZzim(long productId, String userId);
+    ZzimDTO deleteZzim(long zzimId,String userId);
 
-    int findZzimCount(long productId,String userId);
+    int findZzimCount(long productId);
 
-    boolean isCheckedZzim(long productId, String userId);
+    boolean isCheckedZzim(long zzimId,String userId);
+
+    ZzimResponseDTO findZzimStatus(long productId, String userId);
+
 }
 
 
