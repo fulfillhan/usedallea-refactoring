@@ -4,13 +4,11 @@
 
     <insert id="save" parameterType="Zzim">
         INSERT INTO ZZIM(
-            ZZIM_ID,
             PRODUCT_ID,
             USER_ID,
             CREATED_AT
         )
         VALUES(
-            #{zzimId},
             #{productId},
             #{userId},
             NOW()

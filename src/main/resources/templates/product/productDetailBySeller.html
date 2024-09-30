@@ -126,7 +126,7 @@
            if(userId){
                $.ajax({
                    type: "get",
-                   url: "/zzim/status/" + productId,  // 서버에 찜 상태 조회 요청
+                   url: "/products/status/" + productId,  // 서버에 찜 상태 조회 요청
                    success: function (zzimDTO) {
                        if (zzimDTO.zzimStatus) {
                            zzimId = zzimDTO.zzimId;  // 서버로부터 zzimId를 받아옴
@@ -145,10 +145,12 @@
            }
 
            $("#zzimBtn").click(function () {
-               var data = {"userId": userId,
+               var data = {
+                   "zzimId": zzimId,
+                   "userId": userId,
                    "productId": productId
                }
-               if (!sellerId) {
+               if (!userId) {
                    alert("로그인 후 이용 가능합니다!");
                    location.href = "/users/login";
                } else {
@@ -158,14 +160,13 @@
                            url: "/products/unlike",
                            data:  JSON.stringify(data),
                            success: function (zzimResponseDTO) {
-                               if(!zzimDTO.zzimStatus){
-                                   location.href="redirect:/zzim/"+productId;
+                               if(zzimResponseDTO.zzimStatus == 'n'){
+                                   location.href="redirect:/zzim/like";
                                    isZzimAdded = true;
                                }
                                alert("♥ 찜이 삭제되었습니다!");
                                $("#zzimCountValue").text(zzimDTO.zzimCount);
                                isZzimAdded = false;
-                               zzimId = null;
                            }
                        });
                    } else {
@@ -174,14 +175,14 @@
                            url: "/zzim/like",
                            data:{"productId":productId},
                            success: function (zzimResponseDTO) {
-                               if(zzimDTO.zzimStatus){
-                                   location.href="redirect:/zzim/"+productId;
-                                   isZzimAdded = false;
+                               if(zzimResponseDTO.zzimStatus == 'y'){
+                                   alert("♥ 찜이 추가되었습니다!");
+                                   $("#zzimCountValue").text(zzimResponseDTO.zzimCount);
+                                   isZzimAdded = true;
+                                   zzimId = zzimDTO.zzimId
                                }
-                               alert("♥ 찜이 추가되었습니다!");
-                               $("#zzimCountValue").text(zzimDTO.zzimCount);
-                               isZzimAdded = true;
-                               zzimId = zzimDTO.zzimId;
+                               location.href="redirect:/zzim/unlike;"
+                               isZzimAdded = false;
                            }
                        });
                    }

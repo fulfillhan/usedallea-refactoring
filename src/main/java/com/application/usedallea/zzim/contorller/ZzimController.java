@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/zzim")
 @RequiredArgsConstructor
 public class ZzimController {
 
     private final ZzimService zzimService;
 
 
-    @GetMapping("/status/{productId}")
-    public ResponseEntity<ZzimResponseDTO> showZzimStatus(@PathVariable long productId,
+    @GetMapping("/status")
+    public ResponseEntity<ZzimResponseDTO> showZzimStatus(@RequestParam long productId,
                                                           @SessionAttribute(name = "userId", required = false) String userId){
 
         ZzimResponseDTO zzimDTO = zzimService.findZzimStatus(productId,userId);
@@ -27,22 +27,19 @@ public class ZzimController {
 
     // 찜 추가
     @PostMapping("/like")
-    public ResponseEntity<ZzimDTO> add(@PathVariable long productId,
-                                               @SessionAttribute(name = "userId", required = false) String userId){
+    public ResponseEntity<ZzimDTO> add(@RequestParam long productId,
+                                       @SessionAttribute(name = "userId", required = false) String userId){
 
-         ZzimDTO zzimDTO= zzimService.addZzim(productId,userId);
-       // ZzimDTO zzimDTO= zzimService.addZzim(productId,userId);
+         ZzimDTO zzimResponseDTO= zzimService.addZzim(productId,userId);
 
-        return ResponseEntity.ok(zzimDTO);
+        return ResponseEntity.ok(zzimResponseDTO);
     }
 
     //찜 삭제
     @DeleteMapping("/unlike")
     public ResponseEntity<ZzimDTO> delete(@RequestBody ZzimDTO zzimDTO){
 
-        String userId = zzimDTO.getUserId();
-        long productId = zzimDTO.getProductId();
-        ZzimDTO zzimResponseDTO = zzimService.deleteZzim(productId, userId);
+        ZzimDTO zzimResponseDTO = zzimService.deleteZzim(zzimDTO);
 
        return ResponseEntity.ok(zzimResponseDTO);
     }
