@@ -1,6 +1,5 @@
 package com.application.usedallea.home.controller;
 
-
 import com.application.usedallea.member.v2.service.UserService;
 import com.application.usedallea.product.service.ProductService;
 import com.application.usedallea.utils.Pagination;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @RequestMapping("/usedallea")
