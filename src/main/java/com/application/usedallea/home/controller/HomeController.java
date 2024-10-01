@@ -1,6 +1,5 @@
 package com.application.usedallea.home.controller;
 
-
 import com.application.usedallea.member.v2.service.UserService;
 import com.application.usedallea.product.service.ProductService;
 import com.application.usedallea.utils.Pagination;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/usedallea")
 @AllArgsConstructor
@@ -20,11 +18,6 @@ public class HomeController {
 
     private final UserService userService;
     private final ProductService productService;
-
-    @GetMapping("/header")
-    public String toHomePageheader() {
-        return "common/header";
-    }
 
     @GetMapping("/home")
     public String toHomePage(Model model,
@@ -42,7 +35,6 @@ public class HomeController {
         model.addAttribute("endPage", homePageProducts.getEndPage());
         model.addAttribute("onePageProductCnt", onePageProductCount);
         model.addAttribute("currentPageNumber", currentPageNumber);
-
 
         return "/common/main";
 
