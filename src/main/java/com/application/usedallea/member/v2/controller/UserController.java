@@ -27,8 +27,7 @@ public class UserController {
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO userDTO) {
         userService.registerUser(userDTO);
-        // 홈페이지 만들기 전까지 로그인 페이지로 이동
-        return "common/header";
+        return "redirect:/usedallea/home";
     }
 
     @PostMapping("/check-duplicate-id")
@@ -46,7 +45,7 @@ public class UserController {
             }
             model.addAttribute("memberDTO",userDetail);
         }
-        return "member/registerOrUpdate";  // 홈으로 이동하기
+        return "member/registerOrUpdate";
     }
 
     @PostMapping("/update")
@@ -54,7 +53,7 @@ public class UserController {
         String userId= (String) session.getAttribute("userId");
         userDto.setUserId(userId);
         userService.updateUser(userDto);
-        return "redirect:/users/update";  // 추후 홈으로 변경 필요
+        return "redirect:/usedallea/home";  // 추후 홈으로 변경 필요
     }
 
     @PostMapping("/updateActivate")

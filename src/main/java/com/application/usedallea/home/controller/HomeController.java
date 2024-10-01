@@ -21,11 +21,6 @@ public class HomeController {
     private final UserService userService;
     private final ProductService productService;
 
-    @GetMapping("/header")
-    public String toHomePageheader() {
-        return "common/header";
-    }
-
     @GetMapping("/home")
     public String toHomePage(Model model,
                              @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
@@ -42,7 +37,6 @@ public class HomeController {
         model.addAttribute("endPage", homePageProducts.getEndPage());
         model.addAttribute("onePageProductCnt", onePageProductCount);
         model.addAttribute("currentPageNumber", currentPageNumber);
-
 
         return "/common/main";
 

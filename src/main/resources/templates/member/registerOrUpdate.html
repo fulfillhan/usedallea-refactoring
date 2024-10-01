@@ -8,7 +8,7 @@
 <div class="member-register-container" layout:fragment="contents">
 
     <div class="member-register-info" >
-        <a href="/usedallea/main">
+        <a href="/usedallea/home">
         <img src="/img/logo.png" class="site-logo" alt="사이트 로고"/>
         </a>
         <div class="member-register-info--title" th:unless="${session?.userId}">
@@ -25,19 +25,27 @@
         th:onsubmit="return checkFirmValidation(${session.userId})"
         >
         <div class="member-register__form--input">
-            <div>
-                <label for="userId" >아이디*</label>
-
-                <input type="text" id="userId" name="userId" class="input-userId" placeholder="아이디 입력(6~20자이내/특수문자 제외)"
+            <div th:unless="${session?.userId}">
+                <label for="userId">아이디*</label>
+                <input type="text" id="userId" name="userId" class="input-userId"
+                       placeholder="아이디 입력(6~20자이내/특수문자 제외)"
                        th:value="${session?.userId}" th:readonly="${session?.userId}"
                        required
                 ><br/>
-                <span th:unless="${session?.userId}" id="isvalidMsg" class="member-register__form--validation-message" ></span>
+                <span id="isvalidMsg"
+                      class="member-register__form--validation-message" ></span>
             </div>
-
+            <div>
+                <label for="userId">아이디</label>
+                <input type="text" class="input-userId"
+                       th:value="${session?.userId}" th:readonly="${session?.userId}"
+                       required
+                ><br/>
+            </div>
             <div th:unless="${session?.userId}">
                 <label for="password">패스워드*</label>
-                <input type="password" id="password" name="password"  placeholder="패스워드 입력(문자,숫자,특수문자 포함6~20자)" required>
+                <input type="password" id="password" name="password"
+                       placeholder="패스워드 입력(문자,숫자,특수문자 포함6~20자)" required>
             </div>
 
             <div th:unless="${session?.userId}">
@@ -46,19 +54,26 @@
                 <span id="isvalidPasswordMsg" class="member-register__form--validation-message"></span>
             </div>
 
+            <div th:unless="${session?.userId}">
+                <label for="name">이름*</label>
+                <input type="text" id="name" name="name" th:value="${memberDTO?.name}"
+                       th:readonly="${memberDTO?.name}" placeholder="이름을 입력해주세요" required>
+            </div>
+            <div>
+                <label for="name">이름</label>
+                <input type="text"  th:value="${memberDTO?.name}"
+                       th:readonly="${memberDTO?.name}" required>
+            </div>
             <div>
                 <label for="nickname">닉네임*</label>
-                <input type="text" id="nickname" name="nickname" th:value="${memberDTO?.nickname}" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
+                <input type="text" id="nickname" name="nickname" th:value="${memberDTO?.nickname}"
+                       placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" required>
             </div>
 
             <div>
-                <label for="name">이름*</label>
-                <input type="text" id="name" name="name" th:value="${memberDTO?.name}" placeholder="이름을 입력해주세요" required>
-            </div>
-
-            <div>
-                <label for="phoneNumber">전화번호*</label>
-                <input type="text" id="phoneNumber" name="phoneNumber"  th:value="${memberDTO?.phoneNumber}" placeholder="'-'없이 숫자만 입력" required>
+                <label for="phoneNumber">핸드폰 번호*</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" th:value="${memberDTO?.phoneNumber}"
+                       placeholder="'-'없이 숫자만 입력" required>
 
                 <div class="member-register__form--agree">
                     <input type="checkbox" id="smsstsYn" name="smsstsYn" class="sms-checkbox"
@@ -83,21 +98,25 @@
                 <div class="member-register__form-address">
                     <div>
                         <div class="member-register__form-address--search">
-                            <input type="text" placeholder="우편번호" id="zipCode" name="zipCode" th:value="${memberDTO?.zipCode}" required class="input">
+                            <input type="text" placeholder="우편번호" id="zipCode" name="zipCode"
+                                   th:value="${memberDTO?.zipCode}" required class="input">
                             <input type="button" th:onclick="|javascript:execDaumPostcode()|" value="검색" class="search"/>
                         </div>
                     </div>
 
                     <div>
-                        <input type="text" name="roadAddress" id="roadAddress" th:value="${memberDTO?.roadAddress}" placeholder="도로명 주소">
+                        <input type="text" name="roadAddress" id="roadAddress" th:value="${memberDTO?.roadAddress}"
+                               placeholder="도로명 주소">
                     </div>
 
                     <div>
-                        <input type="text" name="jibunAddress" id="jibunAddress"  th:value="${memberDTO?.jibunAddress}" placeholder="지번 주소">
+                        <input type="text" name="jibunAddress" id="jibunAddress"  th:value="${memberDTO?.jibunAddress}"
+                               placeholder="지번 주소">
                     </div>
 
                     <div>
-                        <input type="text" name="namujiAddress" id="namujiAddress" th:value="${memberDTO?.namujiAddress}" placeholder="나머지 주소">
+                        <input type="text" name="namujiAddress" id="namujiAddress" th:value="${memberDTO?.namujiAddress}"
+                               placeholder="나머지 주소">
                     </div>
                 </div>
             </div>
@@ -108,7 +127,9 @@
                     <label for="personalInfoYn">개인 정보 수집 및 이용 동의(필수)</label>
                 </div>
                 <p th:unless="${session?.userId}">
-                    개인정보보호법에 따라  '중고올래'  회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
+                    개인정보보호법에 따라  '중고올래'  회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적,
+                    개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니
+                    자세히 읽은 후 동의하여 주시기 바랍니다.
                 </p>
             </div>
 
