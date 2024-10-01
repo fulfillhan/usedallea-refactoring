@@ -21,5 +21,4 @@ public class Zzim {
                 this.productId = productId;
                 this.userId = userId;
         }
-
 }

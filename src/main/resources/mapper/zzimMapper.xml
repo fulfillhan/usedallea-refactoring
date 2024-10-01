@@ -4,13 +4,11 @@
 
     <insert id="save" parameterType="Zzim">
         INSERT INTO ZZIM(
-            ZZIM_ID,
             PRODUCT_ID,
             USER_ID,
             CREATED_AT
         )
         VALUES(
-            #{zzimId},
             #{productId},
             #{userId},
             NOW()
@@ -24,15 +22,6 @@
             PRODUCT_ID = #{productId} AND USER_ID = #{userId}
     </delete>
 
-    <select id="findZzimCount" parameterType="Zzim" resultType="int">
-        SELECT
-            COUNT(*) AS ZZIM_COUNT
-        FROM
-            ZZIM
-        WHERE
-            PRODUCT_ID = #{productId} AND USER_ID = #{userId}
-    </select>
-
     <select id="findByProductIdAndUserId" parameterType="Zzim" resultType="Zzim">
         SELECT
             ZZIM_ID,
@@ -43,18 +32,6 @@
             ZZIM
         WHERE
             PRODUCT_ID = #{productId} AND USER_ID = #{userId}
-    </select>
-
-    <select id="findZzimById" parameterType="long" resultType="Zzim">
-        SELECT
-            ZZIM_ID,
-            PRODUCT_ID,
-            USER_ID,
-            CREATED_AT
-        FROM
-            ZZIM
-        WHERE
-            ZZIM_ID = #{zzimId}
     </select>
 
     <select id="countByProductId" parameterType="long" resultType="int">
