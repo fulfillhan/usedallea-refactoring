@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserModifyDTO userDTO) {
         User user = userRepository.findById(userDTO.getUserId());
 
-
         if (user == null) {
             throw new UsernameNotFoundException(userDTO.getUserId() + "is not found");
         }

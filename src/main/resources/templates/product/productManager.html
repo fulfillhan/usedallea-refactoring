@@ -67,10 +67,9 @@
                                 <td th:text="${#temporals.format(productDTO.updatedAt,'yyyy-MM-dd HH:mm')}"></td>
                                 <td>
                                     <div class="list-table__features">
-                                    <button>
-                                       <!-- <a th:href="@{/product/update(productId=${productDTO.productId})}">수정</a>-->
-                                        <a th:href="@{/product/update(productId=${productDTO.productId})}">수정</a>
-                                    </button>
+                                   <button th:onclick="|location.href='@{/products/}'+${productDTO.productId}|">
+                                   수정하기
+                                   </button>
                                     </div>
                                 </td>
                             </tr>

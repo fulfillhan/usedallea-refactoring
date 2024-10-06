@@ -5,6 +5,7 @@ import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.home.dto.HomePageProductDTO;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
+import com.application.usedallea.product.dto.ProductUpdateDto;
 import com.application.usedallea.utils.dto.PaginationDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,4 +31,6 @@ public interface ProductService {
     PaginationDTO getHomePageAllProducts(String searchWord, int currentPageNumber, int onePageProductCount);
 
     PaginationDTO getProductsBySeller(String sellerId, String searchWord, int onePageProductCount, int currentPageNumber);
+
+    void updateProuduct(ProductUpdateDto productUpdateDto);
 }

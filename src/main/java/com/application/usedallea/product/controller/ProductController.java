@@ -3,6 +3,7 @@ package com.application.usedallea.product.controller;
 import com.application.usedallea.img.dto.ImgRegisterDto;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
+import com.application.usedallea.product.dto.ProductUpdateDto;
 import com.application.usedallea.product.service.ProductService;
 import com.application.usedallea.utils.dto.PaginationDTO;
 import com.application.usedallea.zzim.service.ZzimService;
@@ -59,6 +60,29 @@ public class ProductController {
         model.addAttribute("imgUUIDList", imgList);
 
         return "product/productDetailBySeller";
+    }
+
+    @GetMapping("/{productId]/update")
+    public String update(@PathVariable long productId,Model model,
+                         @SessionAttribute(name = "userId", required = false) String userId){
+
+        ProductDetailDTO productDto = productService.findProductDetailWithViewCount(productId,userId,false);
+        
+        model.addAttribute("productDTO",productDto);
+        return "product/createOrUpdate";
+    }
+
+
+    @PostMapping("/{productId}/update")
+    public String update(@PathVariable long productId,
+                         @SessionAttribute(name = "userId", required = false) String sellerId,
+                         @ModelAttribute ProductUpdateDto productUpdateDto){
+        productUpdateDto.setProductId(productId);
+        productUpdateDto.setSellerId(sellerId);
+
+        productService.updateProuduct(productUpdateDto);
+
+        return "redirect:/product/my-store";
     }
 
     @GetMapping("/my-store")

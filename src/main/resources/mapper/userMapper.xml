@@ -35,18 +35,6 @@
 		)
 	</insert>
 
-<!--	<select id="isExistById" parameterType="String" resultType="boolean">
-		SELECT
-				CASE
-				    WHEN COUNT(*) > 0 THEN 1
-					ELSE 0
-				END AS result
-		FROM
-				USER
-		WHERE
-				USER_ID = #{userId}
-	</select>-->
-
 	<select id="findById" parameterType="String" resultType="User">
 		SELECT
 				USER_ID,
@@ -114,11 +102,6 @@
 
 	</select>
 
-	<!--<update id="updateDeactivate" parameterType="User">
-		업데이트 필요
-	</update>-->
-
-
 	<delete id="remove" parameterType="User">
 		DELETE FROM
 		           	USER
@@ -126,9 +109,5 @@
 		    	USER_ID = #{userId}
 
 	</delete>
-
-
-
-
 
 </mapper>

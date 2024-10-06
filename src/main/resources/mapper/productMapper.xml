@@ -26,7 +26,7 @@
         )
     </insert>
 
-    <select id="findProductById" parameterType="long" resultType="Product">
+    <select id="findById" parameterType="long" resultType="Product">
         SELECT
             PRODUCT_ID,
             SELLER_ID,
@@ -69,6 +69,20 @@
             PRODUCT
         SET
             READ_COUNT = #{readCount}
+        WHERE
+            PRODUCT_ID = #{productId}
+    </update>
+
+    <update id="update" parameterType="Product">
+        UPDATE
+            PRODUCT
+        SET
+            TITLE = #{title},
+            CATEGORY = #{category},
+            QUALITY_CONDITION = #{qualityCondition},
+            PRICE = #{price},
+            DESCRIPTION = #{description},
+            UPDATED_AT = NOW()
         WHERE
             PRODUCT_ID = #{productId}
     </update>
