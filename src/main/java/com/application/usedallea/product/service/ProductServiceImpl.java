@@ -10,13 +10,13 @@ import com.application.usedallea.home.dto.HomePageProductDTO;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.utils.Pagination;
+import com.application.usedallea.utils.PaginationImpl;
 import com.application.usedallea.utils.dto.PaginationDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,7 +42,6 @@ public class ProductServiceImpl implements ProductService {
         return newProduct.getProductId();
     }
 
-    @Transactional
     @Override
     public ProductDetailDTO findProductDetailWithViewCount(long productId, String userId, boolean isCheckReadCount) {
         Product product = productRepository.findProductById(productId);
@@ -71,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         int totalProductCount = productRepository.findTotalProductsCount(searchCountMap);
 
         //페이징
-        Pagination pagination = new Pagination(onePageProductCount, currentPageNumber, totalProductCount);
+        Pagination pagination = new PaginationImpl(onePageProductCount, currentPageNumber, totalProductCount);
 
         Map<String, Object> searchInfoMap = new HashMap<>();
         searchInfoMap.put("searchWord", searchWord);
@@ -91,9 +90,7 @@ public class ProductServiceImpl implements ProductService {
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setProductList(productList);
         paginationDTO.setTotalProductCount(totalProductCount);
-        paginationDTO.setAllPageCnt(pagination.getAllPageCount());
-        paginationDTO.setStartPage(pagination.getStartPage());
-        paginationDTO.setEndPage(pagination.getEndPage());
+        pagination.setPagination(paginationDTO);
 
         return paginationDTO;
     }
@@ -108,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
         int totalProductCountBySeller = productRepository.findTotalProductCountBySeller(searchCntMap);  //특정 판매자의 상품 총 갯수
 
         //페이징
-        Pagination pagination = new Pagination(onePageProductCount, currentPageNumber, totalProductCountBySeller);
+        Pagination pagination = new PaginationImpl(onePageProductCount, currentPageNumber, totalProductCountBySeller);
 
         Map<String, Object> searchinfoMap = new HashMap<>();
         searchinfoMap.put("searchWord", searchWord);
@@ -130,9 +127,7 @@ public class ProductServiceImpl implements ProductService {
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setProductList(productList);
         paginationDTO.setTotalProductCount(totalProductCountBySeller);
-        paginationDTO.setAllPageCnt(pagination.getAllPageCount());
-        paginationDTO.setStartPage(pagination.getStartPage());
-        paginationDTO.setEndPage(pagination.getEndPage());
+        pagination.setPagination(paginationDTO);
 
         return paginationDTO;
     }

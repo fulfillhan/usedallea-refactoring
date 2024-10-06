@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PaginationDTO {
+
     private List<HomePageProductDTO> productList;
     private int totalProductCount;
     private int allPageCnt;

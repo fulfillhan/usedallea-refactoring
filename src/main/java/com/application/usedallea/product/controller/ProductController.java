@@ -5,7 +5,6 @@ import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
 import com.application.usedallea.product.service.ProductService;
 import com.application.usedallea.utils.dto.PaginationDTO;
-import com.application.usedallea.zzim.dto.ZzimResponseDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -80,6 +79,5 @@ public class ProductController {
 
         return "product/productManager";
     }
-
 }
 
