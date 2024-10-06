@@ -5,8 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductModifyDto {
+public class ProductUpdateDto {
     private long productId;
+    private String sellerId;
     private String title;
     private String category;
     private String qualityCondition;

@@ -9,6 +9,7 @@ import com.application.usedallea.product.domain.repository.ProductRepository;
 import com.application.usedallea.home.dto.HomePageProductDTO;
 import com.application.usedallea.product.dto.ProductDetailDTO;
 import com.application.usedallea.product.dto.ProductRegisterDto;
+import com.application.usedallea.product.dto.ProductUpdateDto;
 import com.application.usedallea.utils.Pagination;
 import com.application.usedallea.utils.PaginationImpl;
 import com.application.usedallea.utils.dto.PaginationDTO;
@@ -44,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDetailDTO findProductDetailWithViewCount(long productId, String userId, boolean isCheckReadCount) {
-        Product product = productRepository.findProductById(productId);
+        Product product = productRepository.findById(productId);
 
         if (!product.getSellerId().equals(userId) && isCheckReadCount) {
             product.increaseReadCount();
@@ -132,6 +133,25 @@ public class ProductServiceImpl implements ProductService {
         return paginationDTO;
     }
 
+    @Override
+    public void updateProuduct(ProductUpdateDto productUpdateDto) {
+        Product existedProduct = productRepository.findById(productUpdateDto.getProductId());
+        if(existedProduct == null){
+            //어떤 로직?
+           throw new RuntimeException("상품이 존재하지 않습니다.");
+        }
+
+        Product updatedProduct = existedProduct.toBuilder()
+                .productId(existedProduct.getProductId())
+                .title(existedProduct.getTitle())
+                .category(existedProduct.getCategory())
+                .qualityCondition(existedProduct.getQualityCondition())
+                .description(existedProduct.getDescription())
+                .build();
+
+        productRepository.update(updatedProduct);
+    }
+
     public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {
         List<HomePageProductDTO> productDTOList = new ArrayList<>();
 
@@ -156,7 +176,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public List<String> getImgUUIDList(long productId) {
-        Product product = productRepository.findProductById(productId);
+        Product product = productRepository.findById(productId);
         long imgId = product.getImgId();
         return productImgService.findImgByUUID(imgId);
     }

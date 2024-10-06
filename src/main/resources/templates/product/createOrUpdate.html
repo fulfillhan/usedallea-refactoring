@@ -12,13 +12,14 @@
         <div class="sv-tabs-panel-list">
             <div class="sv-tabs-panel active" id="tab1">
                 <form id="productForm"
-                        th:action="@{/products/create}"
+                        th:action="${productDTO?.productId == null ? '/products/create' : '/products/'+ productDTO.productId}"
                         method="post"
                         enctype="multipart/form-data"
                         class="product-create__form"
                 >
                     <input type="hidden" id="sellerId" name="sellerId" th:value="${session.sellerId}"/>
-                    <input th:if="${productDTO?.productId}" type="hidden" id="productId" name="productId" th:value="${productDTO.productId}"/>
+                    <input th:if="${productDTO?.productId}" type="hidden" id="productId" name="productId"
+                           th:value="${productDTO.productId}"/>
 
                     <div class="product-create__form--title" th:unless="${productDTO?.productId}">
                         <h1>상품 등록</h1>
@@ -104,12 +105,6 @@
                     </div>
                 </form>
             </div>
-          <!--  <div th:if="${productDTO.productId != null}" class="sv-tabs-panel" id="tab2">
-                상품 관리
-            </div>
-            <div th:if="${productDTO.productId != null}" class="sv-tabs-panel" id="tab3">
-                구매 내역
-            </div>-->
         </div>
     </div>
 
