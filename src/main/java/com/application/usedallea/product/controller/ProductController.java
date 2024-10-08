@@ -62,27 +62,31 @@ public class ProductController {
         return "product/productDetailBySeller";
     }
 
-    @GetMapping("/{productId]/update")
-    public String update(@PathVariable long productId,Model model,
-                         @SessionAttribute(name = "userId", required = false) String userId){
+    @GetMapping("/{productId}/update")
+    public String update(@PathVariable long productId, Model model,
+                         @SessionAttribute(name = "userId", required = false) String userId) {
 
-        ProductDetailDTO productDto = productService.findProductDetailWithViewCount(productId,userId,false);
-        
-        model.addAttribute("productDTO",productDto);
+        ProductDetailDTO productDto = productService.findProductDetailWithViewCount(productId, userId, false);
+        List<String> imgUUIDList = productService.getImgUUIDList(productId);
+
+        model.addAttribute("productDTO", productDto);
+        model.addAttribute("imgUUID", imgUUIDList);
+
         return "product/createOrUpdate";
     }
 
-
+    
     @PostMapping("/{productId}/update")
     public String update(@PathVariable long productId,
                          @SessionAttribute(name = "userId", required = false) String sellerId,
                          @ModelAttribute ProductUpdateDto productUpdateDto){
+
         productUpdateDto.setProductId(productId);
         productUpdateDto.setSellerId(sellerId);
 
         productService.updateProuduct(productUpdateDto);
 
-        return "redirect:/product/my-store";
+        return "redirect:/products/my-store";
     }
 
     @GetMapping("/my-store")

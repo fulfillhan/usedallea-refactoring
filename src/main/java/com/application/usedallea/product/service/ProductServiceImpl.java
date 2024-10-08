@@ -137,16 +137,16 @@ public class ProductServiceImpl implements ProductService {
     public void updateProuduct(ProductUpdateDto productUpdateDto) {
         Product existedProduct = productRepository.findById(productUpdateDto.getProductId());
         if(existedProduct == null){
-            //어떤 로직?
            throw new RuntimeException("상품이 존재하지 않습니다.");
         }
 
         Product updatedProduct = existedProduct.toBuilder()
-                .productId(existedProduct.getProductId())
-                .title(existedProduct.getTitle())
-                .category(existedProduct.getCategory())
-                .qualityCondition(existedProduct.getQualityCondition())
-                .description(existedProduct.getDescription())
+                .productId(productUpdateDto.getProductId())
+                .title(productUpdateDto.getTitle())
+                .category(productUpdateDto.getCategory())
+                .qualityCondition(productUpdateDto.getQualityCondition())
+                .price(productUpdateDto.getPrice())
+                .description(productUpdateDto.getDescription())
                 .build();
 
         productRepository.update(updatedProduct);

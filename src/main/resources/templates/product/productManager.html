@@ -45,7 +45,7 @@
                             <tbody id="productList" th:each="productDTO : ${productListBySeller}">
                             <tr>
                                 <td>
-                                    <a th:href="@{/product/detail(productId=${productDTO.productId})}">
+                                    <a th:href="@{/products/{productId}(productId=${productDTO.productId})}">
                                         <img th:src="@{/img/setThumbnail(imgName=${productDTO.firstImgUUID})}" alt="이미지"
                                              width="200"
                                              height="200"/>
@@ -67,9 +67,9 @@
                                 <td th:text="${#temporals.format(productDTO.updatedAt,'yyyy-MM-dd HH:mm')}"></td>
                                 <td>
                                     <div class="list-table__features">
-                                   <button th:onclick="|location.href='@{/products/}'+${productDTO.productId}|">
-                                   수정하기
-                                   </button>
+                                        <a th:href="@{/products/{productId}/update(productId=${productDTO.productId})}">
+                                            <button>수정하기</button>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
