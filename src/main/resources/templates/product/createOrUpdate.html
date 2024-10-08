@@ -11,12 +11,10 @@
     <div class="my-store__tabs">
         <div class="sv-tabs-panel-list">
             <div class="sv-tabs-panel active" id="tab1">
-                <form id="productForm"
-                        th:action="${productDTO?.productId == null ? '/products/create' : '/products/'+ productDTO.productId}"
-                        method="post"
-                        enctype="multipart/form-data"
-                        class="product-create__form"
-                >
+                <form th:action="${productDTO?.productId == null ? '/products/create' : '/products/'+productDTO.productId+'/update'}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      class="product-create__form">
                     <input type="hidden" id="sellerId" name="sellerId" th:value="${session.sellerId}"/>
                     <input th:if="${productDTO?.productId}" type="hidden" id="productId" name="productId"
                            th:value="${productDTO.productId}"/>
