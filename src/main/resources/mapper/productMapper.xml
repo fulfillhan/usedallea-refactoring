@@ -87,6 +87,17 @@
             PRODUCT_ID = #{productId}
     </update>
 
+    <update id="updateStatusAndValidation" parameterType="Product">
+        UPDATE
+            PRODUCT
+        SET
+            STATUS = #{status},
+            VALIDATED_YN = #{validatedYn},
+            UPDATED_AT = NOW()
+        WHERE
+            PRODUCT_ID = #{productId}
+    </update>
+
     <select id="findTotalProductCountBySeller" parameterType="hashMap" resultType="int">
         <choose>
             <when test="searchWord == ''">

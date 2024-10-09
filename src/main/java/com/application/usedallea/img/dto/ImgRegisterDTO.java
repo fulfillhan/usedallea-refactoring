@@ -5,10 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
-public class ImgRegisterDto {
+public class ImgRegisterDTO {
 
     long imgId;
 

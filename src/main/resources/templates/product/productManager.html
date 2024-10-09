@@ -157,24 +157,20 @@
             const productStatus = $("#" + id).val();// 변경된 판매 상태 가져오기
 
             $.ajax({
-                type: "post",
-                url: "/product/updateProductStatus",
-                data: {
-                    productId,
-                    productStatus,
-                },
+                type: "patch",
+                url: `/products/${productId}/status`,
+                data: {"productStatus" : productStatus},
                 success: function (response) {
-                    if(response.deleted){
+                    if(response.isDeleted){
                         //삭제된 경우 해당 요소 삭제
                         if(confirm("해당 상품을 정말 삭제하시겠습니까?")){
                             $("#"+ id).closest("tr").remove();
-                            alert(response.script);
+                            alert(response.message);
                         }
-
-                    }else{
+                    } else{
                         //select 요소의 값 변경
-                        alert(response.script);
-                        $("#"+ id+"option:selected").text(response.status);
+                        alert(response.message);
+                        $("#"+ id + "option:selected").text(response.status);
                     }
                 }
             });

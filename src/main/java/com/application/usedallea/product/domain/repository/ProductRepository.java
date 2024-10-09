@@ -23,4 +23,6 @@ public interface ProductRepository {
     void updateReadCount(Product product);
 
     void update(Product product);
+
+    void updateStatusAndValidation(Product product);
 }

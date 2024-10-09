@@ -1,19 +1,24 @@
 package com.application.usedallea.product.controller;
 
-import com.application.usedallea.img.dto.ImgRegisterDto;
+import com.application.usedallea.img.dto.ImgRegisterDTO;
 import com.application.usedallea.product.dto.ProductDetailDTO;
-import com.application.usedallea.product.dto.ProductRegisterDto;
-import com.application.usedallea.product.dto.ProductUpdateDto;
+import com.application.usedallea.product.dto.ProductRegisterDTO;
+import com.application.usedallea.product.dto.ProductStatusDTO;
+import com.application.usedallea.product.dto.ProductUpdateDTO;
 import com.application.usedallea.product.service.ProductService;
+import com.application.usedallea.product.service.ProductStatus;
 import com.application.usedallea.utils.dto.PaginationDTO;
 import com.application.usedallea.zzim.service.ZzimService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/products")
@@ -31,8 +36,8 @@ public class ProductController {
     @PostMapping("/create")
     public String create(@SessionAttribute(name = "userId", required = false) String sellerId,
                          @RequestParam List<MultipartFile> uploadImg,
-                         @ModelAttribute ProductRegisterDto productDto,
-                         @ModelAttribute ImgRegisterDto productImgDto) throws Exception {
+                         @ModelAttribute ProductRegisterDTO productDto,
+                         @ModelAttribute ImgRegisterDTO productImgDto) throws Exception {
         if (sellerId == null) {
             return "redirect:/login-form";
         }
@@ -51,7 +56,7 @@ public class ProductController {
 
         ProductDetailDTO productDto = productService.findProductDetailWithViewCount(productId, userId, true);
         int zzimCount = zzimService.findZzimCount(productDto.getProductId());
-        boolean isZzimAdded = zzimService.isCheckedZzim(productId,userId);
+        boolean isZzimAdded = zzimService.isCheckedZzim(productId, userId);
         List<String> imgList = productService.findImgListById(productDto.getImgId());
 
         model.addAttribute("productDTO", productDto);
@@ -75,11 +80,11 @@ public class ProductController {
         return "product/createOrUpdate";
     }
 
-    
+
     @PostMapping("/{productId}/update")
     public String update(@PathVariable long productId,
                          @SessionAttribute(name = "userId", required = false) String sellerId,
-                         @ModelAttribute ProductUpdateDto productUpdateDto){
+                         @ModelAttribute ProductUpdateDTO productUpdateDto) {
 
         productUpdateDto.setProductId(productId);
         productUpdateDto.setSellerId(sellerId);
@@ -106,6 +111,19 @@ public class ProductController {
         model.addAttribute("currentPageNumber", currentPageNumber);
 
         return "product/productManager";
+    }
+
+    @PatchMapping("/{productId}/status")
+    public ResponseEntity<Map<String, Object>> updateStatus(@PathVariable long productId,
+                                                            @RequestParam("productStatus") ProductStatus status) {
+
+        ProductStatusDTO productStatusDTO = new ProductStatusDTO();
+        productStatusDTO.setProductId(productId);
+        productStatusDTO.setStatus(status);
+
+        Map<String, Object> responseStatus = productService.updateProductStatus(productStatusDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
     }
 }
 
