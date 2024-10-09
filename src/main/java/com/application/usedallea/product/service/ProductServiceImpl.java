@@ -3,13 +3,14 @@ package com.application.usedallea.product.service;
 import com.application.usedallea.img.Service.ImgService;
 import com.application.usedallea.img.domain.entity.Img;
 import com.application.usedallea.img.domain.repository.ImgRepository;
-import com.application.usedallea.img.dto.ImgRegisterDto;
+import com.application.usedallea.img.dto.ImgRegisterDTO;
 import com.application.usedallea.product.domain.entity.Product;
 import com.application.usedallea.product.domain.repository.ProductRepository;
 import com.application.usedallea.home.dto.HomePageProductDTO;
 import com.application.usedallea.product.dto.ProductDetailDTO;
-import com.application.usedallea.product.dto.ProductRegisterDto;
-import com.application.usedallea.product.dto.ProductUpdateDto;
+import com.application.usedallea.product.dto.ProductRegisterDTO;
+import com.application.usedallea.product.dto.ProductStatusDTO;
+import com.application.usedallea.product.dto.ProductUpdateDTO;
 import com.application.usedallea.utils.Pagination;
 import com.application.usedallea.utils.PaginationImpl;
 import com.application.usedallea.utils.dto.PaginationDTO;
@@ -23,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 
+import static com.application.usedallea.product.service.ProductStatus.*;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -35,10 +38,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public long saveProduct(List<MultipartFile> uploadImg,
-                            ProductRegisterDto productDto,
-                            ImgRegisterDto productImgDto) throws IOException {
-        long imgId = productImgService.saveImg(uploadImg, productImgDto);
-        Product newProduct = Product.from(imgId, productDto);
+                            ProductRegisterDTO productDTO,
+                            ImgRegisterDTO productImgDTO) throws IOException {
+        long imgId = productImgService.saveImg(uploadImg, productImgDTO);
+        Product newProduct = Product.from(imgId, productDTO);
         productRepository.save(newProduct);
         return newProduct.getProductId();
     }
@@ -134,22 +137,85 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProuduct(ProductUpdateDto productUpdateDto) {
-        Product existedProduct = productRepository.findById(productUpdateDto.getProductId());
-        if(existedProduct == null){
-           throw new RuntimeException("상품이 존재하지 않습니다.");
+    public void updateProuduct(ProductUpdateDTO productUpdateDTO) {
+        Product existedProduct = productRepository.findById(productUpdateDTO.getProductId());
+        if (existedProduct == null) {
+            throw new RuntimeException("상품이 존재하지 않습니다.");
         }
 
         Product updatedProduct = existedProduct.toBuilder()
-                .productId(productUpdateDto.getProductId())
-                .title(productUpdateDto.getTitle())
-                .category(productUpdateDto.getCategory())
-                .qualityCondition(productUpdateDto.getQualityCondition())
-                .price(productUpdateDto.getPrice())
-                .description(productUpdateDto.getDescription())
+                .productId(productUpdateDTO.getProductId())
+                .title(productUpdateDTO.getTitle())
+                .category(productUpdateDTO.getCategory())
+                .qualityCondition(productUpdateDTO.getQualityCondition())
+                .price(productUpdateDTO.getPrice())
+                .description(productUpdateDTO.getDescription())
                 .build();
 
         productRepository.update(updatedProduct);
+    }
+
+/*    @Override
+    public Map<String,Object> updateProductStatus(ProductStatusDTO productStatusDTO) {
+        Map<String, Object> response = new HashMap<>();
+        ProductStatus status = productStatusDTO.getStatus();
+        String script = productStatusDTO.getScript();
+
+        switch (status){
+            case 판매중->{
+                updateStatus(productStatusDTO);
+                script = "해당 상품이 '판매중'으로 변경되었습니다.";
+            }
+            case 판매완료 -> {
+                updateStatus(productStatusDTO);
+                script = "해당 상품이 '판매완료'로 변경되었습니다.";
+            }
+            case 삭제 -> {
+                updateStatus(productStatusDTO);
+                script = "해당 상품이 삭제되었습니다.";
+                response.put("isdeleted",true);
+            }
+
+        }
+
+        Product product = productRepository.findById(productStatusDTO.getProductId());
+        response.put("status",String.valueOf(status));
+        response.put("script",script);
+        return response;
+    }*/
+
+    @Override
+    public Map<String,Object> updateProductStatus(ProductStatusDTO productStatusDTO) {
+        Map<String, Object> response = new HashMap<>();
+        ProductStatus status = productStatusDTO.getStatus();
+
+        updateStatus(productStatusDTO);
+
+        if(status == 삭제){
+            response.put("isDeleted",true);
+        }
+
+        response.put("status",String.valueOf(status));
+        response.put("message",status.getMessage());
+
+        return response;
+    }
+
+    private void updateStatus(ProductStatusDTO productStatusDTO) {
+        ProductStatus status = productStatusDTO.getStatus();
+        long productId = productStatusDTO.getProductId();
+
+        Product existedProduct = productRepository.findById(productId);
+
+        if(삭제.equals(status)){
+            existedProduct.toBuilder().validatedYn(Optional.ofNullable(productStatusDTO.getValidatedYn()).orElse("n"));
+        }
+
+        Product updateProduct = existedProduct.toBuilder()
+                .status(status.name())
+                .validatedYn(productStatusDTO.getValidatedYn()).build();
+
+        productRepository.updateStatusAndValidation(updateProduct);
     }
 
     public List<HomePageProductDTO> getProductList(Map<String, Object> searchInfoMap) {

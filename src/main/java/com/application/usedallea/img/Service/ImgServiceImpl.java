@@ -2,7 +2,7 @@ package com.application.usedallea.img.Service;
 
 import com.application.usedallea.img.domain.entity.Img;
 import com.application.usedallea.img.domain.repository.ImgRepository;
-import com.application.usedallea.img.dto.ImgRegisterDto;
+import com.application.usedallea.img.dto.ImgRegisterDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,13 @@ public class ImgServiceImpl implements ImgService {
     private final ImgRepository imgRepository;
 
     @Override
-    public long saveImg(List<MultipartFile> uploadImg, ImgRegisterDto imgDto) throws IOException {
+    public long saveImg(List<MultipartFile> uploadImg, ImgRegisterDTO imgDTO) throws IOException {
         if (uploadImg.isEmpty()) {
             throw new RuntimeException("file is empty");
         }
         long imgSeq = 1;
         for (MultipartFile imgFile : uploadImg) {
-            saveSingleImgFile(imgFile, imgSeq, imgDto);
+            saveSingleImgFile(imgFile, imgSeq, imgDTO);
             imgSeq++;
         }
         Img lastSavedImg = imgRepository.findTopByOrderByID();
@@ -49,13 +49,13 @@ public class ImgServiceImpl implements ImgService {
         return imgUUIDlList;
     }
 
-    public void saveSingleImgFile(MultipartFile imgFile, long imgSeq, ImgRegisterDto imgDto) throws IOException {
+    public void saveSingleImgFile(MultipartFile imgFile, long imgSeq, ImgRegisterDTO imgDTO) throws IOException {
         String originalImgName = imgFile.getOriginalFilename();
         if (originalImgName == null) {
             throw new RuntimeException("originalImgName is null");
         }
         String imgUUID = createUUID(originalImgName);
-        Img img = Img.buildImg(imgDto.getImgId(), imgSeq, originalImgName, imgUUID);
+        Img img = Img.buildImg(imgDTO.getImgId(), imgSeq, originalImgName, imgUUID);
         imgFile.transferTo(new File(imgRepositoryPath + imgUUID));
         imgRepository.save(img);
     }

@@ -1,14 +1,11 @@
 package com.application.usedallea.product.dto;
 
-import com.application.usedallea.product.domain.entity.Product;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
-public class ProductRegisterDto {
+public class ProductRegisterDTO {
 
     private String sellerId;
     private long imgId;

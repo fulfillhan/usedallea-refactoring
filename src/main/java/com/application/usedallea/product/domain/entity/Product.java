@@ -1,6 +1,6 @@
 package com.application.usedallea.product.domain.entity;
 
-import com.application.usedallea.product.dto.ProductRegisterDto;
+import com.application.usedallea.product.dto.ProductRegisterDTO;
 import com.application.usedallea.product.service.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class Product {
     private String validatedYn;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    public static Product from(long imgId, ProductRegisterDto productDto){
+    public static Product from(long imgId, ProductRegisterDTO productDto){
         return  Product.builder()
                 .imgId(imgId)
                 .sellerId(productDto.getSellerId())
