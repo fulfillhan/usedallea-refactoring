@@ -110,14 +110,7 @@
 
         <script>
 
-           /* $(function (){
-                $(".deleteBtn").click(function(){
-                    var productId = $("#productId").val();
-                    location.href="/product/update?productId="+productId;
-                });
-            });*/
-
-            function  getMyPage(currentPageNumber){
+            function getMyPage(currentPageNumber){
                 let url = "/admin/productList"
                     url += "?searchWord="+ $("#searchWord").val();
                 if(currentPageNumber != null){

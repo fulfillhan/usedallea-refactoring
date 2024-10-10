@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.application.usedallea.product.service.ProductStatus.*;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -75,7 +74,6 @@ public class ProductServiceImpl implements ProductService {
 
         //페이징
         Pagination pagination = new PaginationImpl(onePageProductCount, currentPageNumber, totalProductCount);
-
         Map<String, Object> searchInfoMap = new HashMap<>();
         searchInfoMap.put("searchWord", searchWord);
         searchInfoMap.put("startProductIdx", pagination.getStartProductIdx());
@@ -155,35 +153,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.update(updatedProduct);
     }
 
-/*    @Override
-    public Map<String,Object> updateProductStatus(ProductStatusDTO productStatusDTO) {
-        Map<String, Object> response = new HashMap<>();
-        ProductStatus status = productStatusDTO.getStatus();
-        String script = productStatusDTO.getScript();
-
-        switch (status){
-            case 판매중->{
-                updateStatus(productStatusDTO);
-                script = "해당 상품이 '판매중'으로 변경되었습니다.";
-            }
-            case 판매완료 -> {
-                updateStatus(productStatusDTO);
-                script = "해당 상품이 '판매완료'로 변경되었습니다.";
-            }
-            case 삭제 -> {
-                updateStatus(productStatusDTO);
-                script = "해당 상품이 삭제되었습니다.";
-                response.put("isdeleted",true);
-            }
-
-        }
-
-        Product product = productRepository.findById(productStatusDTO.getProductId());
-        response.put("status",String.valueOf(status));
-        response.put("script",script);
-        return response;
-    }*/
-
     @Override
     public Map<String,Object> updateProductStatus(ProductStatusDTO productStatusDTO) {
         Map<String, Object> response = new HashMap<>();
@@ -207,13 +176,15 @@ public class ProductServiceImpl implements ProductService {
 
         Product existedProduct = productRepository.findById(productId);
 
-        if(삭제.equals(status)){
-            existedProduct.toBuilder().validatedYn(Optional.ofNullable(productStatusDTO.getValidatedYn()).orElse("n"));
-        }
-
         Product updateProduct = existedProduct.toBuilder()
                 .status(status.name())
-                .validatedYn(productStatusDTO.getValidatedYn()).build();
+                .validatedYn(existedProduct.getValidatedYn()).build();
+
+        if(ProductStatus.삭제 == status){
+             updateProduct = existedProduct.toBuilder()
+                    .status(status.name())
+                    .validatedYn("n").build();
+        }
 
         productRepository.updateStatusAndValidation(updateProduct);
     }

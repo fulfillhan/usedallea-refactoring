@@ -1,6 +1,7 @@
 package com.application.usedallea.utils.dto;
 
 import com.application.usedallea.home.dto.HomePageProductDTO;
+import com.application.usedallea.product.service.ProductStatus;
 import lombok.Getter;
 import lombok.Setter;
 

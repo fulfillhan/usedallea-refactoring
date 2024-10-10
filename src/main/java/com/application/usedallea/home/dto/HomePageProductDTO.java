@@ -1,6 +1,7 @@
 package com.application.usedallea.home.dto;
 
 import com.application.usedallea.product.domain.entity.Product;
+import com.application.usedallea.product.service.ProductStatus;
 import lombok.Getter;
 import lombok.Setter;
 

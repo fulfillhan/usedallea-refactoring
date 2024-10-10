@@ -52,12 +52,14 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <select th:id="'status-'+${productDTOStat.index}"
+                                    <select class="form-select"
+                                            th:id="'status-'+${productDTOStat.index}"
                                             th:productId="${productDTO.productId}"
-                                            th:onchange="updateProductStatus(this.getAttribute('id'), this.getAttribute('productId'))">
-                                        <option th:selected="${productDTO.status} == '판매중'" value="판매중">판매중</option>
-                                        <option th:selected="${productDTO.status} == '판매완료'" value="판매완료">판매완료</option>
-                                        <option th:selected="${productDTO.status} == '삭제'" value="삭제">삭제</option>
+                                            onchange="updateProductStatus(this.getAttribute('id'), this.getAttribute('productId'))"
+                                           disabled>
+                                        <option th:value="'판매중'" th:selected="${productDTO.status == '판매중'}">판매중</option>
+                                        <option th:value="'판매완료'" th:selected="${productDTO.status == '판매완료'}">판매완료</option>
+                                        <option th:value="'삭제'" th:selected="${productDTO.status == '삭제'}">삭제</option>
                                     </select>
                                 </td>
                                 <td th:text="${productDTO.title}"></a></td>
