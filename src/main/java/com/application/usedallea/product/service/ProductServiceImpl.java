@@ -153,35 +153,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.update(updatedProduct);
     }
 
-/*    @Override
-    public Map<String,Object> updateProductStatus(ProductStatusDTO productStatusDTO) {
-        Map<String, Object> response = new HashMap<>();
-        ProductStatus status = productStatusDTO.getStatus();
-        String script = productStatusDTO.getScript();
-
-        switch (status){
-            case 판매중->{
-                updateStatus(productStatusDTO);
-                script = "해당 상품이 '판매중'으로 변경되었습니다.";
-            }
-            case 판매완료 -> {
-                updateStatus(productStatusDTO);
-                script = "해당 상품이 '판매완료'로 변경되었습니다.";
-            }
-            case 삭제 -> {
-                updateStatus(productStatusDTO);
-                script = "해당 상품이 삭제되었습니다.";
-                response.put("isdeleted",true);
-            }
-
-        }
-
-        Product product = productRepository.findById(productStatusDTO.getProductId());
-        response.put("status",String.valueOf(status));
-        response.put("script",script);
-        return response;
-    }*/
-
     @Override
     public Map<String,Object> updateProductStatus(ProductStatusDTO productStatusDTO) {
         Map<String, Object> response = new HashMap<>();
@@ -204,15 +175,15 @@ public class ProductServiceImpl implements ProductService {
         long productId = productStatusDTO.getProductId();
 
         Product existedProduct = productRepository.findById(productId);
-        Product updateProduct;
+
+        Product updateProduct = existedProduct.toBuilder()
+                .status(status.name())
+                .validatedYn(existedProduct.getValidatedYn()).build();
+
         if(ProductStatus.삭제 == status){
              updateProduct = existedProduct.toBuilder()
                     .status(status.name())
                     .validatedYn("n").build();
-        }else{
-             updateProduct = existedProduct.toBuilder()
-                    .status(status.name())
-                    .validatedYn(existedProduct.getValidatedYn()).build();
         }
 
         productRepository.updateStatusAndValidation(updateProduct);
