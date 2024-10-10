@@ -15,27 +15,25 @@ public class ZzimController {
 
     private final ZzimService zzimService;
 
-    // 찜 추가
     @PostMapping("/like")
     public ResponseEntity<ZzimDTO> add(@RequestBody ZzimDTO zzimDTO) {
 
         ZzimDTO zzimResponseDTO = zzimService.addZzim(zzimDTO);
 
         if (zzimResponseDTO == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(zzimResponseDTO);
+        return new ResponseEntity<>(zzimResponseDTO,HttpStatus.OK);
     }
 
-    //찜 삭제
     @DeleteMapping("/unlike")
     public ResponseEntity<ZzimDTO> delete(@RequestBody ZzimDTO zzimDTO) {
 
         ZzimDTO zzimResponseDTO = zzimService.deleteZzim(zzimDTO);
 
         if (zzimResponseDTO == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(zzimResponseDTO);
+        return new ResponseEntity<>(zzimResponseDTO,HttpStatus.OK);
     }
 }

@@ -9,5 +9,4 @@ import lombok.Setter;
 public class ProductStatusDTO {
     private long productId;
     private ProductStatus status;
-    private String validatedYn;
 }

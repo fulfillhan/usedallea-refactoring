@@ -35,7 +35,7 @@
     </form>
 
     <script>
-        var previousPage = document.referrer;  //  이전 페이지 저장.
+        var previousPage = document.referrer;
 
         $(function () {
             $("#loginBtn").click(function () {
@@ -59,11 +59,11 @@
             });
         });
 
-        $("#userId").focus(function () {   // 아이디 입력란에 포커스를 받으면 메시지 지움
+        $("#userId").focus(function () {
             $("#loginFaileMsg").html("");
         });
 
-        $("#password").focus(function () { // 패스워드 입력란에 포커스를 받으면 메시지 지움
+        $("#password").focus(function () {
             $("#loginFaileMsg").html("");
         });
     </script>

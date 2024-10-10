@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.application.usedallea.product.service.ProductStatus.*;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -75,7 +74,6 @@ public class ProductServiceImpl implements ProductService {
 
         //페이징
         Pagination pagination = new PaginationImpl(onePageProductCount, currentPageNumber, totalProductCount);
-
         Map<String, Object> searchInfoMap = new HashMap<>();
         searchInfoMap.put("searchWord", searchWord);
         searchInfoMap.put("startProductIdx", pagination.getStartProductIdx());
@@ -206,14 +204,16 @@ public class ProductServiceImpl implements ProductService {
         long productId = productStatusDTO.getProductId();
 
         Product existedProduct = productRepository.findById(productId);
-
-        if(삭제.equals(status)){
-            existedProduct.toBuilder().validatedYn(Optional.ofNullable(productStatusDTO.getValidatedYn()).orElse("n"));
+        Product updateProduct;
+        if(ProductStatus.삭제 == status){
+             updateProduct = existedProduct.toBuilder()
+                    .status(status.name())
+                    .validatedYn("n").build();
+        }else{
+             updateProduct = existedProduct.toBuilder()
+                    .status(status.name())
+                    .validatedYn(existedProduct.getValidatedYn()).build();
         }
-
-        Product updateProduct = existedProduct.toBuilder()
-                .status(status.name())
-                .validatedYn(productStatusDTO.getValidatedYn()).build();
 
         productRepository.updateStatusAndValidation(updateProduct);
     }

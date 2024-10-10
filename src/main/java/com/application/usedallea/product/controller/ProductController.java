@@ -123,7 +123,7 @@ public class ProductController {
 
         Map<String, Object> responseStatus = productService.updateProductStatus(productStatusDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
+        return new ResponseEntity<>(responseStatus,HttpStatus.OK);
     }
 }
 
