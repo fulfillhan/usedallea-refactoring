@@ -15,5 +15,4 @@ public enum ProductStatus {
 		return message;
 	}
 
-
 }
