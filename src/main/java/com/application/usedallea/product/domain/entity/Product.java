@@ -34,7 +34,6 @@ public class Product {
                 .imgId(imgId)
                 .sellerId(productDto.getSellerId())
                 .title(productDto.getTitle())
-                .status(ProductStatus.판매중.name())
                 .price(productDto.getPrice())
                 .description(productDto.getDescription())
                 .qualityCondition(productDto.getQualityCondition())

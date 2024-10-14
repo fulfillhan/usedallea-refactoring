@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +105,7 @@ public class ProductController {
         PaginationDTO productsBySeller = productService.getProductsBySeller(sellerId, searchWord, onePageProductCount, currentPageNumber);
 
         model.addAttribute("productListBySeller", productsBySeller.getProductList());
+        model.addAttribute("productStatuses", ProductStatus.values());
         model.addAttribute("allPageCnt", productsBySeller.getAllPageCnt());
         model.addAttribute("startPage", productsBySeller.getStartPage());
         model.addAttribute("endPage", productsBySeller.getEndPage());

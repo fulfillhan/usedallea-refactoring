@@ -52,14 +52,13 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <select class="form-select"
-                                            th:id="'status-'+${productDTOStat.index}"
-                                            th:productId="${productDTO.productId}"
-                                            onchange="updateProductStatus(this.getAttribute('id'), this.getAttribute('productId'))"
-                                           disabled>
-                                        <option th:value="'판매중'" th:selected="${productDTO.status == '판매중'}">판매중</option>
-                                        <option th:value="'판매완료'" th:selected="${productDTO.status == '판매완료'}">판매완료</option>
-                                        <option th:value="'삭제'" th:selected="${productDTO.status == '삭제'}">삭제</option>
+                                    <select th:field="*{productStatuses}"
+                                            th:attr="data-productid=${productDTO.productId}"
+                                            onchange="updateProductStatus(this)">
+                                        <option value="">선택</option>
+                                        <option th:each="productStatus : ${productStatuses}"
+                                                th:value="${productStatus.name()}"
+                                                th:text="${productStatus.name()}">판매중</option>
                                     </select>
                                 </td>
                                 <td th:text="${productDTO.title}"></a></td>
@@ -155,24 +154,24 @@
             location.href = url;
         }
 
-        function updateProductStatus(id, productId) {
-            const productStatus = $("#" + id).val();// 변경된 판매 상태 가져오기
+        function updateProductStatus(selectElement) {
+           // const productStatus = $("#" + id).val();// 변경된 판매 상태 가져오기
+            var productId = selectElement.getAttribute("data-productid");
 
             $.ajax({
                 type: "patch",
                 url: `/products/${productId}/status`,
-                data: {"productStatus" : productStatus},
+                data: {"productStatus" : selectElement.value},
                 success: function (response) {
                     if(response.isDeleted){
                         //삭제된 경우 해당 요소 삭제
                         if(confirm("해당 상품을 정말 삭제하시겠습니까?")){
-                            $("#"+ id).closest("tr").remove();
+                            $(selectElement).closest("tr").remove();
                             alert(response.message);
                         }
                     } else{
                         //select 요소의 값 변경
                         alert(response.message);
-                        $("#"+ id + "option:selected").text(response.status);
                     }
                 }
             });
