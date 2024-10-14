@@ -17,7 +17,6 @@ public class HomePageProductDTO {
     private String description;
     private String qualityCondition;
     private int readCount;
-    private String status;
     private String title;
     private long imgId;
     private LocalDateTime createdAt;
@@ -39,7 +38,6 @@ public class HomePageProductDTO {
         dto.setCreatedAt(product.getCreatedAt());
         dto.setUpdatedAt(product.getUpdatedAt());
         dto.setReadCount(product.getReadCount());
-        dto.setStatus(product.getStatus());
         dto.setTitle(product.getTitle());
         dto.setImgId(product.getImgId());
         return dto;

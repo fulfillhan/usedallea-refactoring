@@ -138,7 +138,6 @@
                 DESCRIPTION,
                 QUALITY_CONDITION,
                 CATEGORY,
-                STATUS,
                 READ_COUNT,
                 VALIDATED_YN,
                 CREATED_AT,
@@ -162,7 +161,6 @@
                 DESCRIPTION,
                 QUALITY_CONDITION,
                 CATEGORY,
-                STATUS,
                 READ_COUNT,
                 VALIDATED_YN,
                 CREATED_AT,
@@ -195,7 +193,6 @@
                     PRICE,
                     UPDATED_AT,
                     READ_COUNT,
-                    STATUS,
                     TITLE,
                     IMG_ID
                 FROM
@@ -215,7 +212,6 @@
                     PRICE,
                     UPDATED_AT,
                     READ_COUNT,
-                    STATUS,
                     TITLE,
                     IMG_ID
                 FROM

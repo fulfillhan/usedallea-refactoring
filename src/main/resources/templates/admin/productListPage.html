@@ -125,38 +125,6 @@
                 }
             });
 
-
         </script>
-<!--        <script th:inline="javascript">
-            /*<![CDATA[*/
-            $(function (){
-                $(".deleteBtn").click(function(){
-                    //추가해야할 내용
-                    var productId = $(this).data("product");
-                    var row = $(this).closest('tr');
-                    if(confirm("해당 상품정보를 완전 삭제하시겠습니까?")){
-
-                        $.ajax({
-                            type : "POST",
-                            url : "/admin/removeProduct",
-                            data : {
-                                productId
-                            },
-                            success: function(response){
-
-                                if(response == 'success'){
-                                    row.remove();
-                                    alert("해당 상품이 삭제되었습니다.");
-                                }
-                            }
-                        });
-                    }
-                });
-
-            });
-            /*]]>*/
-
-        </script>-->
-
     </div>
 </html>
